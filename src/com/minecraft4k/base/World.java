@@ -19,7 +19,7 @@ public class World {
 			for(int y = 0; y < 64; y++ )
 				for(int x = 0; x < 64; x++ )
 				{
-					 // x = side
+					// x = side
 					// y = trapped
 					// z = side
 					int i = x + y * 64 + z * 64 * 64;

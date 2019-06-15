@@ -1,9 +1,13 @@
 package com.minecraft4k.base;
 
 import java.applet.Applet;
+import java.awt.AWTException;
 import java.awt.Event;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.awt.peer.RobotPeer;
+import java.lang.reflect.Field;
 
 public class Minecraft
 extends Applet implements Runnable {
@@ -14,6 +18,19 @@ extends Applet implements Runnable {
     Input input = new Input();
     
     
+    private int width = 0;
+    private int height = 0;
+    
+    private int halfWidth = 0;
+    private int halfHeight = 0;
+    
+    private int quartWidth = 0;
+    private int quartHeight = 0;
+    
+    private int eigthWidth = 0;
+    private int eigthHeight = 0;
+    
+    private Robot robot;
     
     public static final int PLAYER_HEIGHT = 12;
     
@@ -21,8 +38,29 @@ extends Applet implements Runnable {
     BufferedImage frameBuffer = new BufferedImage(214, 120, 1);
     int[] imageData = ((DataBufferInt)frameBuffer.getRaster().getDataBuffer()).getData();
 
-    public Minecraft()
+    public Minecraft(int width, int height)
     {
+    	this.width = width;
+    	this.height = height;
+    	
+    	this.halfHeight = height / 2;
+    	this.halfWidth = width / 2;
+
+    	this.quartHeight = halfHeight / 2;
+    	this.quartWidth = halfWidth / 2;
+    	
+    	this.quartHeight = halfHeight / 2;
+    	this.quartWidth = halfWidth / 2;
+    	
+    	this.eigthHeight = quartHeight / 2;
+    	this.eigthWidth = quartWidth / 2;
+    	
+    	try {
+			this.robot = new Robot();
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+    	
 //    	addKeyListener(input);
 //		addFocusListener(input);
 //		addMouseListener(input);
@@ -41,8 +79,8 @@ extends Applet implements Runnable {
         try 
         {                             
             float playerX = 64 + 32.5f;
-            float playerY = 65.0f;
-            float playerZ = 96.5f;
+            float playerY = 64 + 1.0f;
+            float playerZ = 64 + 32.5f;
             
             float xVelocity = 0.0f;
             float yVelocity = 0.0f;
@@ -54,6 +92,10 @@ extends Applet implements Runnable {
             
             float yaw = 0.0f;
             float pitch = 0.0f;
+            
+            int lastMouseX = 0;
+            int lastMouseY = 0;
+            
             while(true)
             {
                 int i11;
@@ -63,23 +105,58 @@ extends Applet implements Runnable {
                 float cosf8 = (float)Math.cos(pitch);
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
-                    if (this.inputData[2] > 0) {
-                    	float f13 = (float)(this.inputData[2] - 428) / 214.0f * 2.0f;
-                        float f14 = (float)(this.inputData[3] - 240) / 120.0f * 2.0f;
-                        float f15 = (float)Math.sqrt(f13 * f13 + f14 * f14) - 1.2f;
-                        if (f15 < 0.0f) {
-                            f15 = 0.0f;
+                   
+                	
+                	if (this.inputData[2] > 0) 
+                	{
+                    	//rotate head
+                		
+                		
+                    	float f13 = (float)(this.inputData[2] - lastMouseX);
+                        float f14 = (float)((this.inputData[3]- lastMouseY));
+                        f13 *= 0.03f; //yaw senativity
+                        f14 *= 0.03f; //pitch senativity
+                        
+                        
+                        lastMouseX = this.inputData[2];
+                        lastMouseY = this.inputData[3];
+                        pitch += f14;
+                        yaw += f13;
+                        
+                        if(pitch > 7.8f)
+                        {
+                        	pitch = 7.8f;
                         }
-                        if (f15 > 0.0f) {
-                            yaw += f13 * f15 / 400.0f;
-                            if ((pitch -= f14 * f15 / 400.0f) < -1.57f) {
-                                pitch = -1.57f;
-                            }
-                            if (pitch > 1.57f) {
-                                pitch = 1.57f;
-                            }
+                        
+                        if(pitch < 4.6f)
+                        {
+                        	pitch = 4.6f;
                         }
+                        
+                        
+//                        float f15 = (float)Math.sqrt(f13 * f13 + f14 * f14) - 1.2f;
+                        
+//                        if (f15 < 0.0f) 
+//                        {
+//                            f15 = 0.0f;
+//                        }
+                        
+//                        if (f15 > 0.0f)
+//                        {
+//                            yaw += f13 * f15 / 400.0f;
+//                            if ((pitch -= f14 * f15 / 400.0f) < -1.57f)
+//                            {
+//                                pitch = -1.57f;
+//                            }
+//                            
+//                            if (pitch > 1.57f)
+//                            {
+//                                pitch = 1.57f;
+//                            }
+//                        }
                     }
+                	
+                	
                     now += 10;
                     float f13 = (float)(this.inputData[100] - this.inputData[97]) * 0.02f;
                     float f14 = (float)(this.inputData[119] - this.inputData[115]) * 0.02f;
@@ -97,8 +174,6 @@ extends Applet implements Runnable {
                     //x = 0, y = 1, z = 2
                     for (int rawCollAxis = 0; rawCollAxis < 3; rawCollAxis++)
                     {
-                    	//Here is the problem, y is casuing a collison... because we touch the ground
-                    	//Soooooo.... it'll never make it to z, We need to render the y last, 
                     	int collAxis = 0;
                     	if(rawCollAxis == 1) collAxis = 2;
                     	if(rawCollAxis == 2) collAxis = 1;
@@ -185,16 +260,14 @@ extends Applet implements Runnable {
                     world.blockData[selectedBlock + i5] = 1;
                     this.inputData[0] = 0;
                 }
-                int i8 = 0;
                 //delete collision
-                while (i8 < PLAYER_HEIGHT) {
+                for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) {
                     int i9 = (int)(playerX + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
                     int i10 = (int)(playerY + (float)((i8 >> 2) - 1) * 0.8f + 0.65f) - 64;
                     i11 = (int)(playerZ + (float)(i8 >> 1 & 1) * 0.6f - 0.3f) - 64;
                     if (i9 >= 0 && i10 >= 0 && i11 >= 0 && i9 < 64 && i10 < 64 && i11 < 64) {
                         world.blockData[i9 + i10 * 64 + i11 * 4096] = 0;
                     }
-                    ++i8;
                 }
                 float tempSelectingBlock = -1.0f;
                 //render
@@ -283,6 +356,7 @@ extends Applet implements Runnable {
                                     i7 = ((int)(f35 * 16.0f) & 15) + 16;
                                     
                                     if (axis == 1) {
+                                    	//map texture onto block
                                         i6 = (int)(f34 * 16.0f) & 15;
                                         i7 = (int)(f36 * 16.0f) & 15;
                                         if (f30 < 0.0f) {
@@ -290,11 +364,13 @@ extends Applet implements Runnable {
                                         }
                                     }
                                     int i26 = 16777215;
+                                    //render select or just render whole block
                                     if (i24 != selectedBlock || i6 > 0 && i7 % 16 > 0 && i6 < 15 && i7 % 16 < 15) {
                                         i26 = textureData[i6 + i7 * 16 + i25 * 256 * 3];
                                     }
-                                    if (f33 < readDistance && i9 == this.inputData[2] / 4 && i11 == this.inputData[3] / 4) {
-                                        tempSelectingBlock = i24;
+                                    
+                                    if (f33 < readDistance && i9 == this.eigthWidth && i11 ==  this.eigthHeight) {
+                                    	tempSelectingBlock = i24;
                                         i5 = 1;
                                         if (f27 > 0.0f) {
                                             i5 = -1;
@@ -337,7 +413,7 @@ extends Applet implements Runnable {
             return;
         }
     }
-
+    
     @Override
     public boolean handleEvent(Event paramEvent) {
         int i = 0;
@@ -372,6 +448,8 @@ extends Applet implements Runnable {
             	//mouse
                 this.inputData[2] = paramEvent.x;
                 this.inputData[3] = paramEvent.y;
+               
+//                this.robot.mouseMove(this.halfWidth, this.halfHeight);
                 break;
             }
             case 505: {
