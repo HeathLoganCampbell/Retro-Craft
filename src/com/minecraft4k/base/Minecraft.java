@@ -7,7 +7,8 @@ import java.awt.image.DataBufferInt;
 
 public class Minecraft
 extends Applet implements Runnable {
-    private int[] inputData = new int[32767];
+	private static final long serialVersionUID = 1L;
+	private int[] inputData = new int[32767];
     int[] textureData = Textures.textureData;
     World world = new World();
     Input input = new Input();
@@ -18,10 +19,10 @@ extends Applet implements Runnable {
 
     public Minecraft()
     {
-    	addKeyListener(input);
-		addFocusListener(input);
-		addMouseListener(input);
-		addMouseMotionListener(input);
+//    	addKeyListener(input);
+//		addFocusListener(input);
+//		addMouseListener(input);
+//		addMouseMotionListener(input);
     }
     
     @Override

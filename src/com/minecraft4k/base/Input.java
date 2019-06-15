@@ -82,10 +82,53 @@ public class Input implements KeyListener, FocusListener,
 	{}
 
 	public boolean getKey(int key) {return keys[key];}
+	
+	public void setKey(int key, boolean keyValue)
+	{ 
+		keys[key] = keyValue;
+	}
 
 	public boolean getMouse(int button) {return mouseButtons[button];}
 
 	public int getMouseX() {return mouseX;}
 
 	public int getMouseY() {return mouseY;}
+	
+	
+//  @Override
+//  public boolean handleEvent(Event paramEvent) {
+//      int i = 0;
+//      switch (paramEvent.id) {
+//          case 401: {
+//              i = 1;
+//          }
+//          case 402: {
+//              this.inputData[paramEvent.key] = i;
+//              break;
+//          }
+//          case 501: {
+//              i = 1;
+//              this.inputData[2] = paramEvent.x;
+//              this.inputData[3] = paramEvent.y;
+//          }
+//          case 502: {
+//              if ((paramEvent.modifiers & 4) > 0) {
+//                  this.inputData[1] = i;
+//                  break;
+//              }
+//              this.inputData[0] = i;
+//              break;
+//          }
+//          case 503: 
+//          case 506: {
+//              this.inputData[2] = paramEvent.x;
+//              this.inputData[3] = paramEvent.y;
+//              break;
+//          }
+//          case 505: {
+//              this.inputData[2] = 0;
+//          }
+//      }
+//      return true;
+//  }
 }

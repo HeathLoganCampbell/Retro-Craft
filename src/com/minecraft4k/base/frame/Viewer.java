@@ -34,7 +34,7 @@ public class Viewer {
 		AppletAdapter aa = new AppletAdapter();
 
 		Minecraft minecraft = new Minecraft();
-		minecraft.setSize( WIDTH, HEIGHT);
+		minecraft.setSize(WIDTH, HEIGHT);
 
 		
 		minecraft.setStub(aa);
