@@ -242,7 +242,6 @@ extends Applet implements Runnable {
                 if (!this.isActive()) {
                     return;
                 }
-                System.out.println(input.getMouseX());
                 this.getGraphics().drawImage(frameBuffer, 0, 0, 856, 480, null);
             } 
         }
@@ -259,6 +258,7 @@ extends Applet implements Runnable {
                 i = 1;
             }
             case 402: {
+            	//movement
                 this.inputData[paramEvent.key] = i;
                 break;
             }
@@ -268,11 +268,14 @@ extends Applet implements Runnable {
                 this.inputData[3] = paramEvent.y;
             }
             case 502: {
+            
                 if ((paramEvent.modifiers & 4) > 0) {
-                    this.inputData[1] = i;
+                	//place
+                    this.inputData[0] = i;
                     break;
                 }
-                this.inputData[0] = i;
+            	//break
+                this.inputData[1] = i;
                 break;
             }
             case 503: 
