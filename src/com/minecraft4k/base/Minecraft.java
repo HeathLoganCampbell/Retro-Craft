@@ -14,6 +14,10 @@ extends Applet implements Runnable {
     Input input = new Input();
     
     
+    
+    public static final int PLAYER_HEIGHT = 12;
+    
+    
     BufferedImage frameBuffer = new BufferedImage(214, 120, 1);
     int[] imageData = ((DataBufferInt)frameBuffer.getRaster().getDataBuffer()).getData();
 
@@ -59,13 +63,9 @@ extends Applet implements Runnable {
                 float cosf8 = (float)Math.cos(pitch);
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
-                	
-                	
-                    float f13;
-                    float f14;
                     if (this.inputData[2] > 0) {
-                        f13 = (float)(this.inputData[2] - 428) / 214.0f * 2.0f;
-                        f14 = (float)(this.inputData[3] - 240) / 120.0f * 2.0f;
+                    	float f13 = (float)(this.inputData[2] - 428) / 214.0f * 2.0f;
+                        float f14 = (float)(this.inputData[3] - 240) / 120.0f * 2.0f;
                         float f15 = (float)Math.sqrt(f13 * f13 + f14 * f14) - 1.2f;
                         if (f15 < 0.0f) {
                             f15 = 0.0f;
@@ -81,21 +81,18 @@ extends Applet implements Runnable {
                         }
                     }
                     now += 10;
-                    f13 = 0.0f;
-                    f14 = 0.0f;
+                    float f13 = (float)(this.inputData[100] - this.inputData[97]) * 0.02f;
+                    float f14 = (float)(this.inputData[119] - this.inputData[115]) * 0.02f;
                     
                     xVelocity *= 0.5f;
                     yVelocity *= 0.99f;
                     zVelocity *= 0.5f;
-                    f14 += (float)(this.inputData[119] - this.inputData[115]) * 0.02f;
-                    f13 += (float)(this.inputData[100] - this.inputData[97]) * 0.02f;
+                    
                     xVelocity += sinf7 * f14 + cosf7 * f13;
                     zVelocity += cosf7 * f14 - sinf7 * f13;
                     yVelocity += 0.003f;
                     
                     //collision code
-//                    float newPlayerX = playerX + xVelocity;
-//                    
                     
                     //x = 0, y = 1, z = 2
                     for (int rawCollAxis = 0; rawCollAxis < 3; rawCollAxis++)
@@ -134,7 +131,7 @@ extends Applet implements Runnable {
                         boolean collisonY = false;
                         boolean collisonZ = false;
                         
-                        for(int i12 = 0; i12 < 12; i12++)
+                        for(int i12 = 0; i12 < PLAYER_HEIGHT; i12++)
                         {
                         	//x        
                             int i13 = (int)(newPlayerX + (float)(i12 & 1) * 0.6f - 0.3f) - 64;
@@ -142,7 +139,7 @@ extends Applet implements Runnable {
                             int i14 = (int)(newPlayerY + (float)((i12 >> 2) - 1) * 0.8f + 0.65f) - 64;
                             //z
                             int i15 = (int)(newPlayerZ + (float)((i12 >> 1) & 1) * 0.6f - 0.3f) - 64;
-                            //
+                           
                             if (i13 < 0 || i14 < 0 || i15 < 0 || i13 >= 64 || i14 >= 64 || i15 >= 64 || world.blockData[i13 + i14 * 64 + i15 * 4096] > 0)
                             {
                             	if (collAxis != 1) 
@@ -169,15 +166,11 @@ extends Applet implements Runnable {
                             }
                         }
                         
-                        if(!collisonX)
-                        	playerX = newPlayerX;
-                        if(!collisonY)
-                        	playerY = newPlayerY;
-                        if(!collisonZ)
-                        	playerZ = newPlayerZ;
-                        
-                        if(collison)
-                        	continue block7;
+                        if(!collisonX) playerX = newPlayerX;
+                        if(!collisonY) playerY = newPlayerY;
+                        if(!collisonZ) playerZ = newPlayerZ;
+                     
+                        if(collison) continue block7;
                     }
                 }
                 int i6 = 0;
@@ -194,7 +187,7 @@ extends Applet implements Runnable {
                 }
                 int i8 = 0;
                 //delete collision
-                while (i8 < 12) {
+                while (i8 < PLAYER_HEIGHT) {
                     int i9 = (int)(playerX + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
                     int i10 = (int)(playerY + (float)((i8 >> 2) - 1) * 0.8f + 0.65f) - 64;
                     i11 = (int)(playerZ + (float)(i8 >> 1 & 1) * 0.6f - 0.3f) - 64;
@@ -204,9 +197,8 @@ extends Applet implements Runnable {
                     ++i8;
                 }
                 float tempSelectingBlock = -1.0f;
-                int i9 = 0;
                 //render
-                while (i9 < 214) {
+                for (int i9 = 0; i9 < 214; i9++) {
                     float f18 = (float)(i9 - 107) / 90.0f;
                     i11 = 0;
                     while (i11 < 120) {
@@ -227,10 +219,13 @@ extends Applet implements Runnable {
                         int axis = 0;//
                         while (axis < 3) {
                             float f27 = f24;
-                            if (axis == 1) {
+                            if (axis == 1) 
+                            {
                                 f27 = f23;
                             }
-                            if (axis == 2) {
+                            
+                            if (axis == 2)
+                            {
                                 f27 = f25;
                             }
                             float f28 = 1.0f / Math.abs(f27);
@@ -327,11 +322,12 @@ extends Applet implements Runnable {
                         imageData[i9 + i11 * 214] = r << 16 | g << 8 | b;
                         i11++;
                     }
-                    i9++;
                 }
                 selectedBlock = (int) tempSelectingBlock;
+                
                 Thread.sleep(2);
-                if (!this.isActive()) {
+                if (!this.isActive()) 
+                {
                     return;
                 }
                 this.getGraphics().drawImage(frameBuffer, 0, 0, 856, 480, null);

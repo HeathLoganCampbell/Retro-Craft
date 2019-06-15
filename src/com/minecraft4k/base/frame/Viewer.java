@@ -12,8 +12,8 @@ import com.minecraft4k.base.Minecraft;
 public class Viewer {
 	private JFrame f;
 
-	public static final int WIDTH = 888;
-	public static final int HEIGHT = 568;
+	public static final int WIDTH = 856;
+	public static final int HEIGHT = 480;
 
 	public static void main(String[] av) {
 		new Viewer();
@@ -21,7 +21,7 @@ public class Viewer {
 
 	Viewer() 
 	{
-		f = new JFrame("Minecraft Classic");
+		f = new JFrame("Minecraft Classic - Daniel is gay");
 		f.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				f.setVisible(false);
@@ -30,7 +30,6 @@ public class Viewer {
 			}
 		});
 		Container contentPanel = f.getContentPane();
-		contentPanel.setLayout(new BorderLayout());
 		AppletAdapter aa = new AppletAdapter();
 
 		Minecraft minecraft = new Minecraft();
