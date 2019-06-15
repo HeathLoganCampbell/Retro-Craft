@@ -10,19 +10,45 @@ import javax.swing.JFrame;
 
 import com.minecraft4k.base.Minecraft;
 
-public class Viewer {
+public class Main {
+	/*
+	 * Heath is the future,
+	 * 
+	 * This is what's wrong
+	 * - The mouse doesn't get trapped on the screen and the 
+	 *   Robot class doesn't really work because the robot class
+	 *   Calls a mouse move event
+	 * - Land generation is there at all, it's just a flat map
+	 * - The map size is only 64 x 64 x 64, with no easy way to edit
+	 *   it
+	 * - add multi-player
+	 * - show more entities? Other players?
+	 * - Import textures from a file, so they can be easily added
+	 *   
+	 * Fixes from that I did
+	 * - I split it up into a few files
+	 * - Fixed z collision problem (made collision loop check z before y 
+	 *   because you're always touching the ground so it never made it to z)
+	 * - Move the mouse controls to a motion system
+	 * - Change the map to be a flat world instead of random
+	 * 
+	 * You stopped working on this because you had to study for your
+	 * 2019 semester 1 exams, which one is on monday... a day away...
+	 * Well anyway, good luck
+	 * 
+	 */
 	private JFrame f;
 
 	public static final int WIDTH = 856;
 	public static final int HEIGHT = 480;
 
 	public static void main(String[] av) {
-		new Viewer();
+		new Main();
 	}
 
-	Viewer() 
+	Main() 
 	{
-		f = new JFrame("Minecraft Classic - Daniel is gay");
+		f = new JFrame("Minecraft Classic");
 		f.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				f.setVisible(false);

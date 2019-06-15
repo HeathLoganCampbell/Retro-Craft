@@ -23,7 +23,7 @@ public class World {
 					// y = trapped
 					// z = side
 					int i = x + y * 64 + z * 64 * 64;
-					if(64 - y < 4)
+					if(64 - y < 45)
 						blockData[i] = 1;
 				}
 	}	

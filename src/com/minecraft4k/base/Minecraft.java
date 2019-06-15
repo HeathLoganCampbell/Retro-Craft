@@ -4,10 +4,13 @@ import java.applet.Applet;
 import java.awt.AWTException;
 import java.awt.Event;
 import java.awt.Robot;
+import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.peer.RobotPeer;
-import java.lang.reflect.Field;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import javax.swing.SwingUtilities;
 
 public class Minecraft
 extends Applet implements Runnable {
@@ -29,7 +32,7 @@ extends Applet implements Runnable {
     
     private int eigthWidth = 0;
     private int eigthHeight = 0;
-    
+
     private Robot robot;
     
     public static final int PLAYER_HEIGHT = 12;
@@ -91,7 +94,7 @@ extends Applet implements Runnable {
             int i5 = 0;
             
             float yaw = 0.0f;
-            float pitch = 0.0f;
+            float pitch = 5.0f;
             
             int lastMouseX = 0;
             int lastMouseY = 0;
@@ -113,47 +116,28 @@ extends Applet implements Runnable {
                 		
                 		
                     	float f13 = (float)(this.inputData[2] - lastMouseX);
-                        float f14 = (float)((this.inputData[3]- lastMouseY));
-                        f13 *= 0.03f; //yaw senativity
-                        f14 *= 0.03f; //pitch senativity
-                        
+                        float f14 = (float)(this.inputData[3]- lastMouseY);
+                        f13 *= 0.01f; //yaw senativity
+                        f14 *= 0.01f; //pitch senativity
                         
                         lastMouseX = this.inputData[2];
                         lastMouseY = this.inputData[3];
+                        
                         pitch += f14;
                         yaw += f13;
-                        
+//                        
+//                        System.out.println("Pitch: " + pitch);
+//                        System.out.println("Yaw:   " + yaw);
+//                        
                         if(pitch > 7.8f)
                         {
                         	pitch = 7.8f;
                         }
                         
-                        if(pitch < 4.6f)
+                        if(pitch < 4.8f)
                         {
-                        	pitch = 4.6f;
+                        	pitch = 4.8f;
                         }
-                        
-                        
-//                        float f15 = (float)Math.sqrt(f13 * f13 + f14 * f14) - 1.2f;
-                        
-//                        if (f15 < 0.0f) 
-//                        {
-//                            f15 = 0.0f;
-//                        }
-                        
-//                        if (f15 > 0.0f)
-//                        {
-//                            yaw += f13 * f15 / 400.0f;
-//                            if ((pitch -= f14 * f15 / 400.0f) < -1.57f)
-//                            {
-//                                pitch = -1.57f;
-//                            }
-//                            
-//                            if (pitch > 1.57f)
-//                            {
-//                                pitch = 1.57f;
-//                            }
-//                        }
                     }
                 	
                 	
@@ -414,8 +398,17 @@ extends Applet implements Runnable {
         }
     }
     
+    boolean isRecentering = false;
+    double robotDiffX = 0;
+    double robotDiffY = 0;
+    
+    private synchronized void recenterMouse() {
+          isRecentering = true;
+          robot.mouseMove(this.halfWidth, this.halfHeight);
+      }
+    
     @Override
-    public boolean handleEvent(Event paramEvent) {
+    public synchronized boolean handleEvent(Event paramEvent) {
         int i = 0;
         switch (paramEvent.id) {
             case 401: {
@@ -429,8 +422,8 @@ extends Applet implements Runnable {
             case 501: {
                 i = 1;
                 //click location
-                this.inputData[2] = paramEvent.x;
-                this.inputData[3] = paramEvent.y;
+//                this.inputData[2] = paramEvent.x;
+//                this.inputData[3] = this.height - paramEvent.y;
             }
             case 502: {
             
@@ -446,10 +439,9 @@ extends Applet implements Runnable {
             case 503: 
             case 506: {
             	//mouse
-                this.inputData[2] = paramEvent.x;
-                this.inputData[3] = paramEvent.y;
-               
-//                this.robot.mouseMove(this.halfWidth, this.halfHeight);
+                  this.inputData[2] = (int) (paramEvent.x);
+                  this.inputData[3] = (int) (this.height - paramEvent.y );
+                 
                 break;
             }
             case 505: {
