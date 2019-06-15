@@ -47,11 +47,11 @@ extends Applet implements Runnable {
             int i5 = 0;
             float f7 = 0.0f;
             float f8 = 0.0f;
-            for(;;)
+            while(true)
             {
                 int i11;
-                float f9 = (float)Math.sin(f7);
-                float f10 = (float)Math.cos(f7);
+                float sinf7 = (float)Math.sin(f7);
+                float cosf7 = (float)Math.cos(f7);
                 float f11 = (float)Math.sin(f8);
                 float f12 = (float)Math.cos(f8);
                 block7 : while (System.currentTimeMillis() - now > 10) {
@@ -80,12 +80,12 @@ extends Applet implements Runnable {
                     f4 *= 0.5f;
                     f5 *= 0.99f;
                     f6 *= 0.5f;
-                    f4 += f9 * (f14 += (float)(this.inputData[119] - this.inputData[115]) * 0.02f) + f10 * (f13 += (float)(this.inputData[100] - this.inputData[97]) * 0.02f);
-                    f6 += f10 * f14 - f9 * f13;
+                    f4 += sinf7 * (f14 += (float)(this.inputData[119] - this.inputData[115]) * 0.02f) + cosf7 * (f13 += (float)(this.inputData[100] - this.inputData[97]) * 0.02f);
+                    f6 += cosf7 * f14 - sinf7 * f13;
                     f5 += 0.003f;
                     int i8 = 0;
                     while (i8 < 3) {
-                        float f16 = f1 + f4 * (float)((i8 + 0) % 3 / 2);
+                        float f16 = f1 + f4 * (float)((i8 + 2) % 3 / 2);
                         float f17 = f2 + f5 * (float)((i8 + 1) % 3 / 2);
                         float f19 = f3 + f6 * (float)((i8 + 2) % 3 / 2);
                         int i12 = 0;
@@ -139,10 +139,10 @@ extends Applet implements Runnable {
                     while (i11 < 120) {
                         float f20 = (float)(i11 - 60) / 90.0f;
                         float f21 = 1.0f;
-                        float f22 = f21 * f12 + f20 * f11;
+                        float f22 = f21 * f12 + f20 * f11;//dot product
                         float f23 = f20 * f12 - f21 * f11;
-                        float f24 = f18 * f10 + f22 * f9;
-                        float f25 = f22 * f10 - f18 * f9;
+                        float f24 = f18 * cosf7 + f22 * sinf7;
+                        float f25 = f22 * cosf7 - f18 * sinf7;
                         int i16 = 0;
                         int i17 = 255;
                         double d = 20.0;
@@ -174,7 +174,8 @@ extends Applet implements Runnable {
                             float f34 = f1 + f29 * f32;
                             float f35 = f2 + f30 * f32;
                             float f36 = f3 + f31 * f32;
-                            if (f27 < 0.0f) {
+                            if (f27 < 0.0f) 
+                            {
                                 if (i18 == 0) {
                                     f34 -= 1.0f;
                                 }
@@ -229,13 +230,13 @@ extends Applet implements Runnable {
                             }
                             ++i18;
                         }
-                        i18 = (i16 >> 16 & 255) * i17 / 255;
-                        int i19 = (i16 >> 8 & 255) * i17 / 255;
-                        int i20 = (i16 & 255) * i17 / 255;
-                        imageData[i9 + i11 * 214] = i18 << 16 | i19 << 8 | i20;
-                        ++i11;
+                        int r = (i16 >> 16 & 255) * i17 / 255;
+                        int g = (i16 >> 8 & 255) * i17 / 255;
+                        int b = (i16 & 255) * i17 / 255;
+                        imageData[i9 + i11 * 214] = r << 16 | g << 8 | b;
+                        i11++;
                     }
-                    ++i9;
+                    i9++;
                 }
                 i4 = (int)i82;
                 Thread.sleep(2);
@@ -264,6 +265,7 @@ extends Applet implements Runnable {
             }
             case 501: {
                 i = 1;
+                //click location
                 this.inputData[2] = paramEvent.x;
                 this.inputData[3] = paramEvent.y;
             }
@@ -280,6 +282,7 @@ extends Applet implements Runnable {
             }
             case 503: 
             case 506: {
+            	//mouse
                 this.inputData[2] = paramEvent.x;
                 this.inputData[3] = paramEvent.y;
                 break;
