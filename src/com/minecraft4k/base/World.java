@@ -14,7 +14,17 @@ public class World {
 	public void init() 
 	{
 		random.setSeed(18295169);
-		for (int i = 0; i < 262144; i++)
-			blockData[i] = i / 64 % 64 > 32 + random.nextInt(8) ? random.nextInt(8) + 1 : 0;
+		
+		for(int z = 0; z < 64; z++ )
+			for(int y = 0; y < 64; y++ )
+				for(int x = 0; x < 64; x++ )
+				{
+					 // x = side
+					// y = trapped
+					// z = side
+					int i = x + y * 64 + z * 64 * 64;
+					if(64 - y < 4)
+						blockData[i] = 1;
+				}
 	}	
 }

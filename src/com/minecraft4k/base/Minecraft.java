@@ -96,37 +96,48 @@ extends Applet implements Runnable {
                     //x = 0, y = 1, z = 2
                     while (collAxis < 3)
                     {
-                        float f16 = playerX + xVelocity * (float)((collAxis + 2) % 3 / 2);
-                        float f17 = playerY + zVelocity * (float)((collAxis + 1) % 3 / 2);
-                        float f19 = playerZ + yVelocity * (float)((collAxis + 2) % 3 / 2);
-                        int i12 = 0;
+                        float newPlayerX = playerX + xVelocity * (float)((collAxis + 2) % 3 / 2);
+                        float newPlayerY = playerY + zVelocity * (float)((collAxis + 1) % 3 / 2);
+                        float newPlayerZ = playerZ + yVelocity * (float)((collAxis + 2) % 3 / 2);
+                        
+                        boolean isCollison = false; 
                         
                         //height
-                        while (i12 < 12)
+                        for(int i12 = 0; i12 < 12; i12++)
                         {
-                            int i13 = (int)(f16 + (float)(i12 >> 0 & 1) * 0.6f - 0.3f) - 64;
-                            int i14 = (int)(f17 + (float)((i12 >> 2) - 1) * 0.8f + 0.65f) - 64;
-                            int i15 = (int)(f19 + (float)(i12 >> 1 & 1) * 0.6f - 0.3f) - 64;
+                            int i13 = (int)(newPlayerX + (float)(i12 >> 0 & 1) * 0.6f - 0.3f) - 64;
+                            int i14 = (int)(newPlayerY + (float)((i12 >> 2) - 1) * 0.8f + 0.65f) - 64;
+                            int i15 = (int)(newPlayerZ + (float)(i12 >> 1 & 1) * 0.6f - 0.3f) - 64;
                             //
                             if (i13 < 0 || i14 < 0 || i15 < 0 || i13 >= 64 || i14 >= 64 || i15 >= 64 || world.blockData[i13 + i14 * 64 + i15 * 4096] > 0)
                             {
                             	//onlychecks for z axis
-                                if (collAxis != 1) continue block7;
+                                if (collAxis != 1) 
+                            	{
+                                	if(collAxis == 0) isCollison = true;
+                                	if(collAxis == 2) isCollison = true;
+                                	continue;
+                            	}
                                //Jumping code, if space
                                 if (this.inputData[32] > 0 && zVelocity > 0.0f)
                                 {
                                     this.inputData[32] = 0;
                                     zVelocity = -0.1f;
+                                    isCollison = true;
                                     continue block7;
                                 }
                                 zVelocity = 0.0f;
+                                isCollison = true;
                                 continue block7;
                             }
-                            ++i12;
                         }
-                        playerX = f16;
-                        playerY = f17;
-                        playerZ = f19;
+                        
+                        	newPlayerX = playerX + xVelocity * (float)((collAxis + 2) % 3 / 2);
+                            newPlayerY = playerY + zVelocity * (float)((collAxis + 1) % 3 / 2);
+                        
+                        playerX = newPlayerX;
+                        playerY = newPlayerY;
+                        playerZ = newPlayerZ;
                         ++collAxis;
                     }
                 }
