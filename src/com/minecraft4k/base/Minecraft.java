@@ -87,8 +87,9 @@ extends Applet implements Runnable {
                     xVelocity *= 0.5f;
                     yVelocity *= 0.99f;
                     zVelocity *= 0.5f;
-                    
-                    xVelocity += sinf7 * (f14 += (float)(this.inputData[119] - this.inputData[115]) * 0.02f) + cosf7 * (f13 += (float)(this.inputData[100] - this.inputData[97]) * 0.02f);
+                    f14 += (float)(this.inputData[119] - this.inputData[115]) * 0.02f;
+                    f13 += (float)(this.inputData[100] - this.inputData[97]) * 0.02f;
+                    xVelocity += sinf7 * f14 + cosf7 * f13;
                     zVelocity += cosf7 * f14 - sinf7 * f13;
                     yVelocity += 0.003f;
                     
@@ -101,7 +102,6 @@ extends Applet implements Runnable {
                     {
                     	//Here is the problem, y is casuing a collison... because we touch the ground
                     	//Soooooo.... it'll never make it to z, We need to render the y last, 
-                    	
                     	int collAxis = 0;
                     	if(rawCollAxis == 1) collAxis = 2;
                     	if(rawCollAxis == 2) collAxis = 1;
@@ -124,8 +124,6 @@ extends Applet implements Runnable {
                         
                         if(collAxis == 2)
                         {
-                        	System.out.println("=====");
-                        	System.out.println(xVelocity);
                         	newPlayerZ += zVelocity;
                         }
                         
@@ -136,7 +134,7 @@ extends Applet implements Runnable {
                         boolean collisonY = false;
                         boolean collisonZ = false;
                         
-                        for(int i12 = 0; i12 < 11; i12++)
+                        for(int i12 = 0; i12 < 12; i12++)
                         {
                         	//x        
                             int i13 = (int)(newPlayerX + (float)(i12 & 1) * 0.6f - 0.3f) - 64;
@@ -150,15 +148,12 @@ extends Applet implements Runnable {
                             	if (collAxis != 1) 
                              	{
                             		if(collAxis == 0) {
-                            			System.out.println("x");
                             			collisonX = true;
                             		}
                             		
 									if(collAxis == 2) {
-										System.out.println("z");
 										collisonZ = true;
                             		}
-									collison = true;
                              	} 
                             	else 
                              	{
