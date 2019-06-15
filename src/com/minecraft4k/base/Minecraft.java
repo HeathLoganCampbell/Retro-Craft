@@ -41,15 +41,15 @@ extends Applet implements Runnable {
             float playerZ = 96.5f;
             
             float xVelocity = 0.0f;
-            float zVelocity = 0.0f;
             float yVelocity = 0.0f;
+            float zVelocity = 0.0f;
             
             long now = System.currentTimeMillis();
             int selectedBlock = -1;
             int i5 = 0;
             
             float yaw = 0.0f;
-            float pitch = 120.0f;
+            float pitch = 0.0f;
             while(true)
             {
                 int i11;
@@ -59,6 +59,8 @@ extends Applet implements Runnable {
                 float cosf8 = (float)Math.cos(pitch);
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
+                	
+                	
                     float f13;
                     float f14;
                     if (this.inputData[2] > 0) {
@@ -83,62 +85,104 @@ extends Applet implements Runnable {
                     f14 = 0.0f;
                     
                     xVelocity *= 0.5f;
-                    zVelocity *= 0.99f;
-                    yVelocity *= 0.5f;
+                    yVelocity *= 0.99f;
+                    zVelocity *= 0.5f;
                     
                     xVelocity += sinf7 * (f14 += (float)(this.inputData[119] - this.inputData[115]) * 0.02f) + cosf7 * (f13 += (float)(this.inputData[100] - this.inputData[97]) * 0.02f);
-                    yVelocity += cosf7 * f14 - sinf7 * f13;
-                    zVelocity += 0.003f;
+                    zVelocity += cosf7 * f14 - sinf7 * f13;
+                    yVelocity += 0.003f;
                     
-                    int collAxis = 0;
                     //collision code
-    
+//                    float newPlayerX = playerX + xVelocity;
+//                    
+                    
                     //x = 0, y = 1, z = 2
-                    while (collAxis < 3)
+                    for (int rawCollAxis = 0; rawCollAxis < 3; rawCollAxis++)
                     {
-                        float newPlayerX = playerX + xVelocity * (float)((collAxis + 2) % 3 / 2);
-                        float newPlayerY = playerY + zVelocity * (float)((collAxis + 1) % 3 / 2);
-                        float newPlayerZ = playerZ + yVelocity * (float)((collAxis + 2) % 3 / 2);
+                    	//Here is the problem, y is casuing a collison... because we touch the ground
+                    	//Soooooo.... it'll never make it to z, We need to render the y last, 
+                    	
+                    	int collAxis = 0;
+                    	if(rawCollAxis == 1) collAxis = 2;
+                    	if(rawCollAxis == 2) collAxis = 1;
+                    	
+                        float newPlayerX = playerX;
+                        float newPlayerY = playerY;
+                        float newPlayerZ = playerZ;
                         
-                        boolean isCollison = false; 
+                        if(collAxis == 0)
+                        {
+                        	
+                        	newPlayerX += xVelocity;
+                        }
+                        
+                        if(collAxis == 1)
+                        {
+                        	newPlayerY += yVelocity;
+                        }
+                        
+                        
+                        if(collAxis == 2)
+                        {
+                        	System.out.println("=====");
+                        	System.out.println(xVelocity);
+                        	newPlayerZ += zVelocity;
+                        }
+                        
                         
                         //height
-                        for(int i12 = 0; i12 < 12; i12++)
+                        boolean collison = false;
+                        boolean collisonX = false;
+                        boolean collisonY = false;
+                        boolean collisonZ = false;
+                        
+                        for(int i12 = 0; i12 < 11; i12++)
                         {
-                            int i13 = (int)(newPlayerX + (float)(i12 >> 0 & 1) * 0.6f - 0.3f) - 64;
+                        	//x        
+                            int i13 = (int)(newPlayerX + (float)(i12 & 1) * 0.6f - 0.3f) - 64;
+                            //y
                             int i14 = (int)(newPlayerY + (float)((i12 >> 2) - 1) * 0.8f + 0.65f) - 64;
-                            int i15 = (int)(newPlayerZ + (float)(i12 >> 1 & 1) * 0.6f - 0.3f) - 64;
+                            //z
+                            int i15 = (int)(newPlayerZ + (float)((i12 >> 1) & 1) * 0.6f - 0.3f) - 64;
                             //
                             if (i13 < 0 || i14 < 0 || i15 < 0 || i13 >= 64 || i14 >= 64 || i15 >= 64 || world.blockData[i13 + i14 * 64 + i15 * 4096] > 0)
                             {
-                            	//onlychecks for z axis
-                                if (collAxis != 1) 
-                            	{
-                                	if(collAxis == 0) isCollison = true;
-                                	if(collAxis == 2) isCollison = true;
-                                	continue;
-                            	}
-                               //Jumping code, if space
-                                if (this.inputData[32] > 0 && zVelocity > 0.0f)
-                                {
-                                    this.inputData[32] = 0;
-                                    zVelocity = -0.1f;
-                                    isCollison = true;
-                                    continue block7;
-                                }
-                                zVelocity = 0.0f;
-                                isCollison = true;
-                                continue block7;
+                            	if (collAxis != 1) 
+                             	{
+                            		if(collAxis == 0) {
+                            			System.out.println("x");
+                            			collisonX = true;
+                            		}
+                            		
+									if(collAxis == 2) {
+										System.out.println("z");
+										collisonZ = true;
+                            		}
+									collison = true;
+                             	} 
+                            	else 
+                             	{
+	                               //Jumping code, if space
+	                                if (this.inputData[32] > 0 && yVelocity > 0.0f)
+	                                {
+	                                    this.inputData[32] = 0;
+	                                    yVelocity = -0.1f;
+	                                } 
+	                                collison = true;
+	                                collisonY = true;
+                             	}
                             }
                         }
                         
-                        	newPlayerX = playerX + xVelocity * (float)((collAxis + 2) % 3 / 2);
-                            newPlayerY = playerY + zVelocity * (float)((collAxis + 1) % 3 / 2);
+                        if(!collisonX)
+                        	playerX = newPlayerX;
+                        if(!collisonY)
+                        	playerY = newPlayerY;
+                        if(!collisonZ)
+                        	playerZ = newPlayerZ;
                         
-                        playerX = newPlayerX;
-                        playerY = newPlayerY;
-                        playerZ = newPlayerZ;
-                        ++collAxis;
+                        if(collison)
+                        	continue block7;
                     }
                 }
                 int i6 = 0;
