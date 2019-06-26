@@ -17,7 +17,7 @@ extends Applet implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private int[] inputData = new int[32767];
     int[] textureData = Textures.textureData;
-    World world = new World();
+    World world;
     Input input = new Input();
     
     
@@ -79,8 +79,12 @@ extends Applet implements Runnable {
     @Override
     public void run() 
     {
+    	
+    	
         try 
-        {                             
+        {          
+        	this.world = new World(64, 64, 1);
+        	
             float playerX = 64 + 32.5f;
             float playerY = 64 + 1.0f;
             float playerZ = 64 + 32.5f;
