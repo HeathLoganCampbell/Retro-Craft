@@ -31,7 +31,6 @@ public class World {
 			for(int x = 0; x < 64; x++ )
 			{
 				int y = (int) (Math.sin(x / 300.0) * 20 + Math.cos(z / 252.0) * 31) + 10;
-
 				// x = side
 				// y = trapped
 				// z = side

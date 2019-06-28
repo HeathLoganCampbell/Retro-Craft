@@ -79,8 +79,6 @@ extends Applet implements Runnable {
     @Override
     public void run() 
     {
-    	
-    	
         try 
         {          
         	this.world = new World(64, 64, 1);
@@ -236,6 +234,7 @@ extends Applet implements Runnable {
                         if(collison) continue block7;
                     }
                 }
+                
                 int i6 = 0;
                 int i7 = 0;
                 if (this.inputData[1] > 0 && selectedBlock > 0)
@@ -409,7 +408,7 @@ extends Applet implements Runnable {
     private synchronized void recenterMouse() {
           isRecentering = true;
           robot.mouseMove(this.halfWidth, this.halfHeight);
-      }
+    }
     
     @Override
     public synchronized boolean handleEvent(Event paramEvent) {
