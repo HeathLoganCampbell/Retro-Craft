@@ -4,21 +4,17 @@ import java.applet.Applet;
 import java.awt.AWTException;
 import java.awt.Event;
 import java.awt.Robot;
-import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import javax.swing.SwingUtilities;
 
 public class Minecraft
 extends Applet implements Runnable {
 	private static final long serialVersionUID = 1L;
-	private int[] inputData = new int[32767];
     int[] textureData = Textures.textureData;
     World world;
-    Input input = new Input();
+    Input input;
     
     
     private int width = 0;
@@ -64,10 +60,11 @@ extends Applet implements Runnable {
 			e.printStackTrace();
 		}
     	
-//    	addKeyListener(input);
-//		addFocusListener(input);
-//		addMouseListener(input);
-//		addMouseMotionListener(input);
+    	this.input = new Input(width, height);
+    	addKeyListener(input);
+		addFocusListener(input);
+		addMouseListener(input);
+		addMouseMotionListener(input);
     }
     
     @Override
@@ -112,18 +109,18 @@ extends Applet implements Runnable {
                 block7 : while (System.currentTimeMillis() - now > 10) {
                    
                 	
-                	if (this.inputData[2] > 0) 
+                	if (this.input.getMouseX() > 0) 
                 	{
                     	//rotate head
                 		
                 		
-                    	float f13 = (float)(this.inputData[2] - lastMouseX);
-                        float f14 = (float)(this.inputData[3]- lastMouseY);
+                    	float f13 = (float)(this.input.getMouseX() - lastMouseX);
+                        float f14 = (float)(this.input.getMouseY() - lastMouseY);
                         f13 *= 0.01f; //yaw senativity
                         f14 *= 0.01f; //pitch senativity
                         
-                        lastMouseX = this.inputData[2];
-                        lastMouseY = this.inputData[3];
+                        lastMouseX = this.input.getMouseX();
+                        lastMouseY = this.input.getMouseY();
                         
                         pitch += f14;
                         yaw += f13;
@@ -144,8 +141,8 @@ extends Applet implements Runnable {
                 	
                 	
                     now += 10;
-                    float f13 = (float)(this.inputData[100] - this.inputData[97]) * 0.02f;
-                    float f14 = (float)(this.inputData[119] - this.inputData[115]) * 0.02f;
+                    float f13 = (float)((this.input.getKey(KeyEvent.VK_D) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
+                    float f14 = (float)((this.input.getKey(KeyEvent.VK_W) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_S) ? 1 : 0)) * 0.02f;
                     
                     xVelocity *= 0.5f;
                     yVelocity *= 0.99f;
@@ -216,9 +213,9 @@ extends Applet implements Runnable {
                             	else 
                              	{
 	                               //Jumping code, if space
-	                                if (this.inputData[32] > 0 && yVelocity > 0.0f)
+	                                if (this.input.getKey(KeyEvent.VK_SPACE) && yVelocity > 0.0f)
 	                                {
-	                                    this.inputData[32] = 0;
+	                                	this.input.setKey(KeyEvent.VK_SPACE, false);
 	                                    yVelocity = -0.1f;
 	                                } 
 	                                collison = true;
@@ -237,15 +234,15 @@ extends Applet implements Runnable {
                 
                 int i6 = 0;
                 int i7 = 0;
-                if (this.inputData[1] > 0 && selectedBlock > 0)
+                if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
                 {
                     world.blockData[selectedBlock] = 0;
-                    this.inputData[1] = 0;
+                    this.input.setMouse(MouseEvent.BUTTON1, false);
                 }
-                if (this.inputData[0] > 0 && selectedBlock > 0)
+                if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
                 {
                     world.blockData[selectedBlock + i5] = 1;
-                    this.inputData[0] = 0;
+                    this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
                 //delete collision
                 for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) {
@@ -408,49 +405,5 @@ extends Applet implements Runnable {
     private synchronized void recenterMouse() {
           isRecentering = true;
           robot.mouseMove(this.halfWidth, this.halfHeight);
-    }
-    
-    @Override
-    public synchronized boolean handleEvent(Event paramEvent) {
-        int i = 0;
-        switch (paramEvent.id) {
-            case 401: {
-                i = 1;
-            }
-            case 402: {
-            	//movement
-                this.inputData[paramEvent.key] = i;
-                break;
-            }
-            case 501: {
-                i = 1;
-                //click location
-//                this.inputData[2] = paramEvent.x;
-//                this.inputData[3] = this.height - paramEvent.y;
-            }
-            case 502: {
-            
-                if ((paramEvent.modifiers & 4) > 0) {
-                	//place
-                    this.inputData[0] = i;
-                    break;
-                }
-            	//break
-                this.inputData[1] = i;
-                break;
-            }
-            case 503: 
-            case 506: {
-            	//mouse
-                  this.inputData[2] = (int) (paramEvent.x);
-                  this.inputData[3] = (int) (this.height - paramEvent.y );
-                 
-                break;
-            }
-            case 505: {
-                this.inputData[2] = 0;
-            }
-        }
-        return true;
     }
 }

@@ -16,17 +16,26 @@ public class Input implements KeyListener, FocusListener,
 	private boolean[] mouseButtons = new boolean[4];
 	private int mouseX = 0;
 	private int mouseY = 0;
+	
+	private int width;
+	private int height;
+	
+	public Input(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
+	}
 
 	public void mouseDragged(MouseEvent e) 
 	{
 		mouseX = e.getX();
-		mouseY = e.getY();
+		mouseY = this.height - e.getY();
 	}
 
 	public void mouseMoved(MouseEvent e) 
 	{
 		mouseX = e.getX();
-		mouseY = e.getY();
+		mouseY = this.height - e.getY();
 	}
 
 	public void mouseClicked(MouseEvent e) 
@@ -89,6 +98,7 @@ public class Input implements KeyListener, FocusListener,
 	}
 
 	public boolean getMouse(int button) {return mouseButtons[button];}
+	public void setMouse(int button, boolean value) { this.mouseButtons[button] = value; }
 
 	public int getMouseX() {return mouseX;}
 
