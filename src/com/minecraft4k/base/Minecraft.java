@@ -13,6 +13,7 @@ public class Minecraft
 extends Applet implements Runnable {
 	private static final long serialVersionUID = 1L;
     int[] textureData = Textures.textureData;
+    
     World world;
     Input input;
     
@@ -88,6 +89,10 @@ extends Applet implements Runnable {
             float yVelocity = 0.0f;
             float zVelocity = 0.0f;
             
+            boolean onGround = false;
+            boolean onJump = false;
+            int jumpingTicks = -1;
+            
             long now = System.currentTimeMillis();
             int selectedBlock = -1;
             int i5 = 0;
@@ -124,10 +129,7 @@ extends Applet implements Runnable {
                         
                         pitch += f14;
                         yaw += f13;
-//                        
-//                        System.out.println("Pitch: " + pitch);
-//                        System.out.println("Yaw:   " + yaw);
-//                        
+
                         if(pitch > 7.8f)
                         {
                         	pitch = 7.8f;
@@ -141,18 +143,25 @@ extends Applet implements Runnable {
                 	
                 	
                     now += 10;
-                    float f13 = (float)((this.input.getKey(KeyEvent.VK_D) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
-                    float f14 = (float)((this.input.getKey(KeyEvent.VK_W) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_S) ? 1 : 0)) * 0.02f;
+                    float accX = (float)((this.input.getKey(KeyEvent.VK_D) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
+                    float accZ = (float)((this.input.getKey(KeyEvent.VK_W) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_S) ? 1 : 0)) * 0.02f;
                     
                     xVelocity *= 0.5f;
                     yVelocity *= 0.99f;
                     zVelocity *= 0.5f;
                     
-                    xVelocity += sinf7 * f14 + cosf7 * f13;
-                    zVelocity += cosf7 * f14 - sinf7 * f13;
+                    xVelocity += sinf7 * accZ + cosf7 * accX;
+                    zVelocity += cosf7 * accZ - sinf7 * accX;
                     yVelocity += 0.003f;
                     
+                    
+//                    if(yVelocity > 0.005)
+//                    {
+//                    	yVelocity = 0.0f;
+//                    }
+                    
                     //collision code
+//                    System.out.println(yVelocity);
                     
                     //x = 0, y = 1, z = 2
                     for (int rawCollAxis = 0; rawCollAxis < 3; rawCollAxis++)
@@ -213,10 +222,16 @@ extends Applet implements Runnable {
                             	else 
                              	{
 	                               //Jumping code, if space
-	                                if (this.input.getKey(KeyEvent.VK_SPACE) && yVelocity > 0.0f)
+//                            		yVelocity = 0.00f;
+                            		
+	                                if (this.input.getKey(KeyEvent.VK_SPACE))
 	                                {
 	                                	this.input.setKey(KeyEvent.VK_SPACE, false);
 	                                    yVelocity = -0.1f;
+	                                    onJump = true;
+	                                    jumpingTicks = 0;
+	                                    onGround = false;
+	                                    
 	                                } 
 	                                collison = true;
 	                                collisonY = true;
@@ -225,13 +240,29 @@ extends Applet implements Runnable {
                         }
                         
                         if(!collisonX) playerX = newPlayerX;
-                        if(!collisonY) playerY = newPlayerY;
+                        if(!collisonY) 
+                    	{
+                    		playerY = newPlayerY;
+                    		onGround = false;
+                    	}
+                        else
+                        {
+                        	if(jumpingTicks > 0)
+                        	{
+                        		jumpingTicks = -1;
+                        		onJump = false;
+                        	}
+                    		onGround = true;
+                    		if(onJump) jumpingTicks++;
+                    		if(!onJump && onGround) yVelocity = 0;
+                        }
                         if(!collisonZ) playerZ = newPlayerZ;
                      
                         if(collison) continue block7;
                     }
                 }
                 
+                System.out.println("OnGround: " + (onGround ? 1 : 0) + " isJumping: " + (onJump ? 1 : 0) + " JumpingTick: " + jumpingTicks);
                 int i6 = 0;
                 int i7 = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
@@ -244,13 +275,17 @@ extends Applet implements Runnable {
                     world.blockData[selectedBlock + i5] = 1;
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
+                
                 //delete collision
-                for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) {
-                    int i9 = (int)(playerX + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
+                for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) 
+                {
+                	int i9 = (int)(playerX + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
                     int i10 = (int)(playerY + (float)((i8 >> 2) - 1) * 0.8f + 0.65f) - 64;
-                    i11 = (int)(playerZ + (float)(i8 >> 1 & 1) * 0.6f - 0.3f) - 64;
-                    if (i9 >= 0 && i10 >= 0 && i11 >= 0 && i9 < 64 && i10 < 64 && i11 < 64) {
-                        world.blockData[i9 + i10 * 64 + i11 * 4096] = 0;
+                    int i11A = (int)(playerZ + (float)(i8 >> 1 & 1) * 0.6f - 0.3f) - 64;
+                    
+                    if (i9 >= 0 && i10 >= 0 && i11A >= 0 && i9 < 64 && i10 < 64 && i11A < 64) 
+                    {
+                        world.blockData[i9 + i10 * 64 + i11A * 4096] = 0;
                     }
                 }
                 float tempSelectingBlock = -1.0f;
@@ -376,6 +411,7 @@ extends Applet implements Runnable {
                             }
                             ++axis;
                         }
+                        
                         int r = (i16 >> 16 & 255) * i17 / 255;
                         int g = (i16 >> 8 & 255) * i17 / 255;
                         int b = (i16 & 255) * i17 / 255;
@@ -390,20 +426,11 @@ extends Applet implements Runnable {
                 {
                     return;
                 }
-                this.getGraphics().drawImage(frameBuffer, 0, 0, 856, 480, null);
+                this.getGraphics().drawImage(this.frameBuffer, 0, 0, this.width, this.height, null);
             } 
         }
         catch (Exception localException) {
             return;
         }
-    }
-    
-    boolean isRecentering = false;
-    double robotDiffX = 0;
-    double robotDiffY = 0;
-    
-    private synchronized void recenterMouse() {
-          isRecentering = true;
-          robot.mouseMove(this.halfWidth, this.halfHeight);
     }
 }

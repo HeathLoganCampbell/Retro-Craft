@@ -39,8 +39,8 @@ public class Main {
 	 */
 	private JFrame f;
 
-	public static final int WIDTH = 856;
-	public static final int HEIGHT = 480;
+	public static final int WIDTH = (int) (856);
+	public static final int HEIGHT = (int) (480);
 
 	public static void main(String[] av) {
 		new Main();
