@@ -12,7 +12,7 @@ import java.awt.image.DataBufferInt;
 public class Minecraft
 extends Applet implements Runnable {
 	private static final long serialVersionUID = 1L;
-    int[] textureData = Textures.textureData;
+//    int[] textureData = Textures.textureData;
     
     World world;
     Input input;
@@ -385,7 +385,7 @@ extends Applet implements Runnable {
                                     int i26 = 16777215;
                                     //render select or just render whole block
                                     if (i24 != selectedBlock || i6 > 0 && i7 % 16 > 0 && i6 < 15 && i7 % 16 < 15) {
-                                        i26 = textureData[i6 + i7 * 16 + i25 * 256 * 3];
+                                        i26 = Textures.textureData[i6 + i7 * 16 + i25 * 256 * 3];
                                     }
                                     
                                     if (f33 < readDistance && i9 == this.eigthWidth && i11 ==  this.eigthHeight) {

@@ -80,9 +80,9 @@ public class World {
 		for(int z = 0; z < this.width; ++z) {
 	         for(int x = 0; x < this.height; ++x) {
 	            int var12 = (int)(var53.compute((double)z, (double)x) / 24.0D) - 4;
-	            int var23 = var42[z + x * this.width] + this.waterLevel;
-	            int var25 = var23 + var12;
-	            var42[z + x * this.width] = Math.max(var23, var25);
+	            int baseHeight = var42[z + x * this.width] + this.waterLevel;
+	            int var25 = baseHeight + var12;
+	            var42[z + x * this.width] = Math.max(baseHeight, var25);
 	            if(var42[z + x * this.width] > 64 - 2) {
 	               var42[z + x * this.width] = 64 - 2;
 	            }
@@ -93,16 +93,18 @@ public class World {
 
 	            for(int y = 0; y < 64; ++y) {
 	               blockType = 0;
-	               if(y <= var23) {
+	               //grass layer
+	               if(y <= baseHeight) {
 	            	   blockType = 1;
 	               }
-
+	               
+	               //stone layer
 	               if(y <= var25) {
-	            	   blockType = 2;
+	            	   blockType = 4;
 	               }
 
 	               if(y == 0) {
-	            	   blockType = 3;
+	            	   blockType = 5;
 	               }
 
 					int i = x + (63-y) * 64 + z * 64 * 64;
