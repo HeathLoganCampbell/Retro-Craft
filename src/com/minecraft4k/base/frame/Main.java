@@ -15,12 +15,11 @@ public class Main {
 	 * Heath is the future,
 	 * 
 	 * This is what's wrong
-	 * - The mouse doesn't get trapped on the screen and the 
-	 *   Robot class doesn't really work because the robot class
-	 *   Calls a mouse move event
 	 * - add multi-player
 	 * - show more entities? Other players?
-	 * - Import textures from a file, so they can be easily added
+	 * - improve performace
+	 * - increase render distance a bit
+	 * 
 	 *   
 	 * Fixes from that I did
 	 * - I split it up into a few files

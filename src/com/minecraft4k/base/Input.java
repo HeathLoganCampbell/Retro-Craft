@@ -56,7 +56,6 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
 		
-	
 		
 		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);
 		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);

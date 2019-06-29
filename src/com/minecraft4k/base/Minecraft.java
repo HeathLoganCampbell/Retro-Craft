@@ -106,7 +106,6 @@ extends Applet implements Runnable {
             
             while(true)
             {
-                int i11;
                 float sinf7 = (float)Math.sin(yaw);
                 float cosf7 = (float)Math.cos(yaw);
                 float sinf8 = (float)Math.sin(pitch);
@@ -118,8 +117,6 @@ extends Applet implements Runnable {
                 	if (this.input.getMouseX() > 0) 
                 	{
                     	//rotate head
-                		
-                		
                     	float f13 = (float)(this.input.getMouseX() - lastMouseX);
                         float f14 = (float)(this.input.getMouseY() - lastMouseY);
                         f13 *= 0.01f; //yaw senativity
@@ -155,14 +152,6 @@ extends Applet implements Runnable {
                     zVelocity += cosf7 * accZ - sinf7 * accX;
                     yVelocity += 0.003f;
                     
-                    
-//                    if(yVelocity > 0.005)
-//                    {
-//                    	yVelocity = 0.0f;
-//                    }
-                    
-                    //collision code
-//                    System.out.println(yVelocity);
                     
                     //x = 0, y = 1, z = 2
                     for (int rawCollAxis = 0; rawCollAxis < 3; rawCollAxis++)
@@ -263,7 +252,6 @@ extends Applet implements Runnable {
                     }
                 }
                 
-//                System.out.println("OnGround: " + (onGround ? 1 : 0) + " isJumping: " + (onJump ? 1 : 0) + " JumpingTick: " + jumpingTicks);
                 int i6 = 0;
                 int i7 = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
@@ -278,7 +266,7 @@ extends Applet implements Runnable {
                 }
                
                 
-                //delete collision
+                //delete collision, if a player tries to place a block on themselfs
                 for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) 
                 {
                 	int i9 = (int)(playerX + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
@@ -293,21 +281,23 @@ extends Applet implements Runnable {
                 
                 float tempSelectingBlock = -1.0f;
                 //render
+                //vertizle lines
                 for (int i9 = 0; i9 < 214; i9++) {
                     float f18 = (float)(i9 - 107) / 90.0f;
-                    i11 = 0;
-                    while (i11 < 120) {
+                    
+                    //number of lines to render, horzontial
+                    for(int i11 = 0; i11 < 120; i11++) {
                         float f20 = (float)(i11 - 60) / 90.0f;
-                        float f21 = 1.0f;
+                        float fov = 1f; //fov, less than 1 makes it look faster
                         
                         //rotation matrix
-                        float f22 = f21 * cosf8 + f20 * sinf8;
-                        float f23 = f20 * cosf8 - f21 * sinf8;
+                        float f22 = fov * cosf8 + f20 * sinf8;
+                        float f23 = f20 * cosf8 - fov * sinf8;
                         float f24 = f18 * cosf7 + f22 * sinf7;
                         float f25 = f22 * cosf7 - f18 * sinf7;
                         
-                        int i16 = 0;
-                        int i17 = 255;
+                        int skyboxColour = 0xA7C9EB;
+                        int maxSkyboxColour = 255;
                         
                         double fogOfWar = 20.0;//render distance
                         float readDistance = 5.0f;//read distance
@@ -401,9 +391,9 @@ extends Applet implements Runnable {
                                         readDistance = f33;
                                     }
                                     if (i26 > 0) {
-                                        i16 = i26;
-                                        i17 = 255 - (int)(f33 / 20.0f * 255.0f);
-                                        i17 = i17 * (255 - (axis + 2) % 3 * 50) / 255;
+                                        skyboxColour = i26;
+                                        maxSkyboxColour = 255 - (int)(f33 / 20.0f * 255.0f);
+                                        maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
                                         fogOfWar = f33;
                                     }
                                 }
@@ -415,11 +405,10 @@ extends Applet implements Runnable {
                             ++axis;
                         }
                         
-                        int r = (i16 >> 16 & 255) * i17 / 255;
-                        int g = (i16 >> 8 & 255) * i17 / 255;
-                        int b = (i16 & 255) * i17 / 255;
+                        int r = (skyboxColour >> 16 & 255) * maxSkyboxColour / 255;
+                        int g = (skyboxColour >> 8 & 255) * maxSkyboxColour / 255;
+                        int b = (skyboxColour & 255) * maxSkyboxColour / 255;
                         imageData[i9 + i11 * 214] = r << 16 | g << 8 | b;
-                        i11++;
                     }
                 }
                 selectedBlock = (int) tempSelectingBlock;
