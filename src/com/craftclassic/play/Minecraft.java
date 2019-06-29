@@ -37,7 +37,6 @@ extends Applet implements Runnable {
     
     private Robot robot;
 
-    
     public static final int PLAYER_HEIGHT = 12;
     
     

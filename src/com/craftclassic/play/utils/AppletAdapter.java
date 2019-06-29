@@ -1,4 +1,4 @@
-package com.craftclassic.play.frame;
+package com.craftclassic.play.utils;
 
 import java.applet.Applet;
 import java.applet.AppletContext;
@@ -15,18 +15,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-class AppletAdapter extends Panel implements AppletStub, AppletContext 
+public class AppletAdapter extends Panel implements AppletStub, AppletContext 
 {
 	private static final long serialVersionUID = 1L;
 	private Label status = null;
-	private 	Map<String, InputStream> streamMap = new HashMap<>();
-
+	private Map<String, InputStream> streamMap = new HashMap<>();
 	
-	AppletAdapter()
+	public AppletAdapter()
 	{
 	  add(this.status = new Label());
 	  
-	
 	  status.setSize(this.getWidth(), status.getSize().height);
 	  
 	  showStatus("AppletAdapter constructed");
@@ -66,8 +64,6 @@ class AppletAdapter extends Panel implements AppletStub, AppletContext
 	  return null;
 	}
 	
-	
-	
 	public Enumeration<Applet> getApplets()
 	{
 	  return new Enumeration<Applet>()
@@ -84,8 +80,6 @@ class AppletAdapter extends Panel implements AppletStub, AppletContext
 	  };
 	}
 	
-	
-	
 	public AudioClip getAudioClip(URL u)
 	{
 	  return null;
@@ -97,12 +91,9 @@ class AppletAdapter extends Panel implements AppletStub, AppletContext
 	}
 	
 	
-	
 	public void showDocument(URL u) {}
 	
-	
 	public void showDocument(URL u, String frame) {}
-	
 	
 	public void showStatus(String msg)
 	{
@@ -113,7 +104,7 @@ class AppletAdapter extends Panel implements AppletStub, AppletContext
 	
 	public void setStream(String key, InputStream stream) throws IOException
 	{
-	  streamMap.put(key, stream);
+		streamMap.put(key, stream);
 	}
 	
 	public InputStream getStream(String key) {

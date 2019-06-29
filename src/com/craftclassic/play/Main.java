@@ -1,4 +1,4 @@
-package com.craftclassic.play.frame;
+package com.craftclassic.play;
 
 import java.awt.Container;
 import java.awt.Point;
@@ -6,9 +6,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
+import com.craftclassic.play.utils.AppletAdapter;
+
 import javax.swing.JFrame;
 
-import com.craftclassic.play.Minecraft;
 
 public class Main {
 	/*
@@ -36,20 +37,20 @@ public class Main {
 			}
 		});
 		Container contentPanel = frame.getContentPane();
-		AppletAdapter aa = new AppletAdapter();
+		AppletAdapter appletAdapter = new AppletAdapter();
 
  		Minecraft minecraft = new Minecraft(WIDTH, HEIGHT);
 		minecraft.setSize(WIDTH, HEIGHT);
 
 		
-		minecraft.setStub(aa);
+		minecraft.setStub(appletAdapter);
 
 		contentPanel.add("Center", minecraft);
 
 		frame.setSize(minecraft.getSize());
 		frame.setVisible(true);
 
-		contentPanel.remove(aa);
+		contentPanel.remove(appletAdapter);
 		
 		frame.setCursor(frame.getToolkit().createCustomCursor(
 	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
