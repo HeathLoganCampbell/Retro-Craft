@@ -1,4 +1,4 @@
-package com.minecraft4k.base;
+package com.craftclassic.play;
 
 import java.applet.Applet;
 import java.awt.AWTException;
@@ -8,6 +8,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+
+import com.craftclassic.play.assets.Textures;
+import com.craftclassic.play.input.Input;
+import com.craftclassic.play.world.World;
 
 public class Minecraft
 extends Applet implements Runnable {
@@ -33,7 +37,6 @@ extends Applet implements Runnable {
     
     private Robot robot;
 
-    
     public static final int PLAYER_HEIGHT = 12;
     
     
@@ -120,8 +123,8 @@ extends Applet implements Runnable {
                     	//rotate head
                     	float f13 = (float)(this.input.getMouseX() - lastMouseX);
                         float f14 = (float)(this.input.getMouseY() - lastMouseY);
-                        f13 *= 0.01f; //yaw senativity
-                        f14 *= 0.01f; //pitch senativity
+                        f13 *= 0.001f; //yaw senativity
+                        f14 *= 0.001f; //pitch senativity
                         
                         lastMouseX = this.input.getMouseX();
                         lastMouseY = this.input.getMouseY();

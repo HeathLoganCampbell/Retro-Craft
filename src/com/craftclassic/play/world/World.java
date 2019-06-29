@@ -1,9 +1,9 @@
-package com.minecraft4k.base;
+package com.craftclassic.play.world;
 
 import java.util.Random;
 
-import com.minecraft4k.base.noise.CombinedNoise;
-import com.minecraft4k.base.noise.OctaveNoise;
+import com.craftclassic.play.world.noise.CombinedNoise;
+import com.craftclassic.play.world.noise.OctaveNoise;
 
 public class World {
 	Random random = new Random();

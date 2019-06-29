@@ -1,4 +1,4 @@
-package com.minecraft4k.base.utils;
+package com.craftclassic.play.utils;
 
 public class Location 
 {

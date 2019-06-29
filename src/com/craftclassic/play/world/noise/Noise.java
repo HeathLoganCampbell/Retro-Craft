@@ -1,4 +1,4 @@
-package com.minecraft4k.base.noise;
+package com.craftclassic.play.world.noise;
 
 public abstract class Noise 
 {
