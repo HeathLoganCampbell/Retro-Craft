@@ -15,7 +15,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 
 	private boolean[] keys = new boolean[65536];
 	private boolean[] mouseButtons = new boolean[4];
-	private int mouseX = 0;
+	private int mouseX = (int) (Math.PI * 200);
 	private int mouseY = 0;
 	private int inverseMouseY = 0;
 	
@@ -47,14 +47,18 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 
 	public void mouseDragged(MouseEvent e) 
 	{
-//		rawX = e.getX();
-//		rawY = this.height - e.getY();
-//		
-//		this.mouseX += lastX - rawX;
-//		this.mouseY += lastY - rawY;
-//		
-//		lastX = rawX;
-//		lastY = rawY;
+		if(this.rawX == e.getX() &&
+				this.rawY == (this.height - e.getY())) return;
+		
+		this.pushMousePositionUpdate(e.getX(), e.getY());
+		
+		this.mouseX -= (lastX - rawX);
+		this.inverseMouseY -= (lastY - rawY - 45);
+		this.mouseY = this.height - this.inverseMouseY;
+		
+		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
+		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
+		this.robot.mouseMove(this.width / 2, this.height / 2);
 	}
 	
 	public void pushMousePositionUpdate(int x, int y)
@@ -74,6 +78,8 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		this.pushMousePositionUpdate(e.getX(), e.getY());
 		
 		this.mouseX -= (lastX - rawX);
+		this.mouseX = (int) ((this.mouseX % (Math.PI * 200)) + (Math.PI * 200));
+		
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
 		
