@@ -13,20 +13,17 @@ import java.awt.event.MouseMotionListener;
 
 public class Input implements KeyListener, FocusListener, MouseListener, MouseMotionListener {
 
+	private static final int TAU_100 = (int) (Math.PI * 200);
+	
 	private boolean[] keys = new boolean[65536];
 	private boolean[] mouseButtons = new boolean[4];
-	private int mouseX = (int) (Math.PI * 200);
+	private int mouseX = TAU_100;
 	private int mouseY = 0;
 	private int inverseMouseY = 0;
 	
 	private int width;
 	private int height;
 	private Robot robot;
-	private int ignoreX = 0;
-	private int ignoreY = 0;
-	
-	private int last2X = 0;
-	private int last2Y = 0;
 	
 	private int lastX = 0;
 	private int lastY = 0;
@@ -34,15 +31,18 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	private int rawX = 0;
 	private int rawY = 0;
 	
-	private Minecraft minecraft;
+	private int halfWidth;
+	private int halfHeight;
 	
 	
-	public Input(int width, int height, Robot robot, Minecraft minecraft) 
+	public Input(int width, int height, Robot robot) 
 	{
 		this.width = width;
 		this.height = height;
 		this.robot = robot;
-		this.minecraft = minecraft;
+		
+		halfWidth = this.width >> 1;
+		halfHeight = this.height >> 1;
 	}
 
 	public void mouseDragged(MouseEvent e) 
@@ -56,9 +56,11 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
 		
-		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
-		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
-		this.robot.mouseMove(this.width / 2, this.height / 2);
+	
+		
+		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);
+		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);
+		this.robot.mouseMove(this.halfWidth, this.halfHeight);
 	}
 	
 	public void pushMousePositionUpdate(int x, int y)
@@ -78,13 +80,14 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		this.pushMousePositionUpdate(e.getX(), e.getY());
 		
 		this.mouseX -= (lastX - rawX);
-		this.mouseX = (int) ((this.mouseX % (Math.PI * 200)) + (Math.PI * 200));
+		this.mouseX = (int) ((this.mouseX % TAU_100) + TAU_100);
 		
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
 		
-		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
-		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
+		this.rawX = this.lastX = this.width / 2;
+		this.rawY = this.lastY = this.height / 2;
+		
 		this.robot.mouseMove(this.width / 2, this.height / 2);
 	}
 

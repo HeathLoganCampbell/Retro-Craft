@@ -62,7 +62,7 @@ extends Applet implements Runnable {
 			e.printStackTrace();
 		}
     	
-    	this.input = new Input(width, height, this.robot, this);
+    	this.input = new Input(width, height, this.robot);
     	addKeyListener(input);
 		addFocusListener(input);
 		addMouseListener(input);
