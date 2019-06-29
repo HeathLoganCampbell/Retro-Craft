@@ -12,47 +12,30 @@ import com.craftclassic.play.Minecraft;
 
 public class Main {
 	/*
-	 * Heath is the future,
-	 * 
 	 * This is what's wrong
 	 * - add multi-player
 	 * - show more entities? Other players?
 	 * - improve performace
-	 * - 
-	 * 
-	 *   
-	 * Fixes from that I did
-	 * - I split it up into a few files
-	 * - Fixed z collision problem (made collision loop check z before y 
-	 *   because you're always touching the ground so it never made it to z)
-	 * - Move the mouse controls to a motion system
-	 * - Change the map to be a flat world instead of random
-	 * 
-	 * You stopped working on this because you had to study for your
-	 * 2019 semester 1 exams, which one is on monday... a day away...
-	 * Well anyway, good luck
-	 * 
 	 */
-	private JFrame f;
-
 	public static final int WIDTH = (int) (856);
 	public static final int HEIGHT = (int) (480);
+	public static final String TITLE = "Craft Classic";
 
 	public static void main(String[] av) {
 		new Main();
 	}
 
-	Main() 
+	public Main() 
 	{
-		f = new JFrame("Minecraft Classic");
-		f.addWindowListener(new WindowAdapter() {
+		JFrame frame = new JFrame(TITLE);
+		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				f.setVisible(false);
-				f.dispose();
+				frame.setVisible(false);
+				frame.dispose();
 				System.exit(0);
 			}
 		});
-		Container contentPanel = f.getContentPane();
+		Container contentPanel = frame.getContentPane();
 		AppletAdapter aa = new AppletAdapter();
 
  		Minecraft minecraft = new Minecraft(WIDTH, HEIGHT);
@@ -63,12 +46,12 @@ public class Main {
 
 		contentPanel.add("Center", minecraft);
 
-		f.setSize(minecraft.getSize());
-		f.setVisible(true);
+		frame.setSize(minecraft.getSize());
+		frame.setVisible(true);
 
 		contentPanel.remove(aa);
 		
-		f.setCursor(f.getToolkit().createCustomCursor(
+		frame.setCursor(frame.getToolkit().createCustomCursor(
 	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
 	            "null"));
 

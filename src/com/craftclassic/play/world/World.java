@@ -1,9 +1,9 @@
-package com.craftclassic.play;
+package com.craftclassic.play.world;
 
 import java.util.Random;
 
-import com.craftclassic.play.noise.CombinedNoise;
-import com.craftclassic.play.noise.OctaveNoise;
+import com.craftclassic.play.world.noise.CombinedNoise;
+import com.craftclassic.play.world.noise.OctaveNoise;
 
 public class World {
 	Random random = new Random();

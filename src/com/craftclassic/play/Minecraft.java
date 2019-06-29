@@ -9,6 +9,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import com.craftclassic.play.assets.Textures;
+import com.craftclassic.play.input.Input;
+import com.craftclassic.play.world.World;
+
 public class Minecraft
 extends Applet implements Runnable {
 	private static final long serialVersionUID = 1L;

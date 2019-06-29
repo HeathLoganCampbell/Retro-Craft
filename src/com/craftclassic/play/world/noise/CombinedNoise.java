@@ -1,4 +1,4 @@
-package com.craftclassic.play.noise;
+package com.craftclassic.play.world.noise;
 
 public final class CombinedNoise extends Noise
 {

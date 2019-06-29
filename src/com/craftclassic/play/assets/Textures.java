@@ -1,4 +1,4 @@
-package com.craftclassic.play;
+package com.craftclassic.play.assets;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

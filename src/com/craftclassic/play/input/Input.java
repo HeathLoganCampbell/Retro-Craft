@@ -1,4 +1,4 @@
-package com.craftclassic.play;
+package com.craftclassic.play.input;
 
 import java.awt.AWTException;
 import java.awt.Robot;
