@@ -29,8 +29,9 @@ extends Applet implements Runnable {
     
     private int eigthWidth = 0;
     private int eigthHeight = 0;
-
+    
     private Robot robot;
+
     
     public static final int PLAYER_HEIGHT = 12;
     
@@ -61,7 +62,7 @@ extends Applet implements Runnable {
 			e.printStackTrace();
 		}
     	
-    	this.input = new Input(width, height);
+    	this.input = new Input(width, height, this.robot, this);
     	addKeyListener(input);
 		addFocusListener(input);
 		addMouseListener(input);
@@ -262,7 +263,7 @@ extends Applet implements Runnable {
                     }
                 }
                 
-                System.out.println("OnGround: " + (onGround ? 1 : 0) + " isJumping: " + (onJump ? 1 : 0) + " JumpingTick: " + jumpingTicks);
+//                System.out.println("OnGround: " + (onGround ? 1 : 0) + " isJumping: " + (onJump ? 1 : 0) + " JumpingTick: " + jumpingTicks);
                 int i6 = 0;
                 int i7 = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
@@ -275,6 +276,7 @@ extends Applet implements Runnable {
                     world.blockData[selectedBlock + i5] = 1;
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
+               
                 
                 //delete collision
                 for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) 
@@ -288,6 +290,7 @@ extends Applet implements Runnable {
                         world.blockData[i9 + i10 * 64 + i11A * 4096] = 0;
                     }
                 }
+                
                 float tempSelectingBlock = -1.0f;
                 //render
                 for (int i9 = 0; i9 < 214; i9++) {

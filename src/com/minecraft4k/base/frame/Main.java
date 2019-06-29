@@ -18,9 +18,6 @@ public class Main {
 	 * - The mouse doesn't get trapped on the screen and the 
 	 *   Robot class doesn't really work because the robot class
 	 *   Calls a mouse move event
-	 * - Land generation is there at all, it's just a flat map
-	 * - The map size is only 64 x 64 x 64, with no easy way to edit
-	 *   it
 	 * - add multi-player
 	 * - show more entities? Other players?
 	 * - Import textures from a file, so they can be easily added
@@ -59,7 +56,7 @@ public class Main {
 		Container contentPanel = f.getContentPane();
 		AppletAdapter aa = new AppletAdapter();
 
-		Minecraft minecraft = new Minecraft(WIDTH, HEIGHT);
+ 		Minecraft minecraft = new Minecraft(WIDTH, HEIGHT);
 		minecraft.setSize(WIDTH, HEIGHT);
 
 		

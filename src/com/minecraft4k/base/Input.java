@@ -1,5 +1,7 @@
 package com.minecraft4k.base;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -9,33 +11,75 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 
-public class Input implements KeyListener, FocusListener,
-		MouseListener, MouseMotionListener {
+public class Input implements KeyListener, FocusListener, MouseListener, MouseMotionListener {
 
 	private boolean[] keys = new boolean[65536];
 	private boolean[] mouseButtons = new boolean[4];
 	private int mouseX = 0;
 	private int mouseY = 0;
+	private int inverseMouseY = 0;
 	
 	private int width;
 	private int height;
+	private Robot robot;
+	private int ignoreX = 0;
+	private int ignoreY = 0;
 	
-	public Input(int width, int height)
+	private int last2X = 0;
+	private int last2Y = 0;
+	
+	private int lastX = 0;
+	private int lastY = 0;
+	
+	private int rawX = 0;
+	private int rawY = 0;
+	
+	private Minecraft minecraft;
+	
+	
+	public Input(int width, int height, Robot robot, Minecraft minecraft) 
 	{
 		this.width = width;
 		this.height = height;
+		this.robot = robot;
+		this.minecraft = minecraft;
 	}
 
 	public void mouseDragged(MouseEvent e) 
 	{
-		mouseX = e.getX();
-		mouseY = this.height - e.getY();
+//		rawX = e.getX();
+//		rawY = this.height - e.getY();
+//		
+//		this.mouseX += lastX - rawX;
+//		this.mouseY += lastY - rawY;
+//		
+//		lastX = rawX;
+//		lastY = rawY;
+	}
+	
+	public void pushMousePositionUpdate(int x, int y)
+	{
+		lastX = rawX;
+		lastY = rawY;
+		
+		rawX = x;
+		rawY = y;
 	}
 
 	public void mouseMoved(MouseEvent e) 
 	{
-		mouseX = e.getX();
-		mouseY = this.height - e.getY();
+		if(this.rawX == e.getX() &&
+				this.rawY == (this.height - e.getY())) return;
+		
+		this.pushMousePositionUpdate(e.getX(), e.getY());
+		
+		this.mouseX -= (lastX - rawX);
+		this.inverseMouseY -= (lastY - rawY - 45);
+		this.mouseY = this.height - this.inverseMouseY;
+		
+		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
+		this.pushMousePositionUpdate(this.width / 2, this.height / 2);
+		this.robot.mouseMove(this.width / 2, this.height / 2);
 	}
 
 	public void mouseClicked(MouseEvent e) 
@@ -103,42 +147,4 @@ public class Input implements KeyListener, FocusListener,
 	public int getMouseX() {return mouseX;}
 
 	public int getMouseY() {return mouseY;}
-	
-	
-//  @Override
-//  public boolean handleEvent(Event paramEvent) {
-//      int i = 0;
-//      switch (paramEvent.id) {
-//          case 401: {
-//              i = 1;
-//          }
-//          case 402: {
-//              this.inputData[paramEvent.key] = i;
-//              break;
-//          }
-//          case 501: {
-//              i = 1;
-//              this.inputData[2] = paramEvent.x;
-//              this.inputData[3] = paramEvent.y;
-//          }
-//          case 502: {
-//              if ((paramEvent.modifiers & 4) > 0) {
-//                  this.inputData[1] = i;
-//                  break;
-//              }
-//              this.inputData[0] = i;
-//              break;
-//          }
-//          case 503: 
-//          case 506: {
-//              this.inputData[2] = paramEvent.x;
-//              this.inputData[3] = paramEvent.y;
-//              break;
-//          }
-//          case 505: {
-//              this.inputData[2] = 0;
-//          }
-//      }
-//      return true;
-//  }
 }
