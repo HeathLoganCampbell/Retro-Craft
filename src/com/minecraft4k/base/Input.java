@@ -18,7 +18,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	private boolean[] keys = new boolean[65536];
 	private boolean[] mouseButtons = new boolean[4];
 	private int mouseX = TAU_100;
-	private int mouseY = 0;
+	private int mouseY = 10;
 	private int inverseMouseY = 0;
 	
 	private int width;

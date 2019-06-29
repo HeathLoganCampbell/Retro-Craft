@@ -18,7 +18,7 @@ public class Main {
 	 * - add multi-player
 	 * - show more entities? Other players?
 	 * - improve performace
-	 * - increase render distance a bit
+	 * - 
 	 * 
 	 *   
 	 * Fixes from that I did

@@ -17,6 +17,7 @@ extends Applet implements Runnable {
     World world;
     Input input;
     
+    public static float fogDistance = 50f;
     
     private int width = 0;
     private int height = 0;
@@ -282,37 +283,36 @@ extends Applet implements Runnable {
                 float tempSelectingBlock = -1.0f;
                 //render
                 //vertizle lines
-                for (int i9 = 0; i9 < 214; i9++) {
-                    float f18 = (float)(i9 - 107) / 90.0f;
+                for (int vertIndex = 0; vertIndex < 214; vertIndex++) {
+                    float f18 = (float)(vertIndex - 107) / 90.0f;
                     
                     //number of lines to render, horzontial
-                    for(int i11 = 0; i11 < 120; i11++) {
-                        float f20 = (float)(i11 - 60) / 90.0f;
+                    for(int hortIndex = 0; hortIndex < 120; hortIndex++) {
+                        float f20 = (float)(hortIndex - 60) / 90.0f;
                         float fov = 1f; //fov, less than 1 makes it look faster
                         
                         //rotation matrix
                         float f22 = fov * cosf8 + f20 * sinf8;
                         float f23 = f20 * cosf8 - fov * sinf8;
+                        
                         float f24 = f18 * cosf7 + f22 * sinf7;
                         float f25 = f22 * cosf7 - f18 * sinf7;
                         
                         int skyboxColour = 0xA7C9EB;
                         int maxSkyboxColour = 255;
                         
-                        double fogOfWar = 20.0;//render distance
+                        double fogOfWar = 50.0;//render distance
                         float readDistance = 5.0f;//read distance
                         int axis = 0;//
-                        while (axis < 3) {
+                        while (axis < 3) 
+                        {
                             float f27 = f24;
                             if (axis == 1) 
-                            {
                                 f27 = f23;
-                            }
                             
                             if (axis == 2)
-                            {
                                 f27 = f25;
-                            }
+                            
                             float f28 = 1.0f / Math.abs(f27);
                             float f29 = f24 * f28;
                             float f30 = f23 * f28;
@@ -349,6 +349,9 @@ extends Applet implements Runnable {
                                     f36 -= 1.0f;
                                 }
                             }
+                            
+                            
+                            
                             while ((double)f33 < fogOfWar) {
                             	//render all blocks
                             	//off set
@@ -359,9 +362,10 @@ extends Applet implements Runnable {
                                 //block out of mapsize
                                 if (i21 < 0 || i22 < 0 || i23 < 0 || i21 >= 64 || i22 >= 64 || i23 >= 64) break;
                                 
-                                int i24 = i21 + i22 * 64 + i23 * 4096;
-                                int i25 = world.blockData[i24];//selected block
-                                if (i25 > 0) {
+                                int blockInde = i21 + i22 * 64 + i23 * 4096;
+                                int blockId = world.blockData[blockInde];//selected block
+                                if (blockId > 0) 
+                                {//not air
                                 	//render horz of block
                                     i6 = (int)((f34 + f36) * 16.0f) & 15;
                                     //render vert of block
@@ -375,14 +379,15 @@ extends Applet implements Runnable {
                                             i7 += 32;
                                         }
                                     }
+                                    
                                     int i26 = 16777215;
                                     //render select or just render whole block
-                                    if (i24 != selectedBlock || i6 > 0 && i7 % 16 > 0 && i6 < 15 && i7 % 16 < 15) {
-                                        i26 = Textures.textureData[i6 + i7 * 16 + i25 * 256 * 3];
+                                    if (blockInde != selectedBlock || i6 > 0 && i7 % 16 > 0 && i6 < 15 && i7 % 16 < 15) {
+                                        i26 = Textures.textureData[i6 + i7 * 16 + blockId * 256 * 3];
                                     }
                                     
-                                    if (f33 < readDistance && i9 == this.eigthWidth && i11 ==  this.eigthHeight) {
-                                    	tempSelectingBlock = i24;
+                                    if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) {
+                                    	tempSelectingBlock = blockInde;
                                         i5 = 1;
                                         if (f27 > 0.0f) {
                                             i5 = -1;
@@ -392,7 +397,8 @@ extends Applet implements Runnable {
                                     }
                                     if (i26 > 0) {
                                         skyboxColour = i26;
-                                        maxSkyboxColour = 255 - (int)(f33 / 20.0f * 255.0f);
+                                        //40 = FOGGINESS
+                                        maxSkyboxColour = 255 - (int)(f33 / fogDistance * 255.0f);
                                         maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
                                         fogOfWar = f33;
                                     }
@@ -408,7 +414,7 @@ extends Applet implements Runnable {
                         int r = (skyboxColour >> 16 & 255) * maxSkyboxColour / 255;
                         int g = (skyboxColour >> 8 & 255) * maxSkyboxColour / 255;
                         int b = (skyboxColour & 255) * maxSkyboxColour / 255;
-                        imageData[i9 + i11 * 214] = r << 16 | g << 8 | b;
+                        imageData[vertIndex + hortIndex * 214] = r << 16 | g << 8 | b;
                     }
                 }
                 selectedBlock = (int) tempSelectingBlock;
