@@ -96,9 +96,8 @@ public class World {
 	               blockType = 0;
 	               //grass layer
 	               if(y <= baseHeight) {
-	            	   
 	            	   blockType = 2;
-	            	   if(lastBlockId == 0) {
+	            	   if(y == baseHeight) {
 		            	   blockType = 1;
 		               }
 	               }
