@@ -1,3 +1,22 @@
+# Craft Classic
+A Voxel based game that uses no libraries
+
+## How to install
+Just go to releases and download the jar
+
+## How to play
+```
+W = forwards
+S = backwards
+A = left
+D = right
+left mouse button = break block
+right mouse button = place block
+right arrow key = changed block placed 
+```
+
+## Development
+
 ### Things to add
 * Entities
 * Multiplayer support
@@ -8,6 +27,7 @@
 * Fragment up the Minecraft class so it's more understable
 * Add a string render engine
 
+## Versions
 
 ### v0.1.5
 [It's just a bad version of minecraft, example](https://gyazo.com/d123022c618a0574954187d86f35e100)
