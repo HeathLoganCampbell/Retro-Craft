@@ -2,7 +2,6 @@ package com.craftclassic.play;
 
 import java.applet.Applet;
 import java.awt.AWTException;
-import java.awt.Event;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -36,6 +35,8 @@ extends Applet implements Runnable {
     private int eigthHeight = 0;
     
     private Robot robot;
+    
+    private int placeBlockTypeId = 1;
 
     public static final int PLAYER_HEIGHT = 12;
     
@@ -66,7 +67,7 @@ extends Applet implements Runnable {
 			e.printStackTrace();
 		}
     	
-    	this.input = new Input(width, height, this.robot);
+    	this.input = new Input(width, height, this.robot, this);
     	addKeyListener(input);
 		addFocusListener(input);
 		addMouseListener(input);
@@ -121,16 +122,20 @@ extends Applet implements Runnable {
                 	if (this.input.getMouseX() > 0) 
                 	{
                     	//rotate head
-                    	float f13 = (float)(this.input.getMouseX() - lastMouseX);
-                        float f14 = (float)(this.input.getMouseY() - lastMouseY);
-                        f13 *= 0.001f; //yaw senativity
-                        f14 *= 0.001f; //pitch senativity
+                    	float inMouseX = (float)(this.input.getMouseX() - lastMouseX);
+                        float inMouseY = (float)(this.input.getMouseY() - lastMouseY);
+                        
+                        inMouseX *= 0.01f; //yaw senativity
+                        inMouseY *= 0.01f; //pitch senativity
+                        
                         
                         lastMouseX = this.input.getMouseX();
                         lastMouseY = this.input.getMouseY();
                         
-                        pitch += f14;
-                        yaw += f13;
+                        
+                        
+                        pitch += inMouseY;
+                        yaw += inMouseX;
 
                         if(pitch > 7.8f)
                         {
@@ -265,7 +270,7 @@ extends Applet implements Runnable {
                 }
                 if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
                 {
-                    world.blockData[selectedBlock + i5] = 1;
+                    world.blockData[selectedBlock + i5] = this.getPlaceBlockTypeId();
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
                
@@ -434,4 +439,12 @@ extends Applet implements Runnable {
             return;
         }
     }
+
+	public int getPlaceBlockTypeId() {
+		return placeBlockTypeId;
+	}
+
+	public void setPlaceBlockTypeId(int placeBlockTypeId) {
+		this.placeBlockTypeId = placeBlockTypeId;
+	}
 }

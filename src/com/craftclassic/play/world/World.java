@@ -90,13 +90,20 @@ public class World {
 	            if(var42[z + x * this.width] < 1) {
 	               var42[z + x * this.width] = 1;
 	            }
-
+	            
+	            int lastBlockId = 0;
 	            for(int y = 0; y < 64; ++y) {
 	               blockType = 0;
 	               //grass layer
 	               if(y <= baseHeight) {
-	            	   blockType = 1;
+	            	   
+	            	   blockType = 2;
+	            	   if(lastBlockId == 0) {
+		            	   blockType = 1;
+		               }
 	               }
+	               
+	               
 	               
 	               //stone layer
 	               if(y <= var25) {
@@ -110,6 +117,7 @@ public class World {
 					int i = x + (63-y) * 64 + z * 64 * 64;
 					if (y < 64 && y >= 0)
 						blockData[i] = blockType;
+					lastBlockId = blockType;
 	            }
 	         }
 	      }

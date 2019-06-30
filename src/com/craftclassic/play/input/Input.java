@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import com.craftclassic.play.Minecraft;
 
 public class Input implements KeyListener, FocusListener, MouseListener, MouseMotionListener {
 
@@ -33,13 +34,15 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	
 	private int halfWidth;
 	private int halfHeight;
+	private Minecraft minecraft;
 	
 	
-	public Input(int width, int height, Robot robot) 
+	public Input(int width, int height, Robot robot, Minecraft minecraft) 
 	{
 		this.width = width;
 		this.height = height;
 		this.robot = robot;
+		this.minecraft = minecraft;
 		
 		halfWidth = this.width >> 1;
 		halfHeight = this.height >> 1;
@@ -55,6 +58,8 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		this.mouseX -= (lastX - rawX);
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
+		
+	
 		
 		
 		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);
@@ -83,6 +88,8 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
+		
+		System.out.println( mouseX+", "+ mouseY);
 		
 		this.rawX = this.lastX = this.width / 2;
 		this.rawY = this.lastY = this.height / 2;
@@ -130,6 +137,16 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		int code = e.getKeyCode();
 		if(code > 0 && code < keys.length)
 			keys[code] = true;
+		
+		if(KeyEvent.VK_RIGHT == code)
+		{
+			this.minecraft.setPlaceBlockTypeId(this.minecraft.getPlaceBlockTypeId() + 1);
+		}
+		
+		if(KeyEvent.VK_LEFT == code)
+		{
+			this.minecraft.setPlaceBlockTypeId(this.minecraft.getPlaceBlockTypeId() - 1);
+		}
 	}
 
 	public void keyReleased(KeyEvent e) 
