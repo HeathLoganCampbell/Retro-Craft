@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 public class Textures {
 	static Random random = new Random();
 	public static int[] textureData = new int[12288];
+	public static int height = 0;
+	public static int width = 0;
 	static {
 		initTextures();
 	}
@@ -28,6 +30,10 @@ public class Textures {
 		try {
 			BufferedImage image = ImageIO.read(Textures.class.getClassLoader().getResource("saved-texturess.png"));
 			image = convert(image, BufferedImage.TYPE_INT_RGB);
+			
+			height = image.getHeight();
+			width = image.getWidth();
+			
 			int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 			for(int y = 0; y < image.getHeight(); y++)
 			{

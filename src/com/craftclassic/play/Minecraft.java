@@ -261,8 +261,8 @@ extends Applet implements Runnable {
                     }
                 }
                 
-                int i6 = 0;
-                int i7 = 0;
+                int textureX = 0;
+                int textureY = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
                 {
                     world.blockData[selectedBlock] = 0;
@@ -301,10 +301,10 @@ extends Applet implements Runnable {
                         
                         //rotation matrix
                         float f22 = fov * cosf8 + f20 * sinf8;
-                        float f23 = f20 * cosf8 - fov * sinf8;
+                        float rotatedY = f20 * cosf8 - fov * sinf8;
                         
-                        float f24 = f18 * cosf7 + f22 * sinf7;
-                        float f25 = f22 * cosf7 - f18 * sinf7;
+                        float rotatedX = f18 * cosf7 + f22 * sinf7;
+                        float rotatedZ = f22 * cosf7 - f18 * sinf7;
                         
                         int skyboxColour = 0xA7C9EB;
                         int maxSkyboxColour = 255;
@@ -314,17 +314,17 @@ extends Applet implements Runnable {
                         int axis = 0;//
                         while (axis < 3) 
                         {
-                            float f27 = f24;
-                            if (axis == 1) 
-                                f27 = f23;
+                            float f27 = rotatedX;
+                            if (axis == 1) //y
+                                f27 = rotatedY;
                             
-                            if (axis == 2)
-                                f27 = f25;
+                            if (axis == 2) //z
+                                f27 = rotatedZ;
                             
-                            float f28 = 1.0f / Math.abs(f27);
-                            float f29 = f24 * f28;
-                            float f30 = f23 * f28;
-                            float f31 = f25 * f28;
+                            float invrtRotatedAxis = 1.0f / Math.abs(f27);
+                            float f29 = rotatedX * invrtRotatedAxis;
+                            float f30 = rotatedY * invrtRotatedAxis;
+                            float f31 = rotatedZ * invrtRotatedAxis;
                             float f32 = playerX - (float)((int)playerX);
                             
                             if (axis == 1) 
@@ -341,57 +341,67 @@ extends Applet implements Runnable {
                             {
                                 f32 = 1.0f - f32;
                             }
-                            float f33 = f28 * f32;
+                            float f33 = invrtRotatedAxis * f32;
+                            
+                            //block faces placement
                             float f34 = playerX + f29 * f32;
                             float f35 = playerY + f30 * f32;
                             float f36 = playerZ + f31 * f32;
+
                             if (f27 < 0.0f) 
                             {
+                            	//block faces
                                 if (axis == 0) {
+                                	//back face
                                     f34 -= 1.0f;
                                 }
                                 if (axis == 1) {
+                                	//side face
                                     f35 -= 1.0f;
                                 }
                                 if (axis == 2) {
+                                	//bottom face
                                     f36 -= 1.0f;
                                 }
                             }
                             
                             
-                            
                             while ((double)f33 < fogOfWar) {
                             	//render all blocks
-                            	//off set
-                                int i21 = (int)f34 - 64;
-                                int i22 = (int)f35 - 64;
-                                int i23 = (int)f36 - 64;
+                            	//off set so we don't have divide zero errors
+                                int blockX = (int)f34 - 64;
+                                int blockY = (int)f35 - 64;
+                                int blockZ = (int)f36 - 64;
                                 
                                 //block out of mapsize
-                                if (i21 < 0 || i22 < 0 || i23 < 0 || i21 >= 64 || i22 >= 64 || i23 >= 64) break;
+                                if (blockX < 0 || blockY < 0 || blockZ < 0 || blockX >= 64 || blockY >= 64 || blockZ >= 64) break;
                                 
-                                int blockInde = i21 + i22 * 64 + i23 * 4096;
+                                int blockInde = blockX + blockY * 64 + blockZ * 4096;
                                 int blockId = world.blockData[blockInde];//selected block
                                 if (blockId > 0) 
                                 {//not air
                                 	//render horz of block
-                                    i6 = (int)((f34 + f36) * 16.0f) & 15;
+                                    textureX = (int)((f34 + f36) * 16.0f) & 15;
                                     //render vert of block
-                                    i7 = ((int)(f35 * 16.0f) & 15) + 16;
+                                    textureY = ((int)(f35 * 16.0f) & 15) + 16;
                                     
-                                    if (axis == 1) {
+                                    //if y, render bottom face of block differently
+                                    if (axis == 1) 
+                                    {
                                     	//map texture onto block
-                                        i6 = (int)(f34 * 16.0f) & 15;
-                                        i7 = (int)(f36 * 16.0f) & 15;
-                                        if (f30 < 0.0f) {
-                                            i7 += 32;
+                                        textureX = (int)(f34 * 16.0f) & 15;
+                                        textureY = (int)(f36 * 16.0f) & 15;
+                                        //map bottom of block render as bottom,
+                                        if (f30 < 0.0f) 
+                                        {
+                                            textureY += 32;
                                         }
                                     }
                                     
-                                    int i26 = 16777215;
+                                    int colorOfOutline = 0xffff00;
                                     //render select or just render whole block
-                                    if (blockInde != selectedBlock || i6 > 0 && i7 % 16 > 0 && i6 < 15 && i7 % 16 < 15) {
-                                        i26 = Textures.textureData[i6 + i7 * 16 + blockId * 256 * 3];
+                                    if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15) {
+                                        colorOfOutline = Textures.textureData[textureX + textureY * Textures.width + blockId * Textures.height];
                                     }
                                     
                                     if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) {
@@ -403,8 +413,8 @@ extends Applet implements Runnable {
                                         i5 <<= 6 * axis;
                                         readDistance = f33;
                                     }
-                                    if (i26 > 0) {
-                                        skyboxColour = i26;
+                                    if (colorOfOutline > 0) {
+                                        skyboxColour = colorOfOutline;
                                         //40 = FOGGINESS
                                         maxSkyboxColour = 255 - (int)(f33 / fogDistance * 255.0f);
                                         maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
@@ -414,7 +424,7 @@ extends Applet implements Runnable {
                                 f34 += f29;
                                 f35 += f30;
                                 f36 += f31;
-                                f33 += f28;
+                                f33 += invrtRotatedAxis;
                             }
                             ++axis;
                         }
