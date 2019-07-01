@@ -21,11 +21,10 @@ right arrow key = changed block placed
 * Entities
 * Multiplayer support
 * Fix mouse issue for windows
-* Add Glass blocks
-* Add Lava
 * Make Lava flow
 * Fragment up the Minecraft class so it's more understable
 * Add a string render engine
+* And Blocks class so each class can extends onBreak, onPlace and onTick
 
 ## Versions
 
