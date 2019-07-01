@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.entities.Entity;
 import com.craftclassic.play.utils.Location;
 import com.craftclassic.play.world.noise.CombinedNoise;
@@ -11,7 +12,7 @@ import com.craftclassic.play.world.noise.OctaveNoise;
 
 public class World {
 	Random random = new Random();
-	public int[] blockData = new int[262144];
+	public Block[] blockData = new Block[262144];
 
 	private int width, height;
 	private int waterLevel;
@@ -95,7 +96,7 @@ public class World {
 		}
 
 		OctaveNoise var53 = new OctaveNoise(this.random, 8);
-		int blockType = 0;
+		Block blockType = Block.AIR;
 		
 		for(int z = 0; z < this.width; ++z) {
 	         for(int x = 0; x < this.height; ++x) {
@@ -112,12 +113,12 @@ public class World {
 	            }
 	            
 	            for(int y = 0; y < 64; ++y) {
-	               blockType = 0;
+	               blockType = Block.AIR;
 	               //grass layer
 	               if(y <= baseHeight) {
-	            	   blockType = 2;
+	            	   blockType = Block.GRASS;
 	            	   if(y == baseHeight) {
-		            	   blockType = 1;
+		            	   blockType = Block.DIRT;
 		               }
 	               }
 	               
@@ -125,11 +126,11 @@ public class World {
 	               
 	               //stone layer
 	               if(y <= var25) {
-	            	   blockType = 4;
+	            	   blockType = Block.STONE;
 	               }
 
 	               if(y == 0) {
-	            	   blockType = 5;
+	            	   blockType = Block.BEDROCK;
 	               }
 
 					int i = x + (63-y) * 64 + z * 64 * 64;
@@ -149,7 +150,7 @@ public class World {
 				// z = side
 				int i = x + y * 64 + z * 64 * 64;
 				if (y < 64)
-					blockData[i] = 1;
+					blockData[i] = Block.GRASS;
 			}
 	}
 
@@ -162,7 +163,7 @@ public class World {
 					// z = side
 					int i = x + y * 64 + z * 64 * 64;
 					if (64 - y < 45)
-						blockData[i] = 1;
+						blockData[i] = Block.GRASS;
 				}
 	}
 }

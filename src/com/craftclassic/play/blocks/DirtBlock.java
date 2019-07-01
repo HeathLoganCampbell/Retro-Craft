@@ -4,7 +4,7 @@ public class DirtBlock extends Block {
 
 	public DirtBlock(int id) 
 	{
-		super(id, "Dirt", 0);
+		super(id, "Dirt", 1);
 	}
 
 }

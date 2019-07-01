@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import com.craftclassic.play.assets.Textures;
+import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.input.Input;
 import com.craftclassic.play.world.World;
 
@@ -210,7 +211,7 @@ extends Applet implements Runnable {
                             //z
                             int i15 = (int)(newPlayerZ + (float)((i12 >> 1) & 1) * 0.6f - 0.3f) - 64;
                            
-                            if (i13 < 0 || i14 < 0 || i15 < 0 || i13 >= 64 || i14 >= 64 || i15 >= 64 || world.blockData[i13 + i14 * 64 + i15 * 4096] > 0)
+                            if (i13 < 0 || i14 < 0 || i15 < 0 || i13 >= 64 || i14 >= 64 || i15 >= 64 || world.blockData[i13 + i14 * 64 + i15 * 4096] != Block.AIR)
                             {
                             	if (collAxis != 1) 
                              	{
@@ -269,12 +270,12 @@ extends Applet implements Runnable {
                 int textureY = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
                 {
-                    world.blockData[selectedBlock] = 0;
+                    world.blockData[selectedBlock] = Block.AIR;
                     this.input.setMouse(MouseEvent.BUTTON1, false);
                 }
                 if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
                 {
-                    world.blockData[selectedBlock + i5] = this.getPlaceBlockTypeId();
+                    world.blockData[selectedBlock + i5] = Block.getBlockById(this.getPlaceBlockTypeId());
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
                
@@ -288,7 +289,7 @@ extends Applet implements Runnable {
                     
                     if (i9 >= 0 && i10 >= 0 && i11A >= 0 && i9 < 64 && i10 < 64 && i11A < 64) 
                     {
-                        world.blockData[i9 + i10 * 64 + i11A * 4096] = 0;
+                        world.blockData[i9 + i10 * 64 + i11A * 4096] = Block.AIR;
                     }
                 }
                 
@@ -388,9 +389,9 @@ extends Applet implements Runnable {
                                 
                                 //get block, then get pixel in block
                                 int blockInde = blockX + blockY * 64 + blockZ * 4096;
-                                int blockId = world.blockData[blockInde];//selected block
+                                Block block = world.blockData[blockInde];//selected block
                                 
-                                if (blockId > 0) 
+                                if (block != Block.AIR) 
                                 {//not air
                                 	//render horz of block
                                     textureX = (int)((faceX + faceZ) * 16.0f) & 15;
@@ -415,7 +416,7 @@ extends Applet implements Runnable {
                                    
                                     //render select or just render whole block
                                     if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15)
-                                        colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + blockId * Textures.blockTextures.height];
+                                        colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + block.getTextureId() * Textures.blockTextures.height];
                                     
                                     //target block in middle of screen
                                     if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 

@@ -1,5 +1,7 @@
 package com.craftclassic.play.blocks;
 
+import java.util.HashMap;
+
 import com.craftclassic.play.utils.Location;
 
 public class Block 
@@ -11,9 +13,10 @@ public class Block
 	
 	public Block(int id, String name, int textureId) {
 		super();
-		this.id = id;
+		this.setId(id);
 		this.name = name;
 		this.textureId = textureId;
+		idToBlocks.put(this.id, this);
 	}
 
 	public String getName() {
@@ -46,7 +49,17 @@ public class Block
 		this.breakable = breakable;
 	}
 	
-	public static final Block DIRT 	= new DirtBlock(1)
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	private static HashMap<Integer, Block> idToBlocks = new HashMap<>();
+	public static final Block AIR = new Block(0, "Air", -1)
+							, DIRT 	= new DirtBlock(1)
 							, GRASS = new GrassBlock(2)
 							, STONE = new StoneBlock(3)
 							, LAVA = new LavaBlock(4)
@@ -58,4 +71,9 @@ public class Block
 							, GLASS = new GlassBlock(10)
 							, TNT = new TNTBlock(11)
 							;
+	
+	public static Block getBlockById(int id)
+	{
+		return idToBlocks.get(id);
+	}
 }
