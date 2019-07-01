@@ -25,6 +25,7 @@ right arrow key = changed block placed
 * Fragment up the Minecraft class so it's more understable
 * Add a string render engine
 * And Blocks class so each class can extends onBreak, onPlace and onTick
+* Title screen
 
 ## Versions
 
