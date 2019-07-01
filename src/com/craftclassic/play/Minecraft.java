@@ -10,7 +10,9 @@ import java.awt.image.DataBufferInt;
 
 import com.craftclassic.play.assets.Textures;
 import com.craftclassic.play.blocks.Block;
+import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.input.Input;
+import com.craftclassic.play.utils.Location;
 import com.craftclassic.play.world.World;
 
 public class Minecraft
@@ -270,7 +272,8 @@ extends Applet implements Runnable {
                 int textureY = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
                 {
-                    world.blockData[selectedBlock] = Block.AIR;
+                	if(world.blockData[selectedBlock].onBreak(new BreakEvent(new Location(targetBlockX, targetBlockY, targetBlockZ))))
+                		world.blockData[selectedBlock] = Block.AIR;
                     this.input.setMouse(MouseEvent.BUTTON1, false);
                 }
                 if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
@@ -422,11 +425,11 @@ extends Applet implements Runnable {
                                     if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 
                                     {
                                     	tempSelectingBlock = blockInde;
+                                    	targetBlockX = blockX;
+                                        targetBlockY = blockY;
+                                        targetBlockZ = blockZ;
                                     	if(this.input.getKey(KeyEvent.VK_M))
                                     	{
-                                    		targetBlockX = blockX;
-                                            targetBlockY = blockY;
-                                            targetBlockZ = blockZ;
                                     		System.out.println("Looking at: (" + targetBlockX + ", " + targetBlockY + ", " + targetBlockZ + ")" );
                                     		
                                     	}

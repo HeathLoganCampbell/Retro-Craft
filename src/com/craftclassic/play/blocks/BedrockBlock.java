@@ -1,5 +1,7 @@
 package com.craftclassic.play.blocks;
 
+import com.craftclassic.play.events.BreakEvent;
+
 public class BedrockBlock extends Block {
 
 	public BedrockBlock(int id) 
@@ -7,4 +9,9 @@ public class BedrockBlock extends Block {
 		super(id, "Bedrock", 9);
 	}
 
+	@Override
+	public boolean onBreak(BreakEvent e)
+	{
+		return false;
+	}
 }

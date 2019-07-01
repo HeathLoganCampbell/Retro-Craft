@@ -2,6 +2,8 @@ package com.craftclassic.play.blocks;
 
 import java.util.HashMap;
 
+import com.craftclassic.play.events.BreakEvent;
+import com.craftclassic.play.events.PlaceEvent;
 import com.craftclassic.play.utils.Location;
 
 public class Block 
@@ -35,8 +37,8 @@ public class Block
 		this.textureId = textureId;
 	}
 	
-	public void onPlace(Location location) {}
-	public void onBreak(Location location) {}
+	public boolean onPlace(PlaceEvent placeEvent) { return true; }
+	public boolean onBreak(BreakEvent breakEvent) { return true; }
 	public void onTick(Location location) {}
 
 	public boolean isBreakable()
