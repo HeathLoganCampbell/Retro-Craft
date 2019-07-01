@@ -14,18 +14,17 @@ public class Bitmap
 	{
 		image = convert(image, BufferedImage.TYPE_INT_RGB);
 		
-		height = image.getHeight();
-		width = image.getWidth();
+		this.height = image.getHeight();
+		this.width = image.getWidth();
 		
 		this.textureData = new int[this.height * this.width];
 		
 		int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-		for(int y = 0; y < image.getHeight(); y++)
+		for(int y = 0; y < this.height; y++)
 		{
-			for(int x = 0; x < image.getWidth(); x++)
+			for(int x = 0; x < this.width; x++)
 			{
-				int i = x + y * image.getWidth();
-				
+				int i = x + y * this.width;
 				textureData[i] = pixels[i];
 			}
 		}

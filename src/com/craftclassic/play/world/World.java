@@ -52,18 +52,22 @@ public class World {
 
 		int[] var9 = new int[this.width * this.height];
 
-		for (int z = 0; z < this.width; ++z) {
-			for (int x = 0; x < this.height; ++x) {
+		for (int z = 0; z < this.width; ++z) 
+		{
+			for (int x = 0; x < this.height; ++x) 
+			{
 				double var13 = var6.compute((double) ((float) z * var10), (double) ((float) x * var10)) / 6.0D
 						+ (double) -4;
 				double var15 = var7.compute((double) ((float) z * var10), (double) ((float) x * var10)) / 5.0D + 10.0D
 						+ (double) -4;
-				if (var8.compute((double) z, (double) x) / 8.0D > 0.0D) {
+				if (var8.compute((double) z, (double) x) / 8.0D > 0.0D) 
+				{
 					var15 = var13;
 				}
 
 				double var19;
-				if ((var19 = Math.max(var13, var15) / 2.0D) < 0.0D) {
+				if ((var19 = Math.max(var13, var15) / 2.0D) < 0.0D)
+				{
 					var19 *= 0.8D;
 				}
 

@@ -348,9 +348,9 @@ extends Applet implements Runnable {
                             float f33 = invrtRotatedAxis * decAxis;
                             
                             //block faces placement
-                            float f34 = playerX + rotXInvrt * decAxis;
-                            float f35 = playerY + rotYInvrt * decAxis;
-                            float f36 = playerZ + rotZInvert * decAxis;
+                            float faceX = playerX + rotXInvrt * decAxis;
+                            float faceY = playerY + rotYInvrt * decAxis;
+                            float faceZ = playerZ + rotZInvert * decAxis;
 
                             if (f27 < 0.0f) 
                             {
@@ -358,19 +358,19 @@ extends Applet implements Runnable {
                                 if (axis == 0)
                                 {
                                 	//back face
-                                    f34 -= 1.0f;
+                                    faceX -= 1.0f;
                                 }
                                 
                                 if (axis == 1)
                                 {
                                 	//side face
-                                    f35 -= 1.0f;
+                                    faceY -= 1.0f;
                                 }
                                 
                                 if (axis == 2) 
                                 {
                                 	//bottom face
-                                    f36 -= 1.0f;
+                                    faceZ -= 1.0f;
                                 }
                             }
                             
@@ -378,9 +378,9 @@ extends Applet implements Runnable {
                             {
                             	//render all blocks
                             	//off set so we don't have divide zero errors
-                                int blockX = (int)f34 - 64;
-                                int blockY = (int)f35 - 64;
-                                int blockZ = (int)f36 - 64;
+                                int blockX = (int)faceX - 64;
+                                int blockY = (int)faceY - 64;
+                                int blockZ = (int)faceZ - 64;
                                 
                                 //block out of mapsize
                                 if (blockX < 0 || blockY < 0 || blockZ < 0 || blockX >= 64 || blockY >= 64 || blockZ >= 64) 
@@ -393,16 +393,16 @@ extends Applet implements Runnable {
                                 if (blockId > 0) 
                                 {//not air
                                 	//render horz of block
-                                    textureX = (int)((f34 + f36) * 16.0f) & 15;
+                                    textureX = (int)((faceX + faceZ) * 16.0f) & 15;
                                     //render vert of block
-                                    textureY = ((int)(f35 * 16.0f) & 15) + 16;
+                                    textureY = ((int)(faceY * 16.0f) & 15) + 16;
                                     
                                     //if y, render bottom face of block differently
                                     if (axis == 1) 
                                     {
                                     	//map texture onto block
-                                        textureX = (int)(f34 * 16.0f) & 15;
-                                        textureY = (int)(f36 * 16.0f) & 15;
+                                        textureX = (int)(faceX * 16.0f) & 15;
+                                        textureY = (int)(faceZ * 16.0f) & 15;
                                         //map bottom of block render as bottom,
                                         if (rotYInvrt < 0.0f) 
                                         {
@@ -418,7 +418,8 @@ extends Applet implements Runnable {
                                         colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + blockId * Textures.blockTextures.height];
                                     
                                     //target block in middle of screen
-                                    if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) {
+                                    if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 
+                                    {
                                     	tempSelectingBlock = blockInde;
                                     	if(this.input.getKey(KeyEvent.VK_M))
                                     	{
@@ -429,14 +430,16 @@ extends Applet implements Runnable {
                                     		
                                     	}
                                         i5 = 1;
-                                        if (f27 > 0.0f) {
+                                        if (f27 > 0.0f)
+                                        {
                                             i5 = -1;
                                         }
                                         i5 <<= 6 * axis;
                                         readDistance = f33;
                                     }
                                     
-                                    if (colorOfOutline > 0) 
+                                    //Add fog to each pixel
+                                    if (colorOfOutline > 0x000000)//Don't render black textures 
                                     {
                                         skyboxColour = colorOfOutline;
                                         //50 = FOGGINESS
@@ -445,9 +448,70 @@ extends Applet implements Runnable {
                                         fogOfWar = f33;
                                     }
                                 }
-                                f34 += rotXInvrt;
-                                f35 += rotYInvrt;
-                                f36 += rotZInvert;
+                                
+                                
+//                                int playerInde = blockX + blockY * 64 + blockZ * 4096;
+//                                int playerId = world.blockData[blockInde];//selected block
+//                                
+//                                if (blockId > 0) 
+//                                {//not air
+//                                	//render horz of block
+//                                    textureX = (int)((f34 + f36) * 16.0f) & 15;
+//                                    //render vert of block
+//                                    textureY = ((int)(f35 * 16.0f) & 15) + 16;
+//                                    
+//                                    //if y, render bottom face of block differently
+//                                    if (axis == 1) 
+//                                    {
+//                                    	//map texture onto block
+//                                        textureX = (int)(f34 * 16.0f) & 15;
+//                                        textureY = (int)(f36 * 16.0f) & 15;
+//                                        //map bottom of block render as bottom,
+//                                        if (rotYInvrt < 0.0f) 
+//                                        {
+//                                            textureY += 32;
+//                                        }
+//                                    }
+//                                    
+//                                    int colorOfOutline = 0xffff00;//default colour of block
+//                                   
+//                                    //render select or just render whole block
+//                                    if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15)
+//                                        colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + blockId * Textures.blockTextures.height];
+//                                    
+//                                    //target block in middle of screen
+//                                    if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 
+//                                    {
+//                                    	tempSelectingBlock = blockInde;
+//                                    	if(this.input.getKey(KeyEvent.VK_M))
+//                                    	{
+//                                    		targetBlockX = blockX;
+//                                            targetBlockY = blockY;
+//                                            targetBlockZ = blockZ;
+//                                    		System.out.println("Looking at: (" + targetBlockX + ", " + targetBlockY + ", " + targetBlockZ + ")" );
+//                                    		
+//                                    	}
+//                                        i5 = 1;
+//                                        if (f27 > 0.0f)
+//                                        {
+//                                            i5 = -1;
+//                                        }
+//                                        i5 <<= 6 * axis;
+//                                        readDistance = f33;
+//                                    }
+//                                    
+//                                    if (colorOfOutline > 0) 
+//                                    {
+//                                        skyboxColour = colorOfOutline;
+//                                        //50 = FOGGINESS
+//                                        maxSkyboxColour = 255 - (int)(f33 / fogDistance * 255.0f);
+//                                        maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
+//                                        fogOfWar = f33;
+//                                    }
+//                                }
+                                faceX += rotXInvrt;
+                                faceY += rotYInvrt;
+                                faceZ += rotZInvert;
                                 f33 += invrtRotatedAxis;
                             }
                             ++axis;
