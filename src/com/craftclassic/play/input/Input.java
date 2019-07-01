@@ -89,7 +89,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		this.inverseMouseY -= (lastY - rawY - 45);
 		this.mouseY = this.height - this.inverseMouseY;
 		
-		System.out.println( mouseX+", "+ mouseY);
+//		System.out.println( mouseX+", "+ mouseY);
 		
 		this.rawX = this.lastX = this.width / 2;
 		this.rawY = this.lastY = this.height / 2;

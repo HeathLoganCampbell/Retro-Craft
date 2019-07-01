@@ -109,6 +109,10 @@ extends Applet implements Runnable {
             int lastMouseX = 0;
             int lastMouseY = 0;
             
+            int targetBlockX = 0;
+            int targetBlockY = 0;
+            int targetBlockZ = 0;
+            
             while(true)
             {
                 float sinf7 = (float)Math.sin(yaw);
@@ -351,22 +355,27 @@ extends Applet implements Runnable {
                             if (f27 < 0.0f) 
                             {
                             	//block faces
-                                if (axis == 0) {
+                                if (axis == 0)
+                                {
                                 	//back face
                                     f34 -= 1.0f;
                                 }
-                                if (axis == 1) {
+                                
+                                if (axis == 1)
+                                {
                                 	//side face
                                     f35 -= 1.0f;
                                 }
-                                if (axis == 2) {
+                                
+                                if (axis == 2) 
+                                {
                                 	//bottom face
                                     f36 -= 1.0f;
                                 }
                             }
                             
-                            
-                            while ((double)f33 < fogOfWar) {
+                            while ((double)f33 < fogOfWar) 
+                            {
                             	//render all blocks
                             	//off set so we don't have divide zero errors
                                 int blockX = (int)f34 - 64;
@@ -376,8 +385,10 @@ extends Applet implements Runnable {
                                 //block out of mapsize
                                 if (blockX < 0 || blockY < 0 || blockZ < 0 || blockX >= 64 || blockY >= 64 || blockZ >= 64) break;
                                 
+                                //get block, then get pixel in block
                                 int blockInde = blockX + blockY * 64 + blockZ * 4096;
                                 int blockId = world.blockData[blockInde];//selected block
+                                
                                 if (blockId > 0) 
                                 {//not air
                                 	//render horz of block
@@ -398,14 +409,24 @@ extends Applet implements Runnable {
                                         }
                                     }
                                     
-                                    int colorOfOutline = 0xffff00;
+                                    int colorOfOutline = 0xffff00;//default colour of block
+                                  
+                                   
                                     //render select or just render whole block
-                                    if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15) {
+                                    if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15)
                                         colorOfOutline = Textures.textureData[textureX + textureY * Textures.width + blockId * Textures.height];
-                                    }
                                     
+                                    //target block in middle of screen
                                     if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) {
                                     	tempSelectingBlock = blockInde;
+                                    	if(this.input.getKey(KeyEvent.VK_M))
+                                    	{
+                                    		targetBlockX = blockX;
+                                            targetBlockY = blockY;
+                                            targetBlockZ = blockZ;
+                                    		System.out.println("Looking at: (" + targetBlockX + ", " + targetBlockY + ", " + targetBlockZ + ")" );
+                                    		
+                                    	}
                                         i5 = 1;
                                         if (f27 > 0.0f) {
                                             i5 = -1;
@@ -413,9 +434,11 @@ extends Applet implements Runnable {
                                         i5 <<= 6 * axis;
                                         readDistance = f33;
                                     }
-                                    if (colorOfOutline > 0) {
+                                    
+                                    if (colorOfOutline > 0) 
+                                    {
                                         skyboxColour = colorOfOutline;
-                                        //40 = FOGGINESS
+                                        //50 = FOGGINESS
                                         maxSkyboxColour = 255 - (int)(f33 / fogDistance * 255.0f);
                                         maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
                                         fogOfWar = f33;

@@ -1,7 +1,11 @@
 package com.craftclassic.play.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.craftclassic.play.entities.Entity;
+import com.craftclassic.play.utils.Location;
 import com.craftclassic.play.world.noise.CombinedNoise;
 import com.craftclassic.play.world.noise.OctaveNoise;
 
@@ -12,22 +16,34 @@ public class World {
 	private int width, height;
 	private int waterLevel;
 	private long seed;
-
+	
+	private List<Entity> entities;
+	
 	public World(int width, int height, long seed) {
 		this.width = width;
 		this.height = height;
 		this.seed = seed;
 		this.waterLevel = 32;
+		this.entities = new ArrayList<>();
 
 		init();
 	}
 
 	public void init() {
 		random.setSeed(seed);
+		
+		Entity entity = new Entity("Demo");
+		entity.setLocation(new Location(42, 20, 31));
+		this.entities.add(entity);
 
 		generateTerrian();
 	}
 
+	public List<Entity> getEntities()
+	{
+		return this.entities;
+	}
+	
 	public void generateTerrian() {
 		CombinedNoise var6 = new CombinedNoise(new OctaveNoise(this.random, 8), new OctaveNoise(this.random, 8));
 		CombinedNoise var7 = new CombinedNoise(new OctaveNoise(this.random, 8), new OctaveNoise(this.random, 8));
