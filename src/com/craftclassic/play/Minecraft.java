@@ -11,6 +11,7 @@ import java.awt.image.DataBufferInt;
 import com.craftclassic.play.assets.Textures;
 import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.events.BreakEvent;
+import com.craftclassic.play.events.PlaceEvent;
 import com.craftclassic.play.input.Input;
 import com.craftclassic.play.utils.Location;
 import com.craftclassic.play.world.World;
@@ -278,7 +279,8 @@ extends Applet implements Runnable {
                 }
                 if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
                 {
-                    world.blockData[selectedBlock + i5] = Block.getBlockById(this.getPlaceBlockTypeId());
+                	if(world.blockData[selectedBlock].onPlace(new PlaceEvent(new Location(targetBlockX, targetBlockY, targetBlockZ))))
+                		world.blockData[selectedBlock + i5] = Block.getBlockById(this.getPlaceBlockTypeId());
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
                
