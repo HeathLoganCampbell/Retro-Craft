@@ -326,31 +326,31 @@ extends Applet implements Runnable {
                                 f27 = rotatedZ;
                             
                             float invrtRotatedAxis = 1.0f / Math.abs(f27);
-                            float f29 = rotatedX * invrtRotatedAxis;
-                            float f30 = rotatedY * invrtRotatedAxis;
-                            float f31 = rotatedZ * invrtRotatedAxis;
-                            float f32 = playerX - (float)((int)playerX);
+                            float rotXInvrt = rotatedX * invrtRotatedAxis;
+                            float rotYInvrt = rotatedY * invrtRotatedAxis;
+                            float rotZInvert = rotatedZ * invrtRotatedAxis;
+                            float decAxis = playerX - (float)((int)playerX);
                             
                             if (axis == 1) 
                             {
-                                f32 = playerY - (float)((int)playerY);
+                                decAxis = playerY - (float)((int)playerY);
                             }
                             
                             if (axis == 2) 
                             {
-                                f32 = playerZ - (float)((int)playerZ);
+                                decAxis = playerZ - (float)((int)playerZ);
                             }
                             
                             if (f27 > 0.0f) 
                             {
-                                f32 = 1.0f - f32;
+                                decAxis = 1.0f - decAxis;
                             }
-                            float f33 = invrtRotatedAxis * f32;
+                            float f33 = invrtRotatedAxis * decAxis;
                             
                             //block faces placement
-                            float f34 = playerX + f29 * f32;
-                            float f35 = playerY + f30 * f32;
-                            float f36 = playerZ + f31 * f32;
+                            float f34 = playerX + rotXInvrt * decAxis;
+                            float f35 = playerY + rotYInvrt * decAxis;
+                            float f36 = playerZ + rotZInvert * decAxis;
 
                             if (f27 < 0.0f) 
                             {
@@ -404,7 +404,7 @@ extends Applet implements Runnable {
                                         textureX = (int)(f34 * 16.0f) & 15;
                                         textureY = (int)(f36 * 16.0f) & 15;
                                         //map bottom of block render as bottom,
-                                        if (f30 < 0.0f) 
+                                        if (rotYInvrt < 0.0f) 
                                         {
                                             textureY += 32;
                                         }
@@ -415,7 +415,7 @@ extends Applet implements Runnable {
                                    
                                     //render select or just render whole block
                                     if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15)
-                                        colorOfOutline = Textures.textureData[textureX + textureY * Textures.width + blockId * Textures.height];
+                                        colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + blockId * Textures.blockTextures.height];
                                     
                                     //target block in middle of screen
                                     if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) {
@@ -445,9 +445,9 @@ extends Applet implements Runnable {
                                         fogOfWar = f33;
                                     }
                                 }
-                                f34 += f29;
-                                f35 += f30;
-                                f36 += f31;
+                                f34 += rotXInvrt;
+                                f35 += rotYInvrt;
+                                f36 += rotZInvert;
                                 f33 += invrtRotatedAxis;
                             }
                             ++axis;
