@@ -274,13 +274,14 @@ extends Applet implements Runnable {
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
                 {
                 	if(world.blockData[selectedBlock].onBreak(new BreakEvent(new Location(targetBlockX, targetBlockY, targetBlockZ))))
-                		world.blockData[selectedBlock] = Block.AIR;
+                		this.world.setBlock(selectedBlock, Block.AIR);
                     this.input.setMouse(MouseEvent.BUTTON1, false);
                 }
+                
                 if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
                 {
                 	if(world.blockData[selectedBlock].onPlace(new PlaceEvent(new Location(targetBlockX, targetBlockY, targetBlockZ))))
-                		world.blockData[selectedBlock + i5] = Block.getBlockById(this.getPlaceBlockTypeId());
+                		this.world.setBlock(selectedBlock + i5, Block.getBlockById(this.getPlaceBlockTypeId()));
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }
                
@@ -294,7 +295,7 @@ extends Applet implements Runnable {
                     
                     if (i9 >= 0 && i10 >= 0 && i11A >= 0 && i9 < 64 && i10 < 64 && i11A < 64) 
                     {
-                        world.blockData[i9 + i10 * 64 + i11A * 4096] = Block.AIR;
+                    	this.world.setBlock(i9, i10, i11A , Block.AIR);
                     }
                 }
                 

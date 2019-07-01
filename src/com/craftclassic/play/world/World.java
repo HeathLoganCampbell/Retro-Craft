@@ -140,6 +140,16 @@ public class World {
 	         }
 	      }
 	}
+	
+	public void setBlock(int x, int y, int z, Block block)
+	{
+		this.blockData[x + y * 64 + z * 4096] = block;
+	}
+	
+	public void setBlock(int indexed, Block block)
+	{
+		this.blockData[indexed] = block;
+	}
 
 	public void generateQbert() {
 		for (int z = 0; z < 64; z++)
