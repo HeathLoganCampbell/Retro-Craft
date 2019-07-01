@@ -26,6 +26,7 @@ right arrow key = changed block placed
 * Add a string render engine
 * And Blocks class so each class can extends onBreak, onPlace and onTick
 * Title screen
+* Chunkize the world
 
 ## Versions
 

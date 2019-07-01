@@ -383,7 +383,8 @@ extends Applet implements Runnable {
                                 int blockZ = (int)f36 - 64;
                                 
                                 //block out of mapsize
-                                if (blockX < 0 || blockY < 0 || blockZ < 0 || blockX >= 64 || blockY >= 64 || blockZ >= 64) break;
+                                if (blockX < 0 || blockY < 0 || blockZ < 0 || blockX >= 64 || blockY >= 64 || blockZ >= 64) 
+                                	break;
                                 
                                 //get block, then get pixel in block
                                 int blockInde = blockX + blockY * 64 + blockZ * 4096;
