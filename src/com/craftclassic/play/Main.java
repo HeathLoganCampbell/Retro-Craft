@@ -12,12 +12,6 @@ import javax.swing.JFrame;
 
 
 public class Main {
-	/*
-	 * This is what's wrong
-	 * - add multi-player
-	 * - show more entities? Other players?
-	 * - improve performace
-	 */
 	public static final int WIDTH = (int) (856);
 	public static final int HEIGHT = (int) (480);
 	public static final String TITLE = "Craft Classic";

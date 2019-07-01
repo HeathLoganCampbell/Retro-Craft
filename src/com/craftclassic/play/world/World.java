@@ -107,7 +107,6 @@ public class World {
 	               var42[z + x * this.width] = 1;
 	            }
 	            
-	            int lastBlockId = 0;
 	            for(int y = 0; y < 64; ++y) {
 	               blockType = 0;
 	               //grass layer
@@ -132,22 +131,9 @@ public class World {
 					int i = x + (63-y) * 64 + z * 64 * 64;
 					if (y < 64 && y >= 0)
 						blockData[i] = blockType;
-					lastBlockId = blockType;
 	            }
 	         }
 	      }
-
-//		for(int z = 0; z < 64; z++ )
-//			for(int x = 0; x < 64; x++ )
-//			{
-//				int y = (int) (Math.sin(x / 300.0) * 20 + Math.cos(z / 252.0) * 31) + 10;
-//				// x = side
-//				// y = trapped
-//				// z = side
-//				int i = x + y * 64 + z * 64 * 64;
-//				if(y < 64 && y >= 0)
-//					blockData[i] = 1;
-//			}
 	}
 
 	public void generateQbert() {
