@@ -53,5 +53,6 @@ Issuses Still around
 * Add tnt that explodes in chain
 * Add glass
 * String rendering engine
+* added cross hair
 
 
