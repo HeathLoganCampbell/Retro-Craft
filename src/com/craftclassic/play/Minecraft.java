@@ -273,14 +273,14 @@ extends Applet implements Runnable {
                 int textureY = 0;
                 if (this.input.getMouse(MouseEvent.BUTTON1) && selectedBlock > 0)
                 {
-                	if(world.blockData[selectedBlock].onBreak(new BreakEvent(new Location(targetBlockX, targetBlockY, targetBlockZ))))
+                	if(world.blockData[selectedBlock].onBreak(new BreakEvent(new Location(this.world, targetBlockX, targetBlockY, targetBlockZ))))
                 		this.world.setBlock(selectedBlock, Block.AIR);
                     this.input.setMouse(MouseEvent.BUTTON1, false);
                 }
                 
                 if (this.input.getMouse(MouseEvent.BUTTON3) && selectedBlock > 0)
                 {
-                	if(world.blockData[selectedBlock].onPlace(new PlaceEvent(new Location(targetBlockX, targetBlockY, targetBlockZ))))
+                	if(world.blockData[selectedBlock].onPlace(new PlaceEvent(new Location(this.world, targetBlockX, targetBlockY, targetBlockZ))))
                 		this.world.setBlock(selectedBlock + i5, Block.getBlockById(this.getPlaceBlockTypeId()));
                     this.input.setMouse(MouseEvent.BUTTON3, false);
                 }

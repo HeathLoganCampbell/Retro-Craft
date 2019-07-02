@@ -34,7 +34,7 @@ public class World {
 		random.setSeed(seed);
 		
 		Entity entity = new Entity("Demo");
-		entity.setLocation(new Location(42, 20, 31));
+		entity.setLocation(new Location(this, 42, 20, 31));
 		this.entities.add(entity);
 
 		generateTerrian();
