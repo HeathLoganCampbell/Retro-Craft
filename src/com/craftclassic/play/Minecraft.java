@@ -52,6 +52,7 @@ extends Applet implements Runnable {
     private FontRender font;
     
     private List<Runnable> nextTickRunnables;
+    private List<Runnable> nextSecondRunnables;
     
     private int placeBlockTypeId = 1;
 
@@ -101,7 +102,8 @@ extends Applet implements Runnable {
         try 
         {          
         	this.nextTickRunnables = new ArrayList<>();
-        	this.world = new World(64, 64, 1);
+        	this.nextSecondRunnables = new ArrayList<>();
+        	this.world = new World(this, 64, 64, 1);
         	this.font = new FontRender(this);
         	
         	this.player = new Player("Player1");
@@ -114,10 +116,17 @@ extends Applet implements Runnable {
             int targetBlockX = 0;
             int targetBlockY = 0;
             int targetBlockZ = 0;
+            int ticks = 0;
             
             while(true)
             {
-            	this.nextTickRunnables.forEach(task -> task.run());
+            	if(ticks % 100 == 0)
+            	{
+	            	this.nextTickRunnables.forEach(task -> {
+	            		task.run();
+	            	});
+	            	this.nextTickRunnables.clear();
+            	}
             	
             	Location playerLoc = this.player.getLocation();
                 float sinYaw = (float)Math.sin(playerLoc.getYaw() + (this.player.preyaw - playerLoc.getYaw()));
@@ -231,9 +240,6 @@ extends Applet implements Runnable {
                              	} 
                             	else 
                              	{
-	                               //Jumping code, if space
-//                            		yVelocity = 0.00f;
-                            		
 	                                if (this.input.getKey(KeyEvent.VK_SPACE))
 	                                {
 	                                	this.input.setKey(KeyEvent.VK_SPACE, false);
@@ -457,6 +463,8 @@ extends Applet implements Runnable {
                                         maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
                                         fogOfWar = f33;
                                     }
+                                    
+                                    
                                 }
                                 
                                 
@@ -553,7 +561,19 @@ extends Applet implements Runnable {
                 	String message = "CLICK TO FOCUS";
                 	this.font.renderString(message, message.length() * this.font.letterWidth, this.eigthHeight - (this.font.letterHeight / 2) - this.font.letterHeight);
                 }
-                	
+                
+                for (int y = 0; y < this.world.getHeight(); ++y) 
+    			{
+	                for (int z = 0; z < this.world.getWidth(); ++z) 
+	        		{
+	        			for (int x = 0; x < this.world.getHeight(); ++x) 
+	        			{
+	        				Location location = new Location(this.world, x, y, z);
+	        				location.getBlock().onTick(new Location(this.world, x, y, z));
+	        			}
+	        		}
+    			}
+                ticks++;
                 Thread.sleep(1);
                 if (!this.isActive()) 
                 {
@@ -576,6 +596,11 @@ extends Applet implements Runnable {
     }
     
     public void doNextTick(Runnable runnable)
+    {
+    	this.nextTickRunnables.add(runnable);
+    }
+    
+    public void doNextSecond(Runnable runnable)
     {
     	this.nextTickRunnables.add(runnable);
     }

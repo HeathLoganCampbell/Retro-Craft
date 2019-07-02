@@ -8,8 +8,28 @@ public class LavaBlock extends Block {
 	{
 		super(id, "Lava", 12);
 	}
+	
+	private void flow(Location location, int x, int y, int z)
+	{
+		location.add(x, y, z);
+		if(location.getBlock() == Block.AIR)
+		{
+			Location newLoc = location.clone();
+			location.getWorld().getMinecraft().doNextTick(() -> 
+			{
+				if(newLoc.getBlock() == Block.AIR)
+					newLoc.setBlock(Block.LAVA);
+			});
+		}
+		location.subtract(x, y, z);
+	}
 
-	public void onTick(Location location) {
-		
+	public void onTick(Location location) 
+	{
+		flow(location, 1, 0, 0);
+		flow(location, 0, 0, 1);
+		flow(location, 0, 0, -1);
+		flow(location, -1, 0, 0);
+		flow(location, 0, 1, 0);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.craftclassic.play.Minecraft;
 import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.entities.Entity;
 import com.craftclassic.play.utils.Location;
@@ -17,14 +18,16 @@ public class World {
 	private int width, height;
 	private int waterLevel;
 	private long seed;
+	private Minecraft minecraft;
 	
 	private List<Entity> entities;
 	
-	public World(int width, int height, long seed) {
+	public World(Minecraft minecraft, int width, int height, long seed) {
 		this.width = width;
 		this.height = height;
 		this.seed = seed;
 		this.waterLevel = 32;
+		this.setMinecraft(minecraft);
 		this.entities = new ArrayList<>();
 
 		init();
@@ -143,17 +146,39 @@ public class World {
 	
 	public void setBlock(int x, int y, int z, Block block)
 	{
+		
 		this.blockData[x + y * 64 + z * 4096] = block;
 	}
 	
 	public void setBlock(Location location, Block block)
 	{
-		this.blockData[this.locationToWorldIndex(location)] = block;
+		int index = this.locationToWorldIndex(location);
+		if(location.getX() >= 0 && location.getX() <= this.width
+				&& location.getY() >= 0 && location.getY() <= this.height
+				&& index > 0 && index < this.blockData.length)
+			this.blockData[index] = block;
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 	public void setBlock(int indexed, Block block)
 	{
-		this.blockData[indexed] = block;
+		if(indexed > 0 && indexed < this.blockData.length)
+			this.blockData[indexed] = block;
 	}
 	
 	public Block getBlock(int x, int y, int z)
@@ -163,7 +188,12 @@ public class World {
 	
 	public Block getBlock(Location location)
 	{
-		return this.blockData[this.locationToWorldIndex(location)];
+		int index = this.locationToWorldIndex(location);
+		if(location.getX() >= 0 && location.getX() <= this.width
+				&& location.getY() >= 0 && location.getY() <= this.height
+				&& index > 0 && index < this.blockData.length)
+			return this.blockData[index];
+		return Block.BEDROCK;
 	}
 	
 	private int locationToWorldIndex(Location loc)
@@ -249,5 +279,13 @@ public class World {
 					if (64 - y < 45)
 						blockData[i] = Block.GRASS;
 				}
+	}
+
+	public Minecraft getMinecraft() {
+		return minecraft;
+	}
+
+	public void setMinecraft(Minecraft minecraft) {
+		this.minecraft = minecraft;
 	}
 }

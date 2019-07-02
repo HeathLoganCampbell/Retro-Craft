@@ -3,7 +3,7 @@ package com.craftclassic.play.utils;
 import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.world.World;
 
-public class Location 
+public class Location implements Cloneable
 {
 	private float x, y, z;
 	private float yaw, pitch;
@@ -94,4 +94,19 @@ public class Location
 		return this.getWorld().getBlock(this);
 	}
 	
+	public void setBlock(Block block)
+	{
+		this.getWorld().setBlock(this, block);
+	}
+	
+	@Override
+    public Location clone()
+	{
+        try {
+            return (Location) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new Error(e);
+        }
+    }
+
 }
