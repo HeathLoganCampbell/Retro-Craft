@@ -10,5 +10,6 @@ public class LiquidBlock extends Block
 		this.movingId = id + 1;
 		
 	}
-//updateLater(Ticks, () -> {Tasks} })
+//scheduleLater(() -> {Tasks}, ticks)
+//scheduleRepeat(() -> {task}, ticks)
 }
