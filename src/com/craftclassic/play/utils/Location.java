@@ -75,4 +75,16 @@ public class Location
 	public void setWorld(World world) {
 		this.world = world;
 	}
+	
+	public void add(int x, int y, int z)
+	{
+		this.x += x;
+		this.y += y;
+		this.z += z;
+	}
+	
+	public void subtract(int x, int y, int z)
+	{
+		this.add(-x, -y, -z);
+	}
 }

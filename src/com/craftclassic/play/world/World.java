@@ -146,11 +146,31 @@ public class World {
 		this.blockData[x + y * 64 + z * 4096] = block;
 	}
 	
+	public void setBlock(Location location, Block block)
+	{
+		this.blockData[this.locationToWorldIndex(location)] = block;
+	}
+	
 	public void setBlock(int indexed, Block block)
 	{
 		this.blockData[indexed] = block;
 	}
-
+	
+	public Block getBlock(int x, int y, int z)
+	{
+		return this.blockData[x + y * 64 + z * 4096];
+	}
+	
+	public Block getBlock(Location location)
+	{
+		return this.blockData[this.locationToWorldIndex(location)];
+	}
+	
+	private int locationToWorldIndex(Location loc)
+	{
+		return ((int) loc.getX()) + ((int) loc.getY()) * 64 + ((int) loc.getZ()) * 4096;
+	}
+	
 	public void generateQbert() {
 		for (int z = 0; z < 64; z++)
 			for (int x = 0; x < 64; x++) {

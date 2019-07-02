@@ -12,12 +12,24 @@ public class Block
 	private String name;
 	private int textureId;
 	private boolean breakable = true;
+	private boolean physics = false;
+	private boolean solid = true;
 	
 	public Block(int id, String name, int textureId) {
 		super();
 		this.setId(id);
 		this.name = name;
 		this.textureId = textureId;
+		this.solid = true;
+		idToBlocks.put(this.id, this);
+	}
+	
+	public Block(int id, String name, int textureId, boolean solid) {
+		super();
+		this.setId(id);
+		this.name = name;
+		this.textureId = textureId;
+		this.solid = solid;
 		idToBlocks.put(this.id, this);
 	}
 
@@ -39,7 +51,20 @@ public class Block
 	
 	public boolean onPlace(PlaceEvent placeEvent) { return true; }
 	public boolean onBreak(BreakEvent breakEvent) { return true; }
-	public void onTick(Location location) {}
+	public void onTick(Location loc) 
+	{
+		if(this.isPhysics())
+		{
+			Block underOurBlock = loc.getWorld().getBlock(loc);
+			if(underOurBlock.isSolid())
+			{
+				loc.getWorld().setBlock(loc, Block.AIR);
+				loc.add(0, 1, 0);//is it subtract or add to go down? I should make it more intitive
+				loc.getWorld().setBlock(loc, this);
+			}
+		}
+	}
+	public void onNeightbourUpdate(Location location) {}
 
 	public boolean isBreakable()
 	{
@@ -60,7 +85,7 @@ public class Block
 	}
 
 	private static HashMap<Integer, Block> idToBlocks = new HashMap<>();
-	public static final Block AIR = new Block(0, "Air", -1)
+	public static final Block AIR = new Block(0, "Air", -1, false)
 							, DIRT 	= new DirtBlock(1)
 							, GRASS = new GrassBlock(2)
 							, STONE = new StoneBlock(3)
@@ -77,5 +102,21 @@ public class Block
 	public static Block getBlockById(int id)
 	{
 		return idToBlocks.get(id);
+	}
+
+	public boolean isPhysics() {
+		return physics;
+	}
+
+	public void setPhysics(boolean physics) {
+		this.physics = physics;
+	}
+
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
 	}
 }
