@@ -5,7 +5,8 @@ import com.craftclassic.play.Minecraft;
 public class FontRender
 {
 	private String fontChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + //
-						  	   "0123456789";
+						  	   "0123456789!?()*.^$#=+-/\\\";" + 
+						  	   ":[]{}|&@";
 	private int lettersOnRow = 26;
 	private Minecraft minecraft;
 	private int letterWidth = 5;
@@ -40,7 +41,7 @@ public class FontRender
 		{
 			int rawIndex = fontChars.indexOf(message.charAt(i));
 			int indexX = rawIndex % this.lettersOnRow;
-			int indexY = rawIndex / (this.lettersOnRow + 1);
+			int indexY = rawIndex / (this.lettersOnRow);
 			
 			if (rawIndex >= 0)
 				renderLetter(screenX + i * (this.letterWidth + 1), screenY, indexX, indexY);
