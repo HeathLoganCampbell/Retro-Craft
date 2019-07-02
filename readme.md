@@ -23,8 +23,6 @@ right arrow key = changed block placed
 * Fix mouse issue for windows
 * Make Lava flow
 * Fragment up the Minecraft class so it's more understable
-* Add a string render engine
-* And Blocks class so each class can extends onBreak, onPlace and onTick
 * Title screen
 * Chunkize the world
 * Make particles
