@@ -13,6 +13,7 @@ import java.util.List;
 import com.craftclassic.play.assets.FontRender;
 import com.craftclassic.play.assets.Textures;
 import com.craftclassic.play.blocks.Block;
+import com.craftclassic.play.entities.Player;
 import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.events.PlaceEvent;
 import com.craftclassic.play.input.Input;
@@ -44,11 +45,7 @@ extends Applet implements Runnable {
     private int fps = 0;
     private long fpsTimestamp = 0;
     
-    private float preyaw = 0.0f;
-    private float prepitch = 5.0f;
-    
-    private float yaw = 0.0f;
-    private float pitch = 5.0f;
+    public Player player;
     
     private Robot robot;
     private FontRender font;
@@ -76,6 +73,7 @@ extends Applet implements Runnable {
     	
     	this.eigthHeight = quartHeight / 2;
     	this.eigthWidth = quartWidth / 2;
+    	
     	
     	try {
 			this.robot = new Robot();
@@ -105,10 +103,9 @@ extends Applet implements Runnable {
         	this.world = new World(64, 64, 1);
         	this.font = new FontRender(this);
         	
-            float playerX = 64 + 32.5f;
-            float playerY = 64 + 1.0f;
-            float playerZ = 64 + 32.5f;
-            
+        	this.player = new Player("Player1");
+        	this.player.setLocation(new Location(this.world, 64 + 32.5f, 64 + 1.0f, 64 + 32.5f));
+        	
             float xVelocity = 0.0f;
             float yVelocity = 0.0f;
             float zVelocity = 0.0f;
@@ -128,10 +125,11 @@ extends Applet implements Runnable {
             {
             	this.nextTickRunnables.forEach(task -> task.run());
             	
-                float sinYaw = (float)Math.sin(this.yaw + (this.preyaw - this.yaw));
-                float cosYaw = (float)Math.cos(this.yaw + (this.preyaw - this.yaw));
-                float sinPitch = (float)Math.sin(this.pitch + (this.prepitch - this.pitch));
-                float cosPitch = (float)Math.cos(this.pitch + (this.prepitch - this.pitch));
+            	Location playerLoc = this.player.getLocation();
+                float sinYaw = (float)Math.sin(playerLoc.getYaw() + (this.player.preyaw - playerLoc.getYaw()));
+                float cosYaw = (float)Math.cos(playerLoc.getYaw() + (this.player.preyaw - playerLoc.getYaw()));
+                float sinPitch = (float)Math.sin(playerLoc.getPitch() + (this.player.prepitch - playerLoc.getPitch()));
+                float cosPitch = (float)Math.cos(playerLoc.getPitch() + (this.player.prepitch - playerLoc.getPitch()));
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
                    
@@ -187,9 +185,9 @@ extends Applet implements Runnable {
                     	if(rawCollAxis == 1) collAxis = 2;
                     	if(rawCollAxis == 2) collAxis = 1;
                     	
-                        float newPlayerX = playerX;
-                        float newPlayerY = playerY;
-                        float newPlayerZ = playerZ;
+                        float newPlayerX = playerLoc.getX();
+                        float newPlayerY = playerLoc.getY();
+                        float newPlayerZ = playerLoc.getZ();
                         
                         if(collAxis == 0)
                         {
@@ -256,10 +254,10 @@ extends Applet implements Runnable {
                             }
                         }
                         
-                        if(!collisonX) playerX = newPlayerX;
+                        if(!collisonX) playerLoc.setX(newPlayerX);
                         if(!collisonY) 
                     	{
-                    		playerY = newPlayerY;
+                        	playerLoc.setY(newPlayerY);
                     		onGround = false;
                     	}
                         else
@@ -273,7 +271,7 @@ extends Applet implements Runnable {
                     		if(onJump) jumpingTicks++;
                     		if(!onJump && onGround) yVelocity = 0;
                         }
-                        if(!collisonZ) playerZ = newPlayerZ;
+                        if(!collisonZ) playerLoc.setZ(newPlayerZ);
                      
                         if(collison) continue block7;
                     }
@@ -299,9 +297,9 @@ extends Applet implements Runnable {
                 //delete collision, if a player tries to place a block on themselfs
                 for ( int i8 = 0; i8 < PLAYER_HEIGHT; i8++) 
                 {
-                	int i9 = (int)(playerX + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
-                    int i10 = (int)(playerY + (float)((i8 >> 2) - 1) * 0.8f + 0.65f) - 64;
-                    int i11A = (int)(playerZ + (float)(i8 >> 1 & 1) * 0.6f - 0.3f) - 64;
+                	int i9 = (int)(playerLoc.getX() + (float)(i8 >> 0 & 1) * 0.6f - 0.3f) - 64;
+                    int i10 = (int)(playerLoc.getY() + (float)((i8 >> 2) - 1) * 0.8f + 0.65f) - 64;
+                    int i11A = (int)(playerLoc.getZ() + (float)(i8 >> 1 & 1) * 0.6f - 0.3f) - 64;
                     
                     if (i9 >= 0 && i10 >= 0 && i11A >= 0 && i9 < 64 && i10 < 64 && i11A < 64) 
                     {
@@ -346,16 +344,16 @@ extends Applet implements Runnable {
                             float rotXInvrt = rotatedX * invrtRotatedAxis;
                             float rotYInvrt = rotatedY * invrtRotatedAxis;
                             float rotZInvert = rotatedZ * invrtRotatedAxis;
-                            float decAxis = playerX - (float)((int)playerX);
+                            float decAxis = playerLoc.getX() - (float)((int)playerLoc.getX());
                             
                             if (axis == 1) 
                             {
-                                decAxis = playerY - (float)((int)playerY);
+                                decAxis = playerLoc.getY() - (float)((int)playerLoc.getY());
                             }
                             
                             if (axis == 2) 
                             {
-                                decAxis = playerZ - (float)((int)playerZ);
+                                decAxis = playerLoc.getZ() - (float)((int)playerLoc.getZ());
                             }
                             
                             if (f27 > 0.0f) 
@@ -365,9 +363,9 @@ extends Applet implements Runnable {
                             float f33 = invrtRotatedAxis * decAxis;
                             
                             //block faces placement
-                            float faceX = playerX + rotXInvrt * decAxis;
-                            float faceY = playerY + rotYInvrt * decAxis;
-                            float faceZ = playerZ + rotZInvert * decAxis;
+                            float faceX = playerLoc.getX() + rotXInvrt * decAxis;
+                            float faceY = playerLoc.getY() + rotYInvrt * decAxis;
+                            float faceZ = playerLoc.getZ() + rotZInvert * decAxis;
 
                             if (f27 < 0.0f) 
                             {
@@ -605,29 +603,5 @@ extends Applet implements Runnable {
 
 	public void setPlaceBlockTypeId(int placeBlockTypeId) {
 		this.placeBlockTypeId = placeBlockTypeId;
-	}
-
-	public void turn(int diffX, int diffY) 
-	{
-		float beforeYaw = this.preyaw;
-		float beforePitch = this.prepitch;
-		
-		this.prepitch = (float)((double)this.prepitch - (double)diffY * 0.015D);
-		this.preyaw = (float)((double)this.preyaw + (double)diffX * 0.015D);
-		
-		 if(this.preyaw < -90.0F)
-			 this.preyaw = -90.0F;
-
-		 if(this.preyaw > 90.0F)
-			 this.preyaw = 90.0F;
-		 
-		 if(this.prepitch < 10.9f)
-			 this.prepitch = 10.9f;
-		 
-		 if(this.prepitch > 14.15f)
-			 this.prepitch = 14.15f;
-		 
-		 this.yaw += this.preyaw - beforeYaw;
-	     this.pitch += this.prepitch - beforePitch;
 	}
 }

@@ -5,11 +5,11 @@ import com.craftclassic.play.world.World;
 
 public class Location 
 {
-	private double x, y, z;
+	private float x, y, z;
 	private float yaw, pitch;
 	private World world;
 	
-	public Location(World world, double x, double y, double z, float yaw, float pitch) 
+	public Location(World world, float x, float y, float z, float yaw, float pitch) 
 	{
 		this.world = world;
 		this.x = x;
@@ -19,7 +19,7 @@ public class Location
 		this.pitch = pitch;
 	}
 	
-	public Location(World world, double x, double y, double z) 
+	public Location(World world, float x, float y, float z) 
 	{
 		this.world = world;
 		this.x = x;
@@ -29,27 +29,27 @@ public class Location
 		this.pitch = 0;
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
-	public double getZ() {
+	public float getZ() {
 		return z;
 	}
 
-	public void setZ(double z) {
+	public void setZ(float z) {
 		this.z = z;
 	}
 

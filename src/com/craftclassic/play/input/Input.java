@@ -62,7 +62,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		
 		this.robot.mouseMove(centerX, centerY);
 		
-		this.minecraft.turn(this.rawX, this.rawY);
+		this.minecraft.player.turn(this.rawX, this.rawY);
 	}
 	
 	
@@ -79,7 +79,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		
 		this.robot.mouseMove(centerX, centerY);
 		
-		this.minecraft.turn(this.rawX, this.rawY);
+		this.minecraft.player.turn(this.rawX, this.rawY);
 	}
 
 	public void mouseClicked(MouseEvent e) 
