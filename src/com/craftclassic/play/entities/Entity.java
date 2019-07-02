@@ -1,13 +1,19 @@
 package com.craftclassic.play.entities;
 
 import com.craftclassic.play.utils.Location;
+import com.craftclassic.play.utils.Vector;
 
 public class Entity
 {
+	
 	private String name;
 	private Location location;
+	private Vector velocity;
 	public float prepitch = 0;
 	public float preyaw = 5.0f;
+	private boolean onGround = false;
+	private boolean onJump = false;
+    private int jumpingTicks = -1;
 	
 	public Entity(String name) {
 		super();
@@ -52,5 +58,42 @@ public class Entity
 		 
 		 this.getLocation().setYaw(this.getLocation().getYaw() + (this.preyaw - beforeYaw));
 		 this.getLocation().setPitch(this.getLocation().getPitch() + (this.prepitch - beforePitch));
+	}
+
+	public Vector getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector velocity) {
+		this.velocity = velocity;
+	}
+
+	public boolean isOnGround() {
+		return onGround;
+	}
+
+	public void setOnGround(boolean onGround) {
+		this.onGround = onGround;
+	}
+
+	public boolean isOnJump() {
+		return onJump;
+	}
+
+	public void setOnJump(boolean onJump) {
+		this.onJump = onJump;
+	}
+
+	public int getJumpingTicks() {
+		return jumpingTicks;
+	}
+	
+	public void incrementJumpingTicks()
+	{
+		jumpingTicks++;
+	}
+
+	public void setJumpingTicks(int jumpingTicks) {
+		this.jumpingTicks = jumpingTicks;
 	}
 }

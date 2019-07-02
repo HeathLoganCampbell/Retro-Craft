@@ -2,40 +2,40 @@ package com.craftclassic.play.utils;
 
 public class Vector 
 {
-	private double x, y, z;
+	private float x, y, z;
 
-	public Vector(double x, double y, double z) {
+	public Vector(float x, float y, float z) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
-	public double getZ() {
+	public float getZ() {
 		return z;
 	}
 
-	public void setZ(double z) {
+	public void setZ(float z) {
 		this.z = z;
 	}
 
-	public double dot(Vector vector)
+	public float dot(Vector vector)
 	{
 		return this.x * vector.x + this.y * vector.y + this.z * vector.z;
 	}
@@ -54,11 +54,18 @@ public class Vector
 		this.z -= vector.z;
 	}
 	
-	public void scalar(double scale)
+	public void scalar(float scale)
 	{
 		this.x *= scale;
 		this.y *= scale;
 		this.z *= scale;
+	}
+	
+	public void scalar(float x, float y, float z)
+	{
+		this.x *= x;
+		this.y *= y;
+		this.z *= z;
 	}
 	
 }

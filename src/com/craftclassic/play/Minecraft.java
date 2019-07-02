@@ -18,6 +18,7 @@ import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.events.PlaceEvent;
 import com.craftclassic.play.input.Input;
 import com.craftclassic.play.utils.Location;
+import com.craftclassic.play.utils.Vector;
 import com.craftclassic.play.world.World;
 
 public class Minecraft
@@ -105,14 +106,7 @@ extends Applet implements Runnable {
         	
         	this.player = new Player("Player1");
         	this.player.setLocation(new Location(this.world, 64 + 32.5f, 64 + 1.0f, 64 + 32.5f));
-        	
-            float xVelocity = 0.0f;
-            float yVelocity = 0.0f;
-            float zVelocity = 0.0f;
-            
-            boolean onGround = false;
-            boolean onJump = false;
-            int jumpingTicks = -1;
+        	this.player.setVelocity(new Vector(0f, 0f, 0f));
             
             long now = System.currentTimeMillis();
             int selectedBlock = -1;
@@ -169,13 +163,14 @@ extends Applet implements Runnable {
                     float accX = (float)((this.input.getKey(KeyEvent.VK_D) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
                     float accZ = (float)((this.input.getKey(KeyEvent.VK_W) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_S) ? 1 : 0)) * 0.02f;
                     
-                    xVelocity *= 0.5f;
-                    yVelocity *= 0.99f;
-                    zVelocity *= 0.5f;
+                    this.player.getVelocity().scalar(0.5f, 0.99f, 0.5f);
                     
-                    xVelocity += sinYaw * accZ + cosYaw * accX;
-                    zVelocity += cosYaw * accZ - sinYaw * accX;
-                    yVelocity += 0.003f;
+                    
+                    float xVel = sinYaw * accZ + cosYaw * accX;
+                    float zVel = cosYaw * accZ - sinYaw * accX;
+                    float yVel = 0.003f;
+                    
+                    this.player.getVelocity().add(new Vector(xVel, yVel, zVel));
                     
                     
                     //x = 0, y = 1, z = 2
@@ -192,18 +187,18 @@ extends Applet implements Runnable {
                         if(collAxis == 0)
                         {
                         	
-                        	newPlayerX += xVelocity;
+                        	newPlayerX += this.player.getVelocity().getX();
                         }
                         
                         if(collAxis == 1)
                         {
-                        	newPlayerY += yVelocity;
+                        	newPlayerY += this.player.getVelocity().getY();
                         }
                         
                         
                         if(collAxis == 2)
                         {
-                        	newPlayerZ += zVelocity;
+                        	newPlayerZ += this.player.getVelocity().getZ();
                         }
                         
                         
@@ -242,10 +237,10 @@ extends Applet implements Runnable {
 	                                if (this.input.getKey(KeyEvent.VK_SPACE))
 	                                {
 	                                	this.input.setKey(KeyEvent.VK_SPACE, false);
-	                                    yVelocity = -0.1f;
-	                                    onJump = true;
-	                                    jumpingTicks = 0;
-	                                    onGround = false;
+	                                	this.player.getVelocity().setY(-0.1f);
+	                                    this.player.setOnJump(true);
+	                                    this.player.setJumpingTicks(0);
+	                                    this.player.setOnGround(false);
 	                                    
 	                                } 
 	                                collison = true;
@@ -258,18 +253,18 @@ extends Applet implements Runnable {
                         if(!collisonY) 
                     	{
                         	playerLoc.setY(newPlayerY);
-                    		onGround = false;
+                        	this.player.setOnGround(false);
                     	}
                         else
                         {
-                        	if(jumpingTicks > 0)
+                        	if(this.player.getJumpingTicks() > 0)
                         	{
-                        		jumpingTicks = -1;
-                        		onJump = false;
+                        		this.player.setJumpingTicks(-1);
+                        		this.player.setOnJump(false);
                         	}
-                    		onGround = true;
-                    		if(onJump) jumpingTicks++;
-                    		if(!onJump && onGround) yVelocity = 0;
+                        	this.player.setOnGround(true);
+                    		if(this.player.isOnJump()) this.player.incrementJumpingTicks();
+                    		if(!this.player.isOnJump() && this.player.isOnGround()) this.player.getVelocity().setY(0.0f);
                         }
                         if(!collisonZ) playerLoc.setZ(newPlayerZ);
                      
