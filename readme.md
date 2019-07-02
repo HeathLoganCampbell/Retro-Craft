@@ -27,6 +27,7 @@ right arrow key = changed block placed
 * And Blocks class so each class can extends onBreak, onPlace and onTick
 * Title screen
 * Chunkize the world
+* Make particles
 
 ## Versions
 
