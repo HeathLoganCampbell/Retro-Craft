@@ -120,12 +120,6 @@ extends Applet implements Runnable {
             long now = System.currentTimeMillis();
             int selectedBlock = -1;
             int i5 = 0;
-            
-            
-            
-            int lastMouseX = 0;
-            int lastMouseY = 0;
-            
             int targetBlockX = 0;
             int targetBlockY = 0;
             int targetBlockZ = 0;
@@ -134,10 +128,10 @@ extends Applet implements Runnable {
             {
             	this.nextTickRunnables.forEach(task -> task.run());
             	
-                float sinYaw = (float)Math.sin(yaw);
-                float cosYaw = (float)Math.cos(yaw);
-                float sinPitch = (float)Math.sin(pitch);
-                float cosPitch = (float)Math.cos(pitch);
+                float sinYaw = (float)Math.sin(this.yaw + (this.preyaw - this.yaw));
+                float cosYaw = (float)Math.cos(this.yaw + (this.preyaw - this.yaw));
+                float sinPitch = (float)Math.sin(this.pitch + (this.prepitch - this.pitch));
+                float cosPitch = (float)Math.cos(this.pitch + (this.prepitch - this.pitch));
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
                    
