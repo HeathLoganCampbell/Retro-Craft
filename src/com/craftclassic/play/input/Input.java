@@ -14,11 +14,11 @@ import com.craftclassic.play.Minecraft;
 
 public class Input implements KeyListener, FocusListener, MouseListener, MouseMotionListener {
 
-	private static final int TAU_100 = (int) (Math.PI * 200);
+	private static final int TAU = (int) (Math.PI * 4 * 100);
 	
 	private boolean[] keys = new boolean[65536];
 	private boolean[] mouseButtons = new boolean[4];
-	private int mouseX = TAU_100;
+	private int mouseX = TAU;
 	private int mouseY = 10;
 	private int inverseMouseY = 0;
 	
@@ -36,6 +36,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	private int halfHeight;
 	private Minecraft minecraft;
 	private boolean isFocused = false;
+
 	
 	
 	public Input(int width, int height, Robot robot, Minecraft minecraft) 
@@ -51,53 +52,34 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 
 	public void mouseDragged(MouseEvent e) 
 	{
-		if(this.rawX == e.getX() &&
-				this.rawY == (this.height - e.getY())) return;
 		if(!this.isFocused()) return;
 		
-		this.pushMousePositionUpdate(e.getX(), e.getY());
+		int centerX = this.halfWidth;
+		int centerY = this.halfWidth;
 		
-		this.mouseX -= (lastX - rawX);
-		this.inverseMouseY -= (lastY - rawY - 45);
-		this.mouseY = this.height - this.inverseMouseY;
+		this.rawX = e.getX() - centerX;
+		this.rawY = (e.getY() - centerY + 45);
 		
-	
+		this.robot.mouseMove(centerX, centerY);
 		
-		
-		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);
-		this.pushMousePositionUpdate(this.halfWidth, this.halfHeight);
-		this.robot.mouseMove(this.halfWidth, this.halfHeight);
+		this.minecraft.turn(this.rawX, this.rawY);
 	}
 	
-	public void pushMousePositionUpdate(int x, int y)
-	{
-		lastX = rawX;
-		lastY = rawY;
-		
-		rawX = x;
-		rawY = y;
-	}
+	
 
 	public void mouseMoved(MouseEvent e) 
 	{
-		if(this.rawX == e.getX() &&
-				this.rawY == (this.height - e.getY())) return;
 		if(!this.isFocused()) return;
 		
-		this.pushMousePositionUpdate(e.getX(), e.getY());
+		int centerX = this.halfWidth;
+		int centerY = this.halfWidth;
 		
-		this.mouseX -= (lastX - rawX);
-		this.mouseX = (int) ((this.mouseX % TAU_100) + TAU_100);
+		this.rawX = e.getX() - centerX;
+		this.rawY = (e.getY() - centerY + 45);
 		
-		this.inverseMouseY -= (lastY - rawY - 45);
-		this.mouseY = this.height - this.inverseMouseY;
+		this.robot.mouseMove(centerX, centerY);
 		
-//		System.out.println( mouseX+", "+ mouseY);
-		
-		this.rawX = this.lastX = this.width / 2;
-		this.rawY = this.lastY = this.height / 2;
-		
-		this.robot.mouseMove(this.width / 2, this.height / 2);
+		this.minecraft.turn(this.rawX, this.rawY);
 	}
 
 	public void mouseClicked(MouseEvent e) 
@@ -130,6 +112,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 
 	public void focusGained(FocusEvent e) 
 	{
+		this.robot.mouseMove(this.halfWidth, this.halfHeight);
 		this.isFocused = true;
 	}
 

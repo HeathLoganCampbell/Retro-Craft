@@ -41,6 +41,15 @@ extends Applet implements Runnable {
     private int eigthWidth = 0;
     private int eigthHeight = 0;
     
+    private int fps = 0;
+    private long fpsTimestamp = 0;
+    
+    private float preyaw = 0.0f;
+    private float prepitch = 5.0f;
+    
+    private float yaw = 0.0f;
+    private float pitch = 5.0f;
+    
     private Robot robot;
     private FontRender font;
     
@@ -112,8 +121,7 @@ extends Applet implements Runnable {
             int selectedBlock = -1;
             int i5 = 0;
             
-            float yaw = 0.0f;
-            float pitch = 5.0f;
+            
             
             int lastMouseX = 0;
             int lastMouseY = 0;
@@ -134,35 +142,36 @@ extends Applet implements Runnable {
                 block7 : while (System.currentTimeMillis() - now > 10) {
                    
                 	
-                	if (this.input.getMouseX() > 0) 
-                	{
-                    	//rotate head
-                    	float inMouseX = (float)(this.input.getMouseX() - lastMouseX);
-                        float inMouseY = (float)(this.input.getMouseY() - lastMouseY);
-                        
-                        inMouseX *= 0.01f; //yaw senativity
-                        inMouseY *= 0.01f; //pitch senativity
-                        
-                        
-                        lastMouseX = this.input.getMouseX();
-                        lastMouseY = this.input.getMouseY();
-                        
-                        
-                        
-                        pitch += inMouseY;
-                        yaw += inMouseX;
-
-                        if(pitch > 7.8f)
-                        {
-                        	pitch = 7.8f;
-                        }
-                        
-                        if(pitch < 4.8f)
-                        {
-                        	pitch = 4.8f;
-                        }
-                    }
-                	
+//                	if (this.input.getMouseX() > 0) 
+//                	{
+//                    	//rotate head
+////                    	float inMouseX = (float)(this.input.getMouseX() - lastMouseX);
+////                        float inMouseY = (float)(this.input.getMouseY() - lastMouseY);
+////                        
+////                        inMouseX *= 0.005f; //yaw senativity
+////                        inMouseY *= 0.005f; //pitch senativity
+////                        
+////                        
+////                        lastMouseX = this.input.getMouseX();
+////                        lastMouseY = this.input.getMouseY();
+//                        
+//                        
+//                        
+////                        pitch += inMouseY;
+////                        yaw += inMouseX;
+//                        
+//
+//                        if(pitch > 7.8f)
+//                        {
+//                        	pitch = 7.8f;
+//                        }
+//                        
+//                        if(pitch < 4.8f)
+//                        {
+//                        	pitch = 4.8f;
+//                        }
+//                    }
+//                	
                 	
                     now += 10;
                     float accX = (float)((this.input.getKey(KeyEvent.VK_D) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
@@ -558,12 +567,19 @@ extends Applet implements Runnable {
                 	this.font.renderString(message, message.length() * this.font.letterWidth, this.eigthHeight - (this.font.letterHeight / 2) - this.font.letterHeight);
                 }
                 	
-                Thread.sleep(2);
+                Thread.sleep(1);
                 if (!this.isActive()) 
                 {
                     return;
                 }
                 this.getGraphics().drawImage(this.frameBuffer, 0, 0, this.width, this.height, null);
+                fps++;
+                if( System.currentTimeMillis() > fpsTimestamp + 1000)
+                {
+                	fpsTimestamp = System.currentTimeMillis();
+//                	System.out.println("fps = " + fps);
+                	fps = 0;
+                }
             } 
         }
         catch (Exception localException) {
@@ -595,5 +611,23 @@ extends Applet implements Runnable {
 
 	public void setPlaceBlockTypeId(int placeBlockTypeId) {
 		this.placeBlockTypeId = placeBlockTypeId;
+	}
+
+	public void turn(int diffX, int diffY) 
+	{
+		float beforeYaw = this.preyaw;
+		float beforePitch = this.prepitch;
+		
+		this.prepitch = (float)((double)this.prepitch - (double)diffY * 0.015D);
+		this.preyaw = (float)((double)this.preyaw + (double)diffX * 0.015D);
+		
+		 if(this.preyaw < -90.0F)
+			 this.preyaw = -90.0F;
+
+		 if(this.preyaw > 90.0F)
+			 this.preyaw = 90.0F;
+		 
+		 this.yaw += this.preyaw - beforeYaw;
+	     this.pitch += this.prepitch - beforePitch;
 	}
 }
