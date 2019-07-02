@@ -621,6 +621,12 @@ extends Applet implements Runnable {
 		 if(this.preyaw > 90.0F)
 			 this.preyaw = 90.0F;
 		 
+		 if(this.prepitch < 10.9f)
+			 this.prepitch = 10.9f;
+		 
+		 if(this.prepitch > 14.15f)
+			 this.prepitch = 14.15f;
+		 
 		 this.yaw += this.preyaw - beforeYaw;
 	     this.pitch += this.prepitch - beforePitch;
 	}
