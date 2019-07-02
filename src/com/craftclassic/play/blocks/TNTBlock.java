@@ -4,7 +4,7 @@ import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.utils.Location;
 
 public class TNTBlock extends Block {
-	public static final int EXPLODE_SIZE = 64;
+	public static final int EXPLODE_SIZE = 4;
 	
 	
 	public TNTBlock(int id) 
@@ -19,10 +19,16 @@ public class TNTBlock extends Block {
 		double baseX = loc.getX();
 		double baseY = loc.getY();
 		double baseZ = loc.getZ();
+		loc.getWorld().setBlock(loc, Block.AIR);
 		for(int y = (EXPLODE_SIZE/-2); y < (EXPLODE_SIZE/2); y++)
 			for(int x = (EXPLODE_SIZE/-2); x < (EXPLODE_SIZE/2); x++)
 				for(int z = (EXPLODE_SIZE/-2); z < (EXPLODE_SIZE/2); z++)
-					e.getLocation().getWorld().setBlock((int) baseX + x, (int) baseY + y, (int) baseZ + z, Block.AIR);
+				{
+					Location newLocation = new Location(loc.getWorld(), (int) baseX + x, (int) baseY + y, (int) baseZ + z);
+					if(newLocation.getBlock() == Block.TNT)
+						newLocation.getBlock().onBreak(new BreakEvent(newLocation));
+					loc.getWorld().setBlock(newLocation, Block.AIR);
+				}
 		return false;
 	}
 }

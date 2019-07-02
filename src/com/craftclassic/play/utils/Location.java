@@ -1,5 +1,6 @@
 package com.craftclassic.play.utils;
 
+import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.world.World;
 
 public class Location 
@@ -88,5 +89,9 @@ public class Location
 		this.add(-x, -y, -z);
 	}
 	
+	public Block getBlock()
+	{
+		return this.getWorld().getBlock(this);
+	}
 	
 }

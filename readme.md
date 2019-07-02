@@ -30,6 +30,7 @@ right arrow key = changed block placed
 * Make particles
 * Generate trees
 * Make it so Bigger Y = higher up
+* make tnt chain together when they explode
 
 ## Versions
 
