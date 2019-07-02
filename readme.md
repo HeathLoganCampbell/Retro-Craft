@@ -21,7 +21,7 @@ right arrow key = changed block placed
 * Entities
 * Multiplayer support
 * Fix mouse issue for windows
-* Make Lava flow
+* make ticks more consitant
 * Fragment up the Minecraft class so it's more understable
 * Title screen
 * Chunkize the world
