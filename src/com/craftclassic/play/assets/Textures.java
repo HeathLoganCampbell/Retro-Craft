@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 public class Textures {
 	public static Bitmap playerTextures;
 	public static Bitmap blockTextures;
+	public static Bitmap fontTilesheet;
 	
 	
 	static 
@@ -29,5 +30,8 @@ public class Textures {
 		
 		BufferedImage blocksImage = ImageIO.read(Textures.class.getClassLoader().getResource("saved-texturess.png"));
 		blockTextures = new Bitmap(blocksImage);
+		
+		BufferedImage fontImg = ImageIO.read(Textures.class.getClassLoader().getResource("font.png"));
+		fontTilesheet = new Bitmap(fontImg);
 	}	
 }

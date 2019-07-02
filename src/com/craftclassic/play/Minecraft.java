@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
+import com.craftclassic.play.assets.FontRender;
 import com.craftclassic.play.assets.Textures;
 import com.craftclassic.play.blocks.Block;
 import com.craftclassic.play.events.BreakEvent;
@@ -39,6 +40,7 @@ extends Applet implements Runnable {
     private int eigthHeight = 0;
     
     private Robot robot;
+    private FontRender font;
     
     private int placeBlockTypeId = 1;
 
@@ -87,6 +89,7 @@ extends Applet implements Runnable {
         try 
         {          
         	this.world = new World(64, 64, 1);
+        	this.font = new FontRender(this);
         	
             float playerX = 64 + 32.5f;
             float playerY = 64 + 1.0f;
@@ -540,6 +543,7 @@ extends Applet implements Runnable {
                 invertPixel(this.eigthWidth - 1, (this.eigthHeight - 1));
                 invertPixel(this.eigthWidth - 2, (this.eigthHeight - 1));
                 
+                this.font.renderString("ABC", 0, 0);
                 
                 Thread.sleep(2);
                 if (!this.isActive()) 
@@ -550,8 +554,14 @@ extends Applet implements Runnable {
             } 
         }
         catch (Exception localException) {
+        	localException.printStackTrace();
             return;
         }
+    }
+    
+    public void setPixel(int x, int y, int pixel)
+    {
+    	imageData[x + y * this.quartWidth] = pixel;
     }
     
     public void invertPixel(int xWidth, int yHeight)
