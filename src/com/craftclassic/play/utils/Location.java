@@ -87,4 +87,6 @@ public class Location
 	{
 		this.add(-x, -y, -z);
 	}
+	
+	
 }

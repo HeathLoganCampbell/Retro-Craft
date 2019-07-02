@@ -4,7 +4,7 @@ import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.utils.Location;
 
 public class TNTBlock extends Block {
-	public static final int EXPLODE_SIZE = 4;
+	public static final int EXPLODE_SIZE = 64;
 	
 	
 	public TNTBlock(int id) 

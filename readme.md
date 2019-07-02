@@ -28,6 +28,7 @@ right arrow key = changed block placed
 * Title screen
 * Chunkize the world
 * Make particles
+* Make it so Bigger Y = higher up
 
 ## Versions
 
