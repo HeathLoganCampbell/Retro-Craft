@@ -45,7 +45,7 @@ extends Applet implements Runnable {
     public static final int PLAYER_HEIGHT = 12;
     
     
-    BufferedImage frameBuffer = new BufferedImage(214, 120, 1);
+    BufferedImage frameBuffer = new BufferedImage(214, 120, BufferedImage.TYPE_INT_RGB);
     int[] imageData = ((DataBufferInt)frameBuffer.getRaster().getDataBuffer()).getData();
 
     public Minecraft(int width, int height)
@@ -56,9 +56,6 @@ extends Applet implements Runnable {
     	this.halfHeight = height / 2;
     	this.halfWidth = width / 2;
 
-    	this.quartHeight = halfHeight / 2;
-    	this.quartWidth = halfWidth / 2;
-    	
     	this.quartHeight = halfHeight / 2;
     	this.quartWidth = halfWidth / 2;
     	
@@ -527,10 +524,22 @@ extends Applet implements Runnable {
                         int r = (skyboxColour >> 16 & 255) * maxSkyboxColour / 255;
                         int g = (skyboxColour >> 8 & 255) * maxSkyboxColour / 255;
                         int b = (skyboxColour & 255) * maxSkyboxColour / 255;
-                        imageData[vertIndex + hortIndex * 214] = r << 16 | g << 8 | b;
+                        imageData[vertIndex + hortIndex * (214)] = r << 16 | g << 8 | b;
                     }
                 }
                 selectedBlock = (int) tempSelectingBlock;
+                
+                //cross hair 
+                invertPixel(this.eigthWidth, (this.eigthHeight));
+                invertPixel(this.eigthWidth, (this.eigthHeight - 1));
+                invertPixel(this.eigthWidth, (this.eigthHeight + 1));
+                invertPixel(this.eigthWidth, (this.eigthHeight - 2));
+                invertPixel(this.eigthWidth, (this.eigthHeight - 3));
+                invertPixel(this.eigthWidth + 1, (this.eigthHeight - 1));
+                invertPixel(this.eigthWidth + 2, (this.eigthHeight - 1));
+                invertPixel(this.eigthWidth - 1, (this.eigthHeight - 1));
+                invertPixel(this.eigthWidth - 2, (this.eigthHeight - 1));
+                
                 
                 Thread.sleep(2);
                 if (!this.isActive()) 
@@ -543,6 +552,13 @@ extends Applet implements Runnable {
         catch (Exception localException) {
             return;
         }
+    }
+    
+    public void invertPixel(int xWidth, int yHeight)
+    {
+    	int currentPixel = 0xFFFFFF - imageData[xWidth + yHeight * this.quartWidth];
+    	
+    	imageData[xWidth + yHeight * this.quartWidth] = currentPixel;
     }
 
 	public int getPlaceBlockTypeId() {
