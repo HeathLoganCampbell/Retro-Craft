@@ -47,3 +47,11 @@ right arrow key = changed block placed
 
 Issuses Still around
 * windows doesn't set the location of the mouse correctly
+
+### v0.3.0
+![TNT](./readme-resources/tnt.png)
+* Add tnt that explodes in chain
+* Add glass
+* String rendering engine
+
+
