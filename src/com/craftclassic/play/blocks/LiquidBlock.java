@@ -1,15 +1,19 @@
 package com.craftclassic.play.blocks;
 
+import com.craftclassic.play.utils.Location;
+
 public class LiquidBlock extends Block 
 {
-	private int movingId;
-
 	public LiquidBlock(int id, String name, int textureId) 
 	{
 		super(id, name, textureId, false);
-		this.movingId = id + 1;
+	}
+	
+	public void onTick(Location loc) 
+	{
 		
 	}
-//scheduleLater(() -> {Tasks}, ticks)
-//scheduleRepeat(() -> {task}, ticks)
+	
+	//scheduleLater(() -> {Tasks}, ticks)
+	//scheduleRepeat(() -> {task}, ticks)
 }

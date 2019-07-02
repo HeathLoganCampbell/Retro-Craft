@@ -84,19 +84,20 @@ public class Block
 		this.id = id;
 	}
 
-	private static HashMap<Integer, Block> idToBlocks = new HashMap<>();
+	protected static HashMap<Integer, Block> idToBlocks = new HashMap<>();
 	public static final Block AIR = new Block(0, "Air", -1, false)
 							, DIRT 	= new DirtBlock(1)
 							, GRASS = new GrassBlock(2)
 							, STONE = new StoneBlock(3)
-							, LAVA = new LavaBlock(4)
-							, BEDROCK = new BedrockBlock(5)
-							, LOG = new LogBlock(6)
-							, LEAVES = new LeavesBlock(7)
-							, BRICK = new BrickBlock(8)
-							, COBBLESTONE = new CobbleStoneBlock(9)
-							, GLASS = new GlassBlock(10)
-							, TNT = new TNTBlock(11)
+							, LAVA = new LavaBlock(4) //solid lava (4)
+							 //Moving lava (5)
+							, BEDROCK = new BedrockBlock(6)
+							, LOG = new LogBlock(7)
+							, LEAVES = new LeavesBlock(8)
+							, BRICK = new BrickBlock(9)
+							, COBBLESTONE = new CobbleStoneBlock(10)
+							, GLASS = new GlassBlock(11)
+							, TNT = new TNTBlock(12)
 							;
 	
 	public static Block getBlockById(int id)

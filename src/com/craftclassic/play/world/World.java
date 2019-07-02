@@ -171,6 +171,60 @@ public class World {
 		return ((int) loc.getX()) + ((int) loc.getY()) * 64 + ((int) loc.getZ()) * 4096;
 	}
 	
+	/**
+	 * Might grow a tree in a location if there is enough space
+	 * @param location
+	 * @return successfully grown tree
+	 */
+	public boolean maybeGrowTree(Location location)
+	{
+		int trunk = this.random.nextInt(3) + 5;
+		boolean isValid = true;
+		
+		//check if above is clear
+		for(int y = 0; y < trunk; y++)
+		{
+			int size = 1;
+			if(y >= 3)
+			{
+				size = 2;
+			}
+			
+			for(int z = -size; z < size; z++)
+			{
+				for(int x = -size; x < size; x++)
+				{
+					if(this.getBlock((int) location.getX() + x,(int) location.getY() + y,(int) location.getZ() + z) != Block.AIR)
+						isValid = false;
+				}
+			}
+		}
+		
+		if(isValid) return false;
+		
+		for(int y = 0; y < trunk; y++)
+		{
+			int size = 1;
+			if(y >= 3)
+			{
+				size = 2;
+			}
+			//first 2 blocks are just logs
+			//next 2 are leaves
+			//next 2 are leaves
+			for(int z = -size; z < size; z++)
+			{
+				for(int x = -size; x < size; x++)
+				{
+					
+				}
+			}
+		}
+		
+		
+		return true;
+	}
+	
 	public void generateQbert() {
 		for (int z = 0; z < 64; z++)
 			for (int x = 0; x < 64; x++) {

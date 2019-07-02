@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.craftclassic.play.assets.FontRender;
 import com.craftclassic.play.assets.Textures;
@@ -41,6 +43,8 @@ extends Applet implements Runnable {
     
     private Robot robot;
     private FontRender font;
+    
+    private List<Runnable> nextTickRunnables;
     
     private int placeBlockTypeId = 1;
 
@@ -88,6 +92,7 @@ extends Applet implements Runnable {
     {
         try 
         {          
+        	this.nextTickRunnables = new ArrayList<>();
         	this.world = new World(64, 64, 1);
         	this.font = new FontRender(this);
         	
@@ -119,10 +124,12 @@ extends Applet implements Runnable {
             
             while(true)
             {
-                float sinf7 = (float)Math.sin(yaw);
-                float cosf7 = (float)Math.cos(yaw);
-                float sinf8 = (float)Math.sin(pitch);
-                float cosf8 = (float)Math.cos(pitch);
+            	this.nextTickRunnables.forEach(task -> task.run());
+            	
+                float sinYaw = (float)Math.sin(yaw);
+                float cosYaw = (float)Math.cos(yaw);
+                float sinPitch = (float)Math.sin(pitch);
+                float cosPitch = (float)Math.cos(pitch);
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
                    
@@ -165,8 +172,8 @@ extends Applet implements Runnable {
                     yVelocity *= 0.99f;
                     zVelocity *= 0.5f;
                     
-                    xVelocity += sinf7 * accZ + cosf7 * accX;
-                    zVelocity += cosf7 * accZ - sinf7 * accX;
+                    xVelocity += sinYaw * accZ + cosYaw * accX;
+                    zVelocity += cosYaw * accZ - sinYaw * accX;
                     yVelocity += 0.003f;
                     
                     
@@ -311,11 +318,11 @@ extends Applet implements Runnable {
                         float fov = 1f; //fov, less than 1 makes it look faster
                         
                         //rotation matrix
-                        float f22 = fov * cosf8 + f20 * sinf8;
-                        float rotatedY = f20 * cosf8 - fov * sinf8;
+                        float f22 = fov * cosPitch + f20 * sinPitch;
+                        float rotatedY = f20 * cosPitch - fov * sinPitch;
                         
-                        float rotatedX = f18 * cosf7 + f22 * sinf7;
-                        float rotatedZ = f22 * cosf7 - f18 * sinf7;
+                        float rotatedX = f18 * cosYaw + f22 * sinYaw;
+                        float rotatedZ = f22 * cosYaw - f18 * sinYaw;
                         
                         int skyboxColour = 0xA7C9EB;
                         int maxSkyboxColour = 255;
@@ -545,6 +552,12 @@ extends Applet implements Runnable {
                 
                 this.font.renderString("V0.3.0", 0, 0);
                 
+                if(!this.input.isFocused())
+                {
+                	String message = "CLICK TO FOCUS";
+                	this.font.renderString(message, message.length() * this.font.letterWidth, this.eigthHeight - (this.font.letterHeight / 2) - this.font.letterHeight);
+                }
+                	
                 Thread.sleep(2);
                 if (!this.isActive()) 
                 {
@@ -557,6 +570,11 @@ extends Applet implements Runnable {
         	localException.printStackTrace();
             return;
         }
+    }
+    
+    public void doNextTick(Runnable runnable)
+    {
+    	this.nextTickRunnables.add(runnable);
     }
     
     public void setPixel(int x, int y, int pixel)

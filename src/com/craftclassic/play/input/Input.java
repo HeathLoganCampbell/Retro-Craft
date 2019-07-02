@@ -35,6 +35,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	private int halfWidth;
 	private int halfHeight;
 	private Minecraft minecraft;
+	private boolean isFocused = false;
 	
 	
 	public Input(int width, int height, Robot robot, Minecraft minecraft) 
@@ -52,6 +53,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	{
 		if(this.rawX == e.getX() &&
 				this.rawY == (this.height - e.getY())) return;
+		if(!this.isFocused()) return;
 		
 		this.pushMousePositionUpdate(e.getX(), e.getY());
 		
@@ -80,6 +82,7 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 	{
 		if(this.rawX == e.getX() &&
 				this.rawY == (this.height - e.getY())) return;
+		if(!this.isFocused()) return;
 		
 		this.pushMousePositionUpdate(e.getX(), e.getY());
 		
@@ -119,12 +122,20 @@ public class Input implements KeyListener, FocusListener, MouseListener, MouseMo
 		if (code > 0 && code < mouseButtons.length)
 			mouseButtons[code] = false;
 	}
+	
+	public boolean isFocused()
+    {
+    	return this.isFocused;
+    }
 
 	public void focusGained(FocusEvent e) 
-	{}
+	{
+		this.isFocused = true;
+	}
 
 	public void focusLost(FocusEvent e) 
 	{
+		this.isFocused = false;
 		for (int i = 0; i < keys.length; i++)
 			keys[i] = false;
 		for (int i = 0; i < mouseButtons.length; i++)

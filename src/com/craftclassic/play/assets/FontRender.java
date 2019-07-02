@@ -9,8 +9,8 @@ public class FontRender
 						  	   ":[]{}|&@";
 	private int lettersOnRow = 26;
 	private Minecraft minecraft;
-	private int letterWidth = 5;
-	private int letterHeight = 6;
+	public int letterWidth = 5;
+	public int letterHeight = 6;
 	
 	public FontRender(Minecraft minecraft)
 	{
