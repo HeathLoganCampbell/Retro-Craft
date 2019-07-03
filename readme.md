@@ -57,3 +57,8 @@ Issuses Still around
 ![Water](./readme-resources/water.png)
 * Water that flows
 * lava that flows
+
+### v0.4.5
+![waterGenerator](./readme-resources/waterGenerator.png)
+* water is now naturally generated in the land
+* there is a preview of what block you'll place

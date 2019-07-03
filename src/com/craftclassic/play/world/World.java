@@ -141,7 +141,21 @@ public class World {
 						blockData[i] = blockType;
 	            }
 	         }
-	      }
+	    }
+		
+		for(int z = 0; z < this.width; ++z) 
+		{
+	         for(int x = 0; x < this.height; ++x) 
+	         {
+	        	 for(int y = 0; y < this.waterLevel; ++y) 
+		         {
+		        	 int i = x + (63-y) * 64 + z * 64 * 64;
+						if (y < 64 && y > 0 && blockData[i] == Block.AIR)
+							blockData[i] = Block.WATER;
+		         }
+	         }
+		}
+		
 	}
 	
 	public void setBlock(int x, int y, int z, Block block)
