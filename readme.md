@@ -28,7 +28,6 @@ right arrow key = changed block placed
 * Make particles
 * Generate trees
 * Make it so you swim in lava
-* add water
 * Make it so Bigger Y = higher up
 
 ## Versions
