@@ -52,6 +52,7 @@ public class Block
 	
 	public boolean onPlace(PlaceEvent placeEvent) { return this.solid; }
 	public boolean onBreak(BreakEvent breakEvent) { return this.breakable; }
+	
 	public void onTick(Location loc) 
 	{
 		if(this.isPhysics())
@@ -99,6 +100,7 @@ public class Block
 							, COBBLESTONE = new CobbleStoneBlock(10)
 							, GLASS = new GlassBlock(11)
 							, TNT = new TNTBlock(12)
+							, SAND = new SandBlock(13)
 							;
 	
 	public static Block getBlockById(int id)

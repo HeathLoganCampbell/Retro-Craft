@@ -565,6 +565,8 @@ extends Applet implements Runnable {
                 invertPixel(this.eigthWidth - 2, (this.eigthHeight - 1));
                 
                 this.font.renderString("V0.4.0", 0, 0);
+                this.font.renderString(Block.getBlockById(this.getPlaceBlockTypeId()).getName(), 0, 7);
+                
                 
                 if(!this.input.isFocused())
                 {
