@@ -430,7 +430,7 @@ extends Applet implements Runnable {
                                   
                                    
                                     //render select or just render whole block
-                                    if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15)
+                                    if ((blockInde != selectedBlock || !block.isSelectable()) || (textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15))
                                         colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + block.getTextureId() * Textures.blockTextures.height];
                                     
                                     //target block in middle of screen

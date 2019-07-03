@@ -14,6 +14,7 @@ public class Block
 	private boolean breakable = true;
 	private boolean physics = false;
 	private boolean solid = true;
+	private boolean selectable = true;
 	
 	public Block(int id, String name, int textureId) {
 		super();
@@ -50,7 +51,7 @@ public class Block
 	}
 	
 	public boolean onPlace(PlaceEvent placeEvent) { return true; }
-	public boolean onBreak(BreakEvent breakEvent) { return true; }
+	public boolean onBreak(BreakEvent breakEvent) { return this.breakable; }
 	public void onTick(Location loc) 
 	{
 		if(this.isPhysics())
@@ -119,5 +120,13 @@ public class Block
 
 	public void setSolid(boolean solid) {
 		this.solid = solid;
+	}
+
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable) {
+		this.selectable = selectable;
 	}
 }

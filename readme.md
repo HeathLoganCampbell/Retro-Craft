@@ -27,6 +27,8 @@ right arrow key = changed block placed
 * Chunkize the world
 * Make particles
 * Generate trees
+* Make lava non solid
+* make lava non selectable
 * Make it so Bigger Y = higher up
 
 ## Versions
