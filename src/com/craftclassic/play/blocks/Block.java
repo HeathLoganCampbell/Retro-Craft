@@ -50,7 +50,7 @@ public class Block
 		this.textureId = textureId;
 	}
 	
-	public boolean onPlace(PlaceEvent placeEvent) { return true; }
+	public boolean onPlace(PlaceEvent placeEvent) { return this.solid; }
 	public boolean onBreak(BreakEvent breakEvent) { return this.breakable; }
 	public void onTick(Location loc) 
 	{

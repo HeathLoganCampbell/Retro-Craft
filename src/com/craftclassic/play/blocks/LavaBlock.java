@@ -9,6 +9,7 @@ public class LavaBlock extends Block {
 		super(id, "Lava", 12);
 		this.setBreakable(false);
 		this.setSelectable(false);
+		this.setSolid(false);
 	}
 	
 	private void flow(Location location, int x, int y, int z)
