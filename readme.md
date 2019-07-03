@@ -53,4 +53,7 @@ Issuses Still around
 * String rendering engine
 * added cross hair
 
-
+### v0.4.0
+![Water](./readme-resources/water.png)
+* Water that flows
+* lava that flows
