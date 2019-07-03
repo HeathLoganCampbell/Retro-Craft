@@ -29,7 +29,6 @@ right arrow key = changed block placed
 * Generate trees
 * Make it so you swim in lava
 * Make it so Bigger Y = higher up
-* Add sand that falls
 
 ## Versions
 

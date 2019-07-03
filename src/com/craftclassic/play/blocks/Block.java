@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.events.PlaceEvent;
 import com.craftclassic.play.utils.Location;
+import com.craftclassic.play.world.World;
 
 public class Block 
 {
@@ -57,12 +58,14 @@ public class Block
 	{
 		if(this.isPhysics())
 		{
-			Block underOurBlock = loc.getWorld().getBlock(loc);
-			if(underOurBlock.isSolid())
+			World world = loc.getWorld();
+			Location underOurBlockLoc = loc.clone();
+			underOurBlockLoc.add(0, 1, 0);
+			Block underOurBlock = world.getBlock(underOurBlockLoc);
+			if(!underOurBlock.isSolid())
 			{
-				loc.getWorld().setBlock(loc, Block.AIR);
-				loc.add(0, 1, 0);//is it subtract or add to go down? I should make it more intitive
-				loc.getWorld().setBlock(loc, this);
+				world.setBlock(loc, Block.AIR);
+				world.setBlock(underOurBlockLoc, this);
 			}
 		}
 	}
