@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 public class Main {
 	public static final int WIDTH = (int) (856);
 	public static final int HEIGHT = (int) (480);
-	public static final String TITLE = "Craft Classic";
+	public static final String TITLE = "Retro Craft";
 
 	public static void main(String[] av) {
 		new Main();

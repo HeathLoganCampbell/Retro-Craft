@@ -478,65 +478,6 @@ extends Applet implements Runnable {
                                 }
                                 
                                 
-//                                int playerInde = blockX + blockY * 64 + blockZ * 4096;
-//                                int playerId = world.blockData[blockInde];//selected block
-//                                
-//                                if (blockId > 0) 
-//                                {//not air
-//                                	//render horz of block
-//                                    textureX = (int)((f34 + f36) * 16.0f) & 15;
-//                                    //render vert of block
-//                                    textureY = ((int)(f35 * 16.0f) & 15) + 16;
-//                                    
-//                                    //if y, render bottom face of block differently
-//                                    if (axis == 1) 
-//                                    {
-//                                    	//map texture onto block
-//                                        textureX = (int)(f34 * 16.0f) & 15;
-//                                        textureY = (int)(f36 * 16.0f) & 15;
-//                                        //map bottom of block render as bottom,
-//                                        if (rotYInvrt < 0.0f) 
-//                                        {
-//                                            textureY += 32;
-//                                        }
-//                                    }
-//                                    
-//                                    int colorOfOutline = 0xffff00;//default colour of block
-//                                   
-//                                    //render select or just render whole block
-//                                    if (blockInde != selectedBlock || textureX > 0 && textureY % 16 > 0 && textureX < 15 && textureY % 16 < 15)
-//                                        colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + blockId * Textures.blockTextures.height];
-//                                    
-//                                    //target block in middle of screen
-//                                    if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 
-//                                    {
-//                                    	tempSelectingBlock = blockInde;
-//                                    	if(this.input.getKey(KeyEvent.VK_M))
-//                                    	{
-//                                    		targetBlockX = blockX;
-//                                            targetBlockY = blockY;
-//                                            targetBlockZ = blockZ;
-//                                    		System.out.println("Looking at: (" + targetBlockX + ", " + targetBlockY + ", " + targetBlockZ + ")" );
-//                                    		
-//                                    	}
-//                                        i5 = 1;
-//                                        if (f27 > 0.0f)
-//                                        {
-//                                            i5 = -1;
-//                                        }
-//                                        i5 <<= 6 * axis;
-//                                        readDistance = f33;
-//                                    }
-//                                    
-//                                    if (colorOfOutline > 0) 
-//                                    {
-//                                        skyboxColour = colorOfOutline;
-//                                        //50 = FOGGINESS
-//                                        maxSkyboxColour = 255 - (int)(f33 / fogDistance * 255.0f);
-//                                        maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
-//                                        fogOfWar = f33;
-//                                    }
-//                                }
                                 faceX += rotXInvrt;
                                 faceY += rotYInvrt;
                                 faceZ += rotZInvert;

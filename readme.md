@@ -1,4 +1,4 @@
-# Craft Classic
+# Retro Craft
 A Voxel based game that uses no libraries
 
 ## How to install
