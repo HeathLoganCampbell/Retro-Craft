@@ -108,7 +108,7 @@ public class Block
 	
 	public static Block getBlockById(int id)
 	{
-		return idToBlocks.get(id);
+		return idToBlocks.getOrDefault(id, Block.DIRT);
 	}
 
 	public boolean isPhysics() {
