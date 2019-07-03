@@ -91,7 +91,7 @@ public class Block
 							, GRASS = new GrassBlock(2)
 							, STONE = new StoneBlock(3)
 							, LAVA = new LavaBlock(4) //solid lava (4)
-							 //Moving lava (5)
+							, WATER = new WaterBlock(5)
 							, BEDROCK = new BedrockBlock(6)
 							, LOG = new LogBlock(7)
 							, LEAVES = new LeavesBlock(8)

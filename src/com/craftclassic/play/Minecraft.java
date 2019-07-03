@@ -52,7 +52,7 @@ extends Applet implements Runnable {
     private FontRender font;
     
     private List<Runnable> nextTickRunnables;
-    private List<Runnable> nextSecondRunnables;
+    private List<Runnable> nextTickRunnablesWater;
     
     private int placeBlockTypeId = 1;
 
@@ -102,7 +102,7 @@ extends Applet implements Runnable {
         try 
         {          
         	this.nextTickRunnables = new ArrayList<>();
-        	this.nextSecondRunnables = new ArrayList<>();
+        	this.nextTickRunnablesWater = new ArrayList<>();
         	this.world = new World(this, 64, 64, 1);
         	this.font = new FontRender(this);
         	
@@ -127,6 +127,16 @@ extends Applet implements Runnable {
 	            	});
 	            	this.nextTickRunnables.clear();
             	}
+            	
+            	if(ticks % 10 == 0)
+            	{
+	            	this.nextTickRunnablesWater.forEach(task -> {
+	            		task.run();
+	            	});
+	            	this.nextTickRunnablesWater.clear();
+            	}
+            	
+            	
             	
             	Location playerLoc = this.player.getLocation();
                 float sinYaw = (float)Math.sin(playerLoc.getYaw() + (this.player.preyaw - playerLoc.getYaw()));
@@ -600,10 +610,11 @@ extends Applet implements Runnable {
     	this.nextTickRunnables.add(runnable);
     }
     
-    public void doNextSecond(Runnable runnable)
+    public void doNextTickWater(Runnable runnable)
     {
-    	this.nextTickRunnables.add(runnable);
+    	this.nextTickRunnablesWater.add(runnable);
     }
+    
     
     public void setPixel(int x, int y, int pixel)
     {
