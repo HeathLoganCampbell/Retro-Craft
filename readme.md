@@ -1,6 +1,8 @@
 # Retro Craft
 A Voxel based game that uses no libraries
 
+[![Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)](https://www.youtube.com/watch?v=m63pDKehByg)
+
 ## How to install
 Just go to releases and download the jar
 
