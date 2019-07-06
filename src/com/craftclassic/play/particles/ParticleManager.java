@@ -1,6 +1,7 @@
 package com.craftclassic.play.particles;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParticleManager
 {
@@ -24,5 +25,10 @@ public class ParticleManager
 	public void spawn(Particle particle)
 	{
 		particles.add(particle);
+	}
+	
+	public List<Particle> getParticles()
+	{
+		return this.particles;
 	}
 }
