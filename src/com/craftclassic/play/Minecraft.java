@@ -470,7 +470,7 @@ extends Applet implements Runnable {
                 
                 //start render particles
 //                this.particleManager.draw();
-                for(Particle particle : this.particleManager)
+                for(Particle particle : this.particleManager.getParticles())
                 {
 	                double xc = this.player.getLocation().getX();
 	                double yc = this.player.getLocation().getY();
