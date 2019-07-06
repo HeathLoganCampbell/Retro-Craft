@@ -50,4 +50,9 @@ public class Bitmap
 	{
 		return this.textureData;
 	}
+	
+	public int getPixel(int x, int y)
+	{
+		return this.textureData[x + (y * this.width)];
+	}
 }
