@@ -86,7 +86,11 @@ extends Applet implements Runnable {
 		}
     	
     	this.particleManager = new ParticleManager();
-    	this.particleManager.spawn(new Particle("Draw", 5, 5, 5));
+//    	for(int y = 0; y < 150; y++)
+    	{
+    		this.particleManager.spawn(new Particle("Draw", 100, 83, 100));
+    		
+    	}
     	
     	this.input = new Input(width, height, this.robot, this);
     	addKeyListener(input);
@@ -472,17 +476,58 @@ extends Applet implements Runnable {
 //                this.particleManager.draw();
                 for(Particle particle : this.particleManager.getParticles())
                 {
-	                double xc = this.player.getLocation().getX();
-	                double yc = this.player.getLocation().getY();
-	                double zc = this.player.getLocation().getZ();
+                	
+	                double xc = particle.getX() - this.player.getLocation().getX();
+	                double yc = particle.getY() - this.player.getLocation().getY();
+	                double zc = particle.getZ() - this.player.getLocation().getZ();
 	                
-	                for(int x = 0; x <= 16; x++)
-	                {
-	                	for(int y = 0; y <= 16; y++)
-	                	{
-	                		
-	                	}
-	                }
+	                xc *= -2;
+	                zc *= 2;
+	                
+	                double fov = this.quartHeight;
+	                
+	                int particleTxX = 1;
+	                int particleTxY = 1;
+	                
+	                double xx1 = xc;
+	        		double yy1 = yc;
+	        		double zz1 = zc;
+	        		
+	        		double xx2 = cosPitch * xx1 + sinPitch * yy1;
+		        	double yy2 = -sinPitch * xx1 + cosPitch * yy1;
+		        	double zz2 = zc;
+	                
+	                double xx = xx2 * cosYaw + zz2 * sinYaw;
+	        		double yy = yy2;
+	        		double zz = zz2 * cosYaw - xx2 * sinYaw;
+	                
+	                double xPixel = (this.eigthWidth) - (xx / zz * fov);
+	                double yPixel = (yy / zz * fov + this.eigthHeight);
+	                
+	                double xPixel0 = xPixel - quartHeight / zz;
+	        		double xPixel1 = xPixel + quartHeight / zz;
+	        		
+	                double yPixel0 = yPixel - quartHeight / zz;
+	        		double yPixel1 = yPixel + quartHeight / zz;
+	        		
+	                int pixelX1 = (int) Math.ceil(xPixel0);
+	                int pixelX2 = (int) Math.ceil(xPixel1);
+	                
+	                int pixelY1 = (int) Math.ceil(yPixel0);
+	                int pixelY2 = (int) Math.ceil(yPixel1);
+	                
+					if(pixelX1 > 0 && pixelX1 < this.quartWidth && pixelY1 > 0 && pixelY1 < this.quartHeight)
+						this.imageData[pixelX1 + pixelY1 * this.quartWidth] = 1;
+				
+					if(pixelX2 > 0 && pixelX2 < this.quartWidth && pixelY1 > 0 && pixelY1 < this.quartHeight)
+						this.imageData[pixelX2 + pixelY1 * this.quartWidth] = 1;
+					
+					if(pixelX1 > 0 && pixelX1 < this.quartWidth && pixelY2 > 0 && pixelY2 < this.quartHeight)
+						this.imageData[pixelX1 + pixelY2 * this.quartWidth] = 1;
+
+					if(pixelX2 > 0 && pixelX2 < this.quartWidth && pixelY2 > 0 && pixelY2 < this.quartHeight)
+						this.imageData[pixelX2 + pixelY2 * this.quartWidth] = 1;
+	              
                 }
                 
                 //end render particles
@@ -506,6 +551,9 @@ extends Applet implements Runnable {
                 
                 this.font.renderString("V0.4.5", 0, 0);
                 this.font.renderString(Block.getBlockById(this.getPlaceBlockTypeId()).getName(), 0, 7);
+                this.font.renderString("X: " + this.player.getLocation().getX(), 0, 14);
+                this.font.renderString("Y: " + this.player.getLocation().getY(), 0, 21);
+                this.font.renderString("Z: " + this.player.getLocation().getZ(), 0, 28);
                 
                 
                 if(!this.input.isFocused())
