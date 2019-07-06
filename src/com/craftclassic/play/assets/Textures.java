@@ -9,6 +9,7 @@ public class Textures {
 	public static Bitmap playerTextures;
 	public static Bitmap blockTextures;
 	public static Bitmap fontTilesheet;
+	public static Bitmap particleTilesheet;
 	
 	
 	static 
@@ -33,5 +34,8 @@ public class Textures {
 		
 		BufferedImage fontImg = ImageIO.read(Textures.class.getClassLoader().getResource("font.png"));
 		fontTilesheet = new Bitmap(fontImg);
+		
+		BufferedImage particleImg = ImageIO.read(Textures.class.getClassLoader().getResource("particle.png"));
+		particleTilesheet = new Bitmap(particleImg);
 	}	
 }

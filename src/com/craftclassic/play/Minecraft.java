@@ -17,6 +17,8 @@ import com.craftclassic.play.entities.Player;
 import com.craftclassic.play.events.BreakEvent;
 import com.craftclassic.play.events.PlaceEvent;
 import com.craftclassic.play.input.Input;
+import com.craftclassic.play.particles.Particle;
+import com.craftclassic.play.particles.ParticleManager;
 import com.craftclassic.play.utils.Location;
 import com.craftclassic.play.utils.Vector;
 import com.craftclassic.play.world.World;
@@ -25,7 +27,8 @@ public class Minecraft
 extends Applet implements Runnable {
 	private static final long serialVersionUID = 1L;
 //    int[] textureData = Textures.textureData;
-    
+    private ParticleManager particleManager;
+	
     World world;
     Input input;
     
@@ -76,12 +79,14 @@ extends Applet implements Runnable {
     	this.eigthHeight = quartHeight / 2;
     	this.eigthWidth = quartWidth / 2;
     	
-    	
     	try {
 			this.robot = new Robot();
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
+    	
+    	this.particleManager = new ParticleManager();
+    	this.particleManager.spawn(new Particle("Draw", 5, 5, 5));
     	
     	this.input = new Input(width, height, this.robot, this);
     	addKeyListener(input);
@@ -146,37 +151,6 @@ extends Applet implements Runnable {
                 
                 block7 : while (System.currentTimeMillis() - now > 10) {
                    
-                	
-//                	if (this.input.getMouseX() > 0) 
-//                	{
-//                    	//rotate head
-////                    	float inMouseX = (float)(this.input.getMouseX() - lastMouseX);
-////                        float inMouseY = (float)(this.input.getMouseY() - lastMouseY);
-////                        
-////                        inMouseX *= 0.005f; //yaw senativity
-////                        inMouseY *= 0.005f; //pitch senativity
-////                        
-////                        
-////                        lastMouseX = this.input.getMouseX();
-////                        lastMouseY = this.input.getMouseY();
-//                        
-//                        
-//                        
-////                        pitch += inMouseY;
-////                        yaw += inMouseX;
-//                        
-//
-//                        if(pitch > 7.8f)
-//                        {
-//                        	pitch = 7.8f;
-//                        }
-//                        
-//                        if(pitch < 4.8f)
-//                        {
-//                        	pitch = 4.8f;
-//                        }
-//                    }
-//                	
                 	
                     now += 10;
                     float accX = (float)((this.input.getKey(KeyEvent.VK_D) ? 1 : 0) - (this.input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
@@ -317,6 +291,7 @@ extends Applet implements Runnable {
                     	this.world.setBlock(i9, i10, i11A , Block.AIR);
                     }
                 }
+                
                 
                 float tempSelectingBlock = -1.0f;
                 //render
@@ -492,6 +467,27 @@ extends Applet implements Runnable {
                         imageData[vertIndex + hortIndex * (214)] = r << 16 | g << 8 | b;
                     }
                 }
+                
+                //start render particles
+//                this.particleManager.draw();
+                double xc = this.player.getLocation().getX();
+                double yc = this.player.getLocation().getY();
+                double zc = this.player.getLocation().getZ();
+                
+                for(int x = 0; x <= 16; x++)
+                {
+                	for(int y = 0; y <= 16; y++)
+                	{
+                		
+                	}
+                }
+                
+                //end render particles
+                
+                
+                
+                
+                
                 selectedBlock = (int) tempSelectingBlock;
                 
                 //cross hair 
