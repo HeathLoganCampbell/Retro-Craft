@@ -52,6 +52,7 @@ public class Main {
 
 		minecraft.init();
 		minecraft.start();
+		frame.requestFocus();
 	}
 
 	

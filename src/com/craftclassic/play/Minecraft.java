@@ -483,7 +483,7 @@ extends Applet implements Runnable {
 	                double yc = particle.getY() - this.player.getLocation().getY();
 	                double zc = particle.getZ() - this.player.getLocation().getZ();
 	                
-
+	                
 	              
                 }
                 
