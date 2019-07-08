@@ -88,7 +88,7 @@ extends Applet implements Runnable {
     	this.particleManager = new ParticleManager();
 //    	for(int y = 0; y < 150; y++)
     	{
-    		this.particleManager.spawn(new Particle("Draw", 100, 83, 100));
+    		this.particleManager.spawn(new Particle("Draw", 100.5, 83.5, 100.5));
     		
     	}
     	
@@ -300,20 +300,22 @@ extends Applet implements Runnable {
                 float tempSelectingBlock = -1.0f;
                 //render
                 //vertizle lines
-                for (int vertIndex = 0; vertIndex < 214; vertIndex++) {
-                    float f18 = (float)(vertIndex - 107) / 90.0f;
+                for (int vertIndex = 0; vertIndex < 214; vertIndex++) 
+                {
+                    float vpixelLoc = (float)(vertIndex - 107) / 90.0f;
                     
                     //number of lines to render, horzontial
-                    for(int hortIndex = 0; hortIndex < 120; hortIndex++) {
-                        float f20 = (float)(hortIndex - 60) / 90.0f;
+                    for(int hortIndex = 0; hortIndex < 120; hortIndex++) 
+                    {
+                        float hpixelLoc = (float)(hortIndex - 60) / 90.0f;
                         float fov = 1f; //fov, less than 1 makes it look faster
                         
                         //rotation matrix
-                        float f22 = fov * cosPitch + f20 * sinPitch;
-                        float rotatedY = f20 * cosPitch - fov * sinPitch;
+                        float rotateZZ = fov * cosPitch + hpixelLoc * sinPitch;
+                        float rotatedY = hpixelLoc * cosPitch - fov * sinPitch;
                         
-                        float rotatedX = f18 * cosYaw + f22 * sinYaw;
-                        float rotatedZ = f22 * cosYaw - f18 * sinYaw;
+                        float rotatedX = vpixelLoc * cosYaw + rotateZZ * sinYaw;
+                        float rotatedZ = rotateZZ * cosYaw - vpixelLoc * sinYaw;
                         
                         int skyboxColour = 0xA7C9EB;
                         int maxSkyboxColour = 255;
@@ -323,14 +325,14 @@ extends Applet implements Runnable {
                         int axis = 0;//
                         while (axis < 3) 
                         {
-                            float f27 = rotatedX;
+                            float currentAxisRot = rotatedX;
                             if (axis == 1) //y
-                                f27 = rotatedY;
+                                currentAxisRot = rotatedY;
                             
                             if (axis == 2) //z
-                                f27 = rotatedZ;
+                                currentAxisRot = rotatedZ;
                             
-                            float invrtRotatedAxis = 1.0f / Math.abs(f27);
+                            float invrtRotatedAxis = 1.0f / Math.abs(currentAxisRot);
                             float rotXInvrt = rotatedX * invrtRotatedAxis;
                             float rotYInvrt = rotatedY * invrtRotatedAxis;
                             float rotZInvert = rotatedZ * invrtRotatedAxis;
@@ -346,18 +348,18 @@ extends Applet implements Runnable {
                                 decAxis = playerLoc.getZ() - (float)((int)playerLoc.getZ());
                             }
                             
-                            if (f27 > 0.0f) 
+                            if (currentAxisRot > 0.0f) 
                             {
                                 decAxis = 1.0f - decAxis;
                             }
-                            float f33 = invrtRotatedAxis * decAxis;
+                            float closest = invrtRotatedAxis * decAxis;
                             
                             //block faces placement
                             float faceX = playerLoc.getX() + rotXInvrt * decAxis;
                             float faceY = playerLoc.getY() + rotYInvrt * decAxis;
                             float faceZ = playerLoc.getZ() + rotZInvert * decAxis;
 
-                            if (f27 < 0.0f) 
+                            if (currentAxisRot < 0.0f) 
                             {
                             	//block faces
                                 if (axis == 0)
@@ -379,7 +381,7 @@ extends Applet implements Runnable {
                                 }
                             }
                             
-                            while ((double)f33 < fogOfWar) 
+                            while ((double)closest < fogOfWar) 
                             {
                             	//render all blocks
                             	//off set so we don't have divide zero errors
@@ -423,7 +425,7 @@ extends Applet implements Runnable {
                                         colorOfOutline = Textures.blockTextures.getTextures()[textureX + textureY * Textures.blockTextures.width + block.getTextureId() * Textures.blockTextures.height];
                                     
                                     //target block in middle of screen
-                                    if (f33 < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 
+                                    if (closest < readDistance && vertIndex == this.eigthWidth && hortIndex ==  this.eigthHeight) 
                                     {
                                     	tempSelectingBlock = blockInde;
                                     	targetBlockX = blockX;
@@ -435,12 +437,12 @@ extends Applet implements Runnable {
                                     		
                                     	}
                                         i5 = 1;
-                                        if (f27 > 0.0f)
+                                        if (currentAxisRot > 0.0f)
                                         {
                                             i5 = -1;
                                         }
                                         i5 <<= 6 * axis;
-                                        readDistance = f33;
+                                        readDistance = closest;
                                     }
                                     
                                     //Add fog to each pixel
@@ -448,9 +450,9 @@ extends Applet implements Runnable {
                                     {
                                         skyboxColour = colorOfOutline;
                                         //50 = FOGGINESS
-                                        maxSkyboxColour = 255 - (int)(f33 / fogDistance * 255.0f);
+                                        maxSkyboxColour = 255 - (int)(closest / fogDistance * 255.0f);
                                         maxSkyboxColour = maxSkyboxColour * (255 - (axis + 2) % 3 * 50) / 255;
-                                        fogOfWar = f33;
+                                        fogOfWar = closest;
                                     }
                                     
                                     
@@ -460,7 +462,7 @@ extends Applet implements Runnable {
                                 faceX += rotXInvrt;
                                 faceY += rotYInvrt;
                                 faceZ += rotZInvert;
-                                f33 += invrtRotatedAxis;
+                                closest += invrtRotatedAxis;
                             }
                             ++axis;
                         }
@@ -481,52 +483,7 @@ extends Applet implements Runnable {
 	                double yc = particle.getY() - this.player.getLocation().getY();
 	                double zc = particle.getZ() - this.player.getLocation().getZ();
 	                
-	                xc *= -2;
-	                zc *= 2;
-	                
-	                double fov = this.quartHeight;
-	                
-	                int particleTxX = 1;
-	                int particleTxY = 1;
-	                
-	                double xx1 = xc;
-	        		double yy1 = yc;
-	        		double zz1 = zc;
-	        		
-	        		double xx2 = cosPitch * xx1 + sinPitch * yy1;
-		        	double yy2 = -sinPitch * xx1 + cosPitch * yy1;
-		        	double zz2 = zc;
-	                
-	                double xx = xx2 * cosYaw + zz2 * sinYaw;
-	        		double yy = yy2;
-	        		double zz = zz2 * cosYaw - xx2 * sinYaw;
-	                
-	                double xPixel = (this.eigthWidth) - (xx / zz * fov);
-	                double yPixel = (yy / zz * fov + this.eigthHeight);
-	                
-	                double xPixel0 = xPixel - quartHeight / zz;
-	        		double xPixel1 = xPixel + quartHeight / zz;
-	        		
-	                double yPixel0 = yPixel - quartHeight / zz;
-	        		double yPixel1 = yPixel + quartHeight / zz;
-	        		
-	                int pixelX1 = (int) Math.ceil(xPixel0);
-	                int pixelX2 = (int) Math.ceil(xPixel1);
-	                
-	                int pixelY1 = (int) Math.ceil(yPixel0);
-	                int pixelY2 = (int) Math.ceil(yPixel1);
-	                
-					if(pixelX1 > 0 && pixelX1 < this.quartWidth && pixelY1 > 0 && pixelY1 < this.quartHeight)
-						this.imageData[pixelX1 + pixelY1 * this.quartWidth] = 1;
-				
-					if(pixelX2 > 0 && pixelX2 < this.quartWidth && pixelY1 > 0 && pixelY1 < this.quartHeight)
-						this.imageData[pixelX2 + pixelY1 * this.quartWidth] = 1;
-					
-					if(pixelX1 > 0 && pixelX1 < this.quartWidth && pixelY2 > 0 && pixelY2 < this.quartHeight)
-						this.imageData[pixelX1 + pixelY2 * this.quartWidth] = 1;
 
-					if(pixelX2 > 0 && pixelX2 < this.quartWidth && pixelY2 > 0 && pixelY2 < this.quartHeight)
-						this.imageData[pixelX2 + pixelY2 * this.quartWidth] = 1;
 	              
                 }
                 
@@ -554,6 +511,8 @@ extends Applet implements Runnable {
                 this.font.renderString("X: " + this.player.getLocation().getX(), 0, 14);
                 this.font.renderString("Y: " + this.player.getLocation().getY(), 0, 21);
                 this.font.renderString("Z: " + this.player.getLocation().getZ(), 0, 28);
+                this.font.renderString("Pitch: " + this.player.getLocation().getPitch(), 0, 28 + 7);
+                this.font.renderString("Yaw: " + this.player.getLocation().getYaw(), 0, 28 + 14);
                 
                 
                 if(!this.input.isFocused())
