@@ -1,6 +1,7 @@
 # Retro Craft
-A Voxel based game that uses no libraries
+A Voxel based game that uses no libraries that has an 80's theme
 
+vvv Video vvv
 [![Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)](https://www.youtube.com/watch?v=m63pDKehByg)
 
 ## How to install
