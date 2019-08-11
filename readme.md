@@ -1,9 +1,9 @@
 # Retro Craft
-A Voxel based game that uses no libraries that has an 80's theme
-
-vvv Video vvv
+A Voxel based game that uses no libraries that has an 80's theme.
+This means that No libraries or frameworks like openGL or Unity were used
 
 [![Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)](https://www.youtube.com/watch?v=m63pDKehByg)
+[Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)
 
 ## How to install
 Just go to releases and download the jar
