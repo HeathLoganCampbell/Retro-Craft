@@ -8,7 +8,7 @@ This means that No libraries or frameworks like openGL or Unity were used
 
 ## How to install
 Just go to releases and download the jar
-
+[OR CLICK HERE TO DOWNLOAD THE JAR](https://github.com/HeathLoganCampbell/Retro-Craft/releases/download/v0.4.5/MincraftClassic.jar)
 ## How to play
 ```
 W = forwards
