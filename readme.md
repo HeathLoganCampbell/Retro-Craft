@@ -71,7 +71,8 @@ Issuses Still around
 ### Renamed to Retro Craft
 Because it sounded better
 
-### v0.5.0
+### v0.5.0 [2/11/2022]
+![add-sprites-and-multi-player](./readme-resources/add-sprites-and-multi-player.PNG)
 * Added sprites
 * Add Multiplayer abilities
 * remove mouse control
