@@ -76,3 +76,4 @@ Because it sounded better
 * Added sprites
 * Add Multiplayer abilities
 * remove mouse control
+* Move project to use maven
