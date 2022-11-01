@@ -1,6 +1,6 @@
 # Retro Craft
 A Voxel based game that uses no libraries that has an 80's theme.
-This means that No libraries or frameworks like openGL or Unity were used
+This means that No libraries or frameworks like openGL or Unity were used [Up to v0.5 where I added netty for networking]
 
 [![Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)](https://www.youtube.com/watch?v=m63pDKehByg)
 
