@@ -4,7 +4,7 @@ This means that No libraries or frameworks like openGL or Unity were used [Up to
 
 [![Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)](https://www.youtube.com/watch?v=m63pDKehByg)
 
-[Youtube video of Retro Craft](https://img.youtube.com/vi/m63pDKehByg/0.jpg)
+[Youtube video of Retro Craft](https://www.youtube.com/watch?v=m63pDKehByg)
 
 ## How to install
 Just go to releases and download the jar
