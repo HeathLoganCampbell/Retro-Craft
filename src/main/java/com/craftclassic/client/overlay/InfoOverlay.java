@@ -2,9 +2,12 @@ package com.craftclassic.client.overlay;
 
 import com.craftclassic.client.Minecraft;
 import com.craftclassic.client.graphics.Screen;
+import com.craftclassic.client.input.Input;
 import com.craftclassic.common.blocks.Block;
 import com.craftclassic.common.entities.Player;
 import com.craftclassic.common.utils.Location;
+
+import java.awt.event.KeyEvent;
 
 public class InfoOverlay
 {
@@ -12,14 +15,32 @@ public class InfoOverlay
 
     private Screen screen;
 
+    private boolean show = false;
+
+    private long debounceTimestamp = 0L;
+
     public InfoOverlay(Minecraft minecraft, Screen screen)
     {
         this.minecraft = minecraft;
         this.screen = screen;
     }
 
+    public void tick()
+    {
+        if(Input.getKey(KeyEvent.VK_F2))
+        {
+            long now = System.currentTimeMillis();
+            if(now < debounceTimestamp + 200L) return;
+            debounceTimestamp = now;
+
+            show = !show;
+        }
+    }
+
     public void render()
     {
+        if(!show) return;
+
         Player player = this.minecraft.player;
         Location location = player.getLocation();
 

@@ -102,6 +102,7 @@ public class Minecraft extends Applet implements Runnable {
             this.nextTickRunnablesWater.clear();
         }
 
+        this.infoOverlay.tick();
         this.world.tick();
     }
 
