@@ -1,11 +1,17 @@
 package com.craftclassic.client;
 
+import com.craftclassic.client.input.MouseGrabberListener;
 import com.craftclassic.client.utils.AppletAdapter;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Main {
@@ -21,6 +27,19 @@ public class Main {
 
 	public Main()
 	{
+		try {
+			GlobalScreen.registerNativeHook();
+		}
+		catch (NativeHookException ex) {
+			System.err.println("There was a problem registering the native hook.");
+			System.err.println(ex.getMessage());
+
+			System.exit(1);
+		}
+
+		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+		logger.setLevel(Level.OFF);
+
 		JFrame frame = new JFrame(TITLE);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -45,13 +64,18 @@ public class Main {
 
 		contentPanel.remove(appletAdapter);
 		
-//		frame.setCursor(frame.getToolkit().createCustomCursor(
-//	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
-//	            "null"));
+		frame.setCursor(frame.getToolkit().createCustomCursor(
+	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+	            "null"));
 
 		minecraft.init();
 		minecraft.start();
 		frame.requestFocus();
+
+		// Add the appropriate listeners.
+		MouseGrabberListener nativeMouseListener = new MouseGrabberListener(frame);
+		GlobalScreen.addNativeMouseListener(nativeMouseListener);
+		GlobalScreen.addNativeMouseMotionListener(nativeMouseListener);
 	}
 
 	
