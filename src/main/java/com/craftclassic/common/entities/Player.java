@@ -23,6 +23,8 @@ public class Player extends LivingEntity
 
 	private PlayerConnection playerConnection;
 
+	private boolean sprinting = false;
+
 	public Player(PlayerConnection playerConnection, String name, int id)
 	{
 		super(name, id);
@@ -54,6 +56,8 @@ public class Player extends LivingEntity
 			Input.setMouse(MouseEvent.BUTTON1, false);
 		}
 
+		this.sprinting = Input.getKey(KeyEvent.VK_CONTROL);
+
 		if (Input.getMouse(MouseEvent.BUTTON3) && this.getTargetBlock() != null)
 		{
 			Block block = getWorld().getBlock(this.getTargetBlockPlace());
@@ -73,8 +77,15 @@ public class Player extends LivingEntity
 		float sinYaw = (float)Math.sin(playerLoc.getYaw() * 100f);
 		float cosYaw = (float)Math.cos(playerLoc.getYaw() * 100f);
 
-		float accX = (float)((Input.getKey(KeyEvent.VK_D) ? 1 : 0) - (Input.getKey(KeyEvent.VK_A) ? 1 : 0)) * 0.02f;
-		float accZ = (float)((Input.getKey(KeyEvent.VK_W) ? 1 : 0) - (Input.getKey(KeyEvent.VK_S) ? 1 : 0)) * 0.02f;
+		float speed = 0.02f;
+
+		if(sprinting)
+		{
+			speed = 0.03f;
+		}
+
+		float accX = (float)((Input.getKey(KeyEvent.VK_D) ? 1 : 0) - (Input.getKey(KeyEvent.VK_A) ? 1 : 0)) * speed;
+		float accZ = (float)((Input.getKey(KeyEvent.VK_W) ? 1 : 0) - (Input.getKey(KeyEvent.VK_S) ? 1 : 0)) * speed;
 
 		this.getVelocity().scalar(0.5f, 0.99f, 0.5f);
 
