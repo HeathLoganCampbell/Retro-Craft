@@ -180,6 +180,8 @@ public class World implements IWorld
 
 		int targetBlockOffset = 0;
 
+		float fov = this.minecraft.player.isSprinting() && !this.minecraft.player.getVelocity().isZero() ? 0.95f : 1f; //fov, less than 1 makes it look faster
+
 		for (int screenX = 0; screenX < pixelWidth; screenX++)
 		{
 			float vpixelLoc = (float)(screenX - pixelHalfWidth) / 90.0f;
@@ -188,7 +190,6 @@ public class World implements IWorld
 			for(int screenY = 0; screenY < pixelHeight; screenY++)
 			{
 				float hpixelLoc = (float)(screenY - pixelHalfHeight) / 90.0f;
-				float fov = 1f; //fov, less than 1 makes it look faster
 
 				//rotation matrix
 				float rotateZZ = fov * cosPitch + hpixelLoc * sinPitch;

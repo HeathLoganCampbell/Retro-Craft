@@ -31,6 +31,10 @@ public class Player extends LivingEntity
 		this.playerConnection = playerConnection;
 	}
 
+	public boolean isSprinting() {
+		return sprinting;
+	}
+
 	public Location getTargetBlock() {
 		return targetBlock;
 	}
