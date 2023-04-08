@@ -27,6 +27,9 @@ public class Main {
 
 	public Main()
 	{
+		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+		logger.setLevel(Level.OFF);
+
 		try {
 			GlobalScreen.registerNativeHook();
 		}
@@ -36,9 +39,6 @@ public class Main {
 
 			System.exit(1);
 		}
-
-		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-		logger.setLevel(Level.OFF);
 
 		JFrame frame = new JFrame(TITLE);
 		frame.addWindowListener(new WindowAdapter() {
