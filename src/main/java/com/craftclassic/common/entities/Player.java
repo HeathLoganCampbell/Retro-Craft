@@ -80,7 +80,7 @@ public class Player extends LivingEntity
 
 		float xVel = sinYaw * accZ + cosYaw * accX;
 		float zVel = cosYaw * accZ - sinYaw * accX;
-		float yVel = 0.003f;
+		float yVel = 0.006f;
 
 		this.getVelocity().add(new Vector(xVel, yVel, zVel));
 
@@ -145,7 +145,7 @@ public class Player extends LivingEntity
 						if (Input.getKey(KeyEvent.VK_SPACE))
 						{
 							Input.setKey(KeyEvent.VK_SPACE, false);
-							this.getVelocity().setY(-0.1f);
+							this.getVelocity().setY(-0.14f);
 							this.setOnJump(true);
 							this.setJumpingTicks(0);
 							this.setOnGround(false);
