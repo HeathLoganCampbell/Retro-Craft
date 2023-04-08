@@ -66,6 +66,8 @@ public class Location implements Cloneable
 	}
 
 	public void setPitch(float pitch) {
+		if(pitch <= -0.016) pitch = -0.016f;
+		if(pitch >= 0.016) pitch = 0.016f;
 		this.pitch = pitch;
 	}
 
