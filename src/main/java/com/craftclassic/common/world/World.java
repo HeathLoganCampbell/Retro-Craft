@@ -275,8 +275,9 @@ public class World implements IWorld
 						}
 					}
 
+					boolean isInLoop = true;
 					// loop til we hit a block
-					while (currentPosition < fogOfWar)
+					while (isInLoop && currentPosition < fogOfWar)
 					{
 						//render all blocks
 						//off set so we don't have divide zero errors
@@ -341,6 +342,7 @@ public class World implements IWorld
 								tempTargetBlockPlace = new Location(this, blockX + x, blockY + y, blockZ + z);
 
 								readDistance = currentPosition;
+								isInLoop = false;
 							}
 
 							//Add fog to each pixel
