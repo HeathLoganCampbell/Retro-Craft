@@ -163,6 +163,11 @@ public class World implements IWorld
 		int textureX = 0;
 		int textureY = 0;
 
+		int skyboxColour = 0xA7C9EB;
+		int maxSkyboxColour = 255;
+
+		double fogOfWar = 50.0;//render distance
+
 		Location playerLoc = this.minecraft.player.getLocation();
 		float sinYaw = (float)Math.sin(playerLoc.getYaw() * 100f);
 		float cosYaw = (float)Math.cos(playerLoc.getYaw() * 100f);
@@ -198,10 +203,6 @@ public class World implements IWorld
 				float rotatedX = vpixelLoc * cosYaw + rotateZZ * sinYaw;
 				float rotatedZ = rotateZZ * cosYaw - vpixelLoc * sinYaw;
 
-				int skyboxColour = 0xA7C9EB;
-				int maxSkyboxColour = 255;
-
-				double fogOfWar = 50.0;//render distance
 				float readDistance = 5.0f;//read distance
 				double dist = Integer.MAX_VALUE;
 
