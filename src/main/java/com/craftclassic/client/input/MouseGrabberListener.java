@@ -1,10 +1,9 @@
 package com.craftclassic.client.input;
 
 import com.craftclassic.client.Minecraft;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.mouse.NativeMouseEvent;
-import org.jnativehook.mouse.NativeMouseInputListener;
-import org.jnativehook.mouse.NativeMouseListener;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
+import com.github.kwhat.jnativehook.mouse.NativeMouseInputListener;
 
 import javax.swing.*;
 import java.awt.*;

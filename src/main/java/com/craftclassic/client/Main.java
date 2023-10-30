@@ -2,8 +2,8 @@ package com.craftclassic.client;
 
 import com.craftclassic.client.input.MouseGrabberListener;
 import com.craftclassic.client.utils.AppletAdapter;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class Main {
 	public static final int WIDTH = 318;
 	public static final int HEIGHT = 200;
 
-	public static final int SCALE = 5;
+	public static final int SCALE = 4;
 	public static final String TITLE = "Retro Craft";
 
 	public static void main(String[] av) {
@@ -77,6 +77,4 @@ public class Main {
 		GlobalScreen.addNativeMouseListener(nativeMouseListener);
 		GlobalScreen.addNativeMouseMotionListener(nativeMouseListener);
 	}
-
-	
 }
