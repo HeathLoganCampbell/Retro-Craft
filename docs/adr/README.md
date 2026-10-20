@@ -34,3 +34,4 @@ including the trade-offs that are now visible with hindsight.
 | [0012](0012-applet-shell.md) | Keep the Applet shell behind an adapter | Accepted (legacy) |
 | [0013](0013-maven-build.md) | Build with Maven | Accepted |
 | [0014](0014-shared-common-module.md) | Share one `common` package between client and server | Accepted |
+| [0015](0015-render-players-as-sprites.md) | Render other players as 2D sprites | Accepted |
