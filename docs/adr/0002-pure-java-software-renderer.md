@@ -18,6 +18,10 @@ voxel game in plain Java, without Unity, without OpenGL, and without a game engi
 goal was to see what a renderer actually does, not to ship the fastest possible game. The
 only graphics dependency was the JDK itself (AWT/ImageIO).
 
+Raycasting was a technique the author was reading about at the time and found genuinely
+interesting, independently of Minecraft. Building a voxel game was a reason to actually
+write one rather than read about it.
+
 Classic-style worlds are mostly axis-aligned cubes on a grid, which makes a CPU raycast
 against the grid unusually tractable: every block face is a plane, and the grid can be
 traversed without building a scene graph.
