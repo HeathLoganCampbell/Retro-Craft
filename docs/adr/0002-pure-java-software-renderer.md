@@ -7,14 +7,20 @@
 
 ## Context
 
-Retro Craft started as a learning project: build a voxel game in plain Java, without
-Unity, without OpenGL, and without a game engine. The goal was to understand what a
-renderer actually does, not to ship the fastest possible game. The only graphics
-dependency available was the JDK itself (AWT/ImageIO).
+The target was a feeling rather than a feature list: Minecraft Classic 0.30, and the
+minigames played on those servers - lava flood, TNT tag, capture the flag. Recreating that
+meant recreating the era's constraints, not just its block types. A modern engine would
+have produced a smoother, more capable game that felt less like the thing being
+remembered.
 
-Minecraft Classic-style worlds are mostly axis-aligned cubes on a grid, which makes a
-CPU raycast against the grid unusually tractable: every block face is a plane, and the
-grid can be traversed without building a scene graph.
+The project also started as a way to understand rendering from first principles: build a
+voxel game in plain Java, without Unity, without OpenGL, and without a game engine. The
+goal was to see what a renderer actually does, not to ship the fastest possible game. The
+only graphics dependency was the JDK itself (AWT/ImageIO).
+
+Classic-style worlds are mostly axis-aligned cubes on a grid, which makes a CPU raycast
+against the grid unusually tractable: every block face is a plane, and the grid can be
+traversed without building a scene graph.
 
 ## Decision
 
@@ -34,7 +40,8 @@ GPU involvement.
   learning goal was the renderer itself.
 - **Java2D polygon filling** - rejected: it would hide the rasterisation step, which was
   the interesting part.
-- **A prebuilt engine (jMonkeyEngine, libGDX)** - rejected: defeats the purpose.
+- **A prebuilt engine (jMonkeyEngine, libGDX)** - rejected: it would hide the renderer and
+  move the result away from the era being recreated, which was the point of the project.
 
 ## Consequences
 
