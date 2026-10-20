@@ -26,8 +26,8 @@ right arrow key = changed block placed
 * Entities
 * Multiplayer support
 * Fix mouse issue for windows
-* make ticks more consitant
-* Fragment up the Minecraft class so it's more understable
+* make ticks more consistent
+* Break up the Minecraft class so it's more understandable
 * Title screen
 * Chunkize the world
 * Make particles
@@ -48,12 +48,12 @@ right arrow key = changed block placed
 * Added the ability to change different block types
 * Fix grass spawning throughout all dirt blocks
 
-Issuses Still around
+Issues still around
 * windows doesn't set the location of the mouse correctly
 
 ### v0.3.0
 ![TNT](./readme-resources/tnt.png)
-* Add tnt that explodes in chain
+* Add TNT that explodes in a chain
 * Add glass
 * String rendering engine
 * added cross hair
@@ -76,4 +76,4 @@ Because it sounded better
 * Added sprites
 * Add Multiplayer abilities
 * remove mouse control
-* Move project to use maven
+* Move project to use Maven
