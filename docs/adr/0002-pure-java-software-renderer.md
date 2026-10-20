@@ -42,8 +42,8 @@ GPU involvement.
 
 - No native dependencies; the game runs anywhere with a JDK and a screen.
 - Every pixel is explainable and debuggable; lighting, fog and shading are just arithmetic.
-- Forces a small internal resolution (see [0003](0003-low-internal-resolution.md)), which
-  became the game's visual identity.
+- Forces a small internal resolution (see [0003](0003-low-internal-resolution.md)) purely to
+  keep the per-pixel cost affordable; the chunky look is a side effect, not a design goal.
 
 **Negative**
 

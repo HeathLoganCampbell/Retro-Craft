@@ -25,7 +25,7 @@ including the trade-offs that are now visible with hindsight.
 | [0003](0003-low-internal-resolution.md) | Render at 318x200 and upscale 4x | Accepted |
 | [0004](0004-fixed-size-world-array.md) | World as a flat fixed-size Block array | Accepted |
 | [0005](0005-polymorphic-blocks.md) | Model blocks as polymorphic classes | Accepted |
-| [0006](0006-tick-tied-to-render-loop.md) | Drive the client tick from the render loop | Accepted |
+| [0006](0006-tick-tied-to-render-loop.md) | Drive the client tick from the render loop | Accepted (known compromise) |
 | [0007](0007-texture-atlas-and-bitmap-font.md) | Load PNG atlases and draw a bitmap font | Accepted |
 | [0008](0008-noise-world-generation.md) | Generate worlds with layered noise and WorldTypes | Accepted |
 | [0009](0009-netty-framed-packets.md) | Use Netty with length-prefixed packets | Accepted |

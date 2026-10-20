@@ -21,6 +21,9 @@ window.
 The internal resolution is a compile-time constant. Both the `Screen` framebuffer and
 `World`'s `zBuffer` are allocated from it.
 
+The resolution was chosen for one reason - cost - and not as a stylistic target. The
+pixelated look is a consequence of the budget, not a goal.
+
 ## Alternatives considered
 
 - **Native-resolution rendering** - ~16x the ray count, not viable on the CPUs available
@@ -34,7 +37,8 @@ The internal resolution is a compile-time constant. Both the `Screen` framebuffe
 
 - Roughly an order of magnitude cheaper per frame, which is what makes the CPU renderer
   usable at all.
-- Chunky pixels fit the 80s theme; visual identity and performance point the same way.
+- The chunky pixel look is incidental - the resolution was chosen purely to keep the
+  per-pixel raycast affordable, not for style - but it happens to suit the 80s theme.
 
 **Negative**
 

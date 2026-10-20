@@ -8,7 +8,11 @@
 ## Context
 
 A flat world is enough to test movement and rendering, but the game needed terrain that
-looked like Minecraft Classic: rolling hills, no caves, no biomes, no structures.
+felt like the one the author actually enjoyed playing: Minecraft Classic's generator.
+That generator was worth reproducing rather than approximating, because the feel comes
+from its specific algorithm - two overlapping noise fields, a second pass that rounds
+heights into terraces, and layering grass/dirt/stone over a fixed sea level - not from
+"Perlin noise" in general.
 
 The project also wanted to be able to switch between flat and natural worlds without
 branching all over the world code.
@@ -20,6 +24,10 @@ World generation is a strategy selected at construction:
 - `WorldType` is the strategy interface; `FlatWorldType` and `NaturalWorldType` implement it.
 - `NaturalWorldType` composes noise primitives: `PerlinNoise`, `OctaveNoise` (fractal
   octaves) and `CombinedNoise` (noise feeding into noise), all behind a `Noise` interface.
+- `NaturalWorldType` is a deliberate port of Minecraft Classic's `LevelGen`, including its
+  magic constants: the `1.3` horizontal scale, the `/6 - 4` and `/5 + 10 - 4` height fields,
+  the `/8 > 0` switch between them, the `<< 1` terracing pass, and the `waterLevel = 32`
+  offset. The fidelity is the point; the constants are not arbitrary noise tuning.
 - Generation fills the fixed block array once, at world creation, from a seed.
 
 ## Alternatives considered
